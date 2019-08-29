@@ -3,7 +3,7 @@ FROM gitpod/workspace-full
 USER root
 
 RUN sudo apt-get update \
- && sudo apt-get install -yq \
+ && sudo apt-get install -y \
     ninja-build \
     # llvm-defaults \
     # clang-tools-9 \
