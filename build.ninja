@@ -1,0 +1,11 @@
+cc = clang-9
+cflags = -Wall
+builddir = build
+
+rule compile
+  command = $cc $cflags -c $in -o $out
+
+rule link
+  command = $cc $in -o $out
+
+subninja src/builder/build.ninja

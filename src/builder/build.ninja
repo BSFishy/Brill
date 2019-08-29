@@ -1,0 +1,3 @@
+
+build $builddir/main.o: compile src/builder/main.cpp
+build $builddir/main: link $builddir/main.o
