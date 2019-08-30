@@ -43,6 +43,7 @@ RUN sudo apt-get update \
 # LLDB
 RUN sudo apt-get update \
   && sudo apt-get install -yq \
+    llvm-9-dev \
     lldb-9 \
   && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/*
 
