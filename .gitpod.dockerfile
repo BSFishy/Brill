@@ -2,7 +2,10 @@ FROM gitpod/workspace-full
 
 USER root
 
-RUN sudo sh -c "echo deb-src http://apt.llvm.org/disco/ llvm-toolchain-disco-9 main \ >> /etc/apt/sources.list"
+# Add llvm stuff
+RUN curl -fsSL https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add - \
+  && apt-add-repository -yu "deb http://apt.llvm.org/disco/ llvm-toolchain-disco-9 main" \
+  sudo sh -c "echo deb-src http://apt.llvm.org/disco/ llvm-toolchain-disco-9 main \ >> /etc/apt/sources.list"
 
 # LLVM
 RUN sudo apt-get install -yq libllvm-9-ocaml-dev libllvm9 llvm-9 llvm-9-dev llvm-9-doc llvm-9-examples llvm-9-runtime \
