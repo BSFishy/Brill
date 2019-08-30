@@ -2,6 +2,8 @@ FROM gitpod/workspace-full
 
 USER root
 
+RUN wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key|sudo apt-key add -
+
 RUN sudo apt-get update \
  && sudo apt-get install -yq \
     ninja-build \
