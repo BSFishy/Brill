@@ -2,7 +2,7 @@ FROM gitpod/workspace-full
 
 USER root
 
-RUN wget -O - https://apt.llvm.org/llvm-snapshot.gpg.key|sudo apt-key add -
+RUN apt-add-repository -yu "deb http://apt.llvm.org/disco/ llvm-toolchain-disco main"
 
 RUN sudo apt-get update \
  && sudo apt-get install -yq \
