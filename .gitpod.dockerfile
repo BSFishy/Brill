@@ -2,7 +2,7 @@ FROM gitpod/workspace-full
 
 USER root
 
-RUN apt-add-repository -yu "deb-src http://apt.llvm.org/disco/ llvm-toolchain-disco-9 main"
+RUN sudo sh -c "echo deb-src http://apt.llvm.org/disco/ llvm-toolchain-disco-9 main \ >> /etc/apt/sources.list"
 
 RUN sudo apt-get update \
  && sudo apt-get install -yq \
