@@ -42,6 +42,39 @@ fragment ItentifierCharacter : [0-9]
                              ;
 
 /////////////////////////////////////////////////////////
+// Literal
+
+literal : NumericLiteral | StringLiteral | BooleanLiteral | NilLiteral ;
+
+fragment NumericLiteral : '-'? IntegerLiteral | '-'? FloatingPointLiteral ;
+fragment BooleanLiteral : 'true' | 'false' ;
+fragment NilLiteral : 'nil' ;
+
+// Integer Literal
+fragment IntegerLiteral : ;
+
+fragment BinaryLiteral : ;
+fragment BinaryDigit : ;
+fragment BinaryLiteralCharacter : ;
+fragment BinaryLiteralCharacters : ;
+
+fragment OctalLiteral : ;
+fragment OctalDigit : ;
+fragment OctalLiteralCharacter : ;
+fragment OctalLiteralCharacters : ;
+
+fragment DecimalLiteral : ;
+fragment DecimalDigit : ;
+fragment DecimalDigits : ;
+fragment DecimalLiteralCharacter : ;
+fragment DecimalLiteralCharacters : ;
+
+fragment HexadecimalLiteral : ;
+fragment HexadecimalDigit : ;
+fragment HexadecimalLiteralCharacter : ;
+fragment HexadecimalLiteralCharacters : ;
+
+/////////////////////////////////////////////////////////
 // Whitespace
 
 WS : WSItem WS? -> skip ;
