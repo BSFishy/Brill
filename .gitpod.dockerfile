@@ -65,3 +65,8 @@ RUN sudo apt-get update \
   && sudo apt-get install -yq \
     ninja-build \
   && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/*
+
+# Antlr
+RUN sudo curl https://www.antlr.org/download/antlr-4.7.2-complete.jar -o /usr/local/lib/antlr.jar \
+  && export CLASSPATH=".:/usr/local/lib/antlr.jar:$CLASSPATH" \
+  && echo "#!/bin/sh\n\njava -jar /usr/local/lib/antlr.jar $@" >> /usr/bin/antlr
