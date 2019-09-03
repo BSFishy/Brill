@@ -73,4 +73,4 @@ RUN sudo curl https://www.antlr.org/download/antlr-4.7.2-complete.jar -o /usr/lo
 
 USER gitpod
 
-RUN export CLASSPATH=".:/usr/local/lib/antlr.jar:$CLASSPATH"
+ENV CLASSPATH=.:/usr/local/lib/antlr.jar:$CLASSPATH
