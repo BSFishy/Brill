@@ -68,6 +68,9 @@ RUN sudo apt-get update \
 
 # Antlr
 RUN sudo curl https://www.antlr.org/download/antlr-4.7.2-complete.jar -o /usr/local/lib/antlr.jar \
-  && export CLASSPATH=".:/usr/local/lib/antlr.jar:$CLASSPATH" \
   && echo "#!/bin/sh\n\njava -jar /usr/local/lib/antlr.jar $@" >> /usr/bin/antlr \
   && sudo chmod 777 /usr/bin/antlr
+
+USER gitpod
+
+RUN export CLASSPATH=".:/usr/local/lib/antlr.jar:$CLASSPATH"
