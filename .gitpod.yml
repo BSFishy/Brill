@@ -12,3 +12,7 @@ github:
     addCheck: true
     # add a "Review in Gitpod" button as a comment to pull requests (defaults to false)
     addComment: false
+
+vscode:
+  extensions:
+    - mike-lischke.vscode-antlr4@2.1.1:lLLwFIkOGvLO6YWLkJh7Uw==
