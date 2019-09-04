@@ -2,6 +2,11 @@
 grammar Brill;
 
 //#######################################################
+// PARSER
+
+expression : ;
+
+//#######################################################
 // LEXER
 
 /////////////////////////////////////////////////////////
@@ -13,7 +18,7 @@ identifier : IdentifierHead IdentifierCharacters
            ;
 identifier_list : identifier | identifier ',' identifier_list ;
 
-ImplicitParameterName : '$' decimal_digits ;
+ImplicitParameterName : '$' DecimalDigits ;
 
 // Identifier head
 fragment IdentifierHead : [a-zA-Z]
@@ -50,29 +55,91 @@ fragment NumericLiteral : '-'? IntegerLiteral | '-'? FloatingPointLiteral ;
 fragment BooleanLiteral : 'true' | 'false' ;
 fragment NilLiteral : 'nil' ;
 
-// Integer Literal
-fragment IntegerLiteral : ;
+// Integer Literals
+fragment IntegerLiteral : BinaryLiteral
+                        | OctalLiteral
+                        | DecimalLiteral
+                        | HexadecimalLiteral
+                        ;
 
-fragment BinaryLiteral : ;
-fragment BinaryDigit : ;
-fragment BinaryLiteralCharacter : ;
-fragment BinaryLiteralCharacters : ;
+fragment BinaryLiteral : '0b' BinaryDigit BinaryLiteralCharacters? ;
+fragment BinaryDigit : '0' | '1' ;
+fragment BinaryLiteralCharacter : BinaryDigit | '_' ;
+fragment BinaryLiteralCharacters : BinaryLiteralCharacter BinaryLiteralCharacters? ;
 
-fragment OctalLiteral : ;
-fragment OctalDigit : ;
-fragment OctalLiteralCharacter : ;
-fragment OctalLiteralCharacters : ;
+fragment OctalLiteral : '0o' OctalDigit OctalLiteralCharacters? ;
+fragment OctalDigit : [0-7] ;
+fragment OctalLiteralCharacter : OctalDigit | '_' ;
+fragment OctalLiteralCharacters : OctalLiteralCharacter OctalLiteralCharacters? ;
 
-fragment DecimalLiteral : ;
-fragment DecimalDigit : ;
-fragment DecimalDigits : ;
-fragment DecimalLiteralCharacter : ;
-fragment DecimalLiteralCharacters : ;
+fragment DecimalLiteral : DecimalDigit DecimalLiteralCharacters? ;
+fragment DecimalDigit : [0-9] ;
+fragment DecimalDigits : DecimalDigit DecimalDigits? ;
+fragment DecimalLiteralCharacter : DecimalDigit | '_' ;
+fragment DecimalLiteralCharacters : DecimalLiteralCharacter DecimalLiteralCharacters? ;
 
-fragment HexadecimalLiteral : ;
-fragment HexadecimalDigit : ;
-fragment HexadecimalLiteralCharacter : ;
-fragment HexadecimalLiteralCharacters : ;
+fragment HexadecimalLiteral : '0x' HexadecimalDigit HexadecimalLiteralCharacters? ;
+fragment HexadecimalDigit : [0-9a-fA-F] ;
+fragment HexadecimalLiteralCharacter : HexadecimalDigit | '_' ;
+fragment HexadecimalLiteralCharacters : HexadecimalLiteralCharacter HexadecimalLiteralCharacters? ;
+
+// Floating point literals
+fragment FloatingPointLiteral : DecimalLiteral DecimalFraction? DecimalExponent?
+                              | HexadecimalLiteral HexadecimalFraction? HexadecimalExponent
+                              ;
+
+fragment DecimalFraction : '.' DecimalLiteral ;
+fragment DecimalExponent : FloatingPointE Sign? DecimalLiteral ;
+
+fragment HexadecimalFraction : '.' HexadecimalDigit HexadecimalLiteralCharacters ;
+fragment HexadecimalExponent : FloatingPointP Sign? DecimalLiteral ;
+
+fragment FloatingPointE : 'e' | 'E' ;
+fragment FloatingPointP : 'p' | 'P' ;
+fragment Sign : '+' | '-' ;
+
+// String literals
+fragment StringLiteral : StaticStringLiteral | InterpolatedStringLiteral ;
+
+fragment StringLiteralOpeningDelimiter : ExtendedStringLiteralDelimiter? '"' ;
+fragment StringLiteralClosingDelimiter : '"' ExtendedStringLiteralDelimiter? ;
+
+fragment StaticStringLiteral : StringLiteralOpeningDelimiter QuotedText? StringLiteralClosingDelimiter
+                             | MultilineStringLiteralOpeningDelimiter MultilineQuotedText? MultilineStringLiteralClosingDelimiter
+                             ;
+
+fragment MultilineStringLiteralOpeningDelimiter : ExtendedStringLiteralDelimiter '"""' ;
+fragment MultilineStringLiteralClosingDelimiter : '"""' ExtendedStringLiteralDelimiter ;
+fragment ExtendedStringLiteralDelimiter : '#' ExtendedStringLiteralDelimiter? ;
+
+fragment QuotedText : QuotedTextItem QuotedText? ;
+fragment QuotedTextItem : EscapedCharacter
+                        | ~('"' | '\\' | '\u000A' | '\u000D')
+                        ;
+
+fragment MultilineQuotedText : MultilineQuotedTextItem MultilineQuotedText? ;
+fragment MultilineQuotedTextItem : EscapedCharacter
+                                 | ~('\\')
+                                 | EscapedNewLine
+                                 ;
+
+fragment InterpolatedStringLiteral : StringLiteralOpeningDelimiter InterpolatedText? StringLiteralClosingDelimiter
+                                   | MultilineStringLiteralOpeningDelimiter InterpolatedText? MultilineStringLiteralClosingDelimiter
+                                   ;
+
+fragment InterpolatedText : InterpolatedTextItem InterpolatedText? ;
+fragment InterpolatedTextItem : '\\('  ')' | QuotedTextItem ;
+
+fragment MultilineInterpolatedText : MultilineInterpolatedTextItem MultilineInterpolatedText? ;
+fragment MultilineInterpolatedTextItem : '\\('  ')' | MultilineQuotedTextItem ;
+
+fragment EscapeSequence : '\\' ExtendedStringLiteralDelimiter ;
+fragment EscapedCharacter : EscapeSequence '0' | EscapeSequence '\\' | EscapeSequence 't' | EscapeSequence 'n' | EscapeSequence 'r' | EscapeSequence '"' | EscapeSequence '\''
+                          | EscapeSequence 'u' '{' UnicodeScalarDigits '}'
+                          ;
+fragment UnicodeScalarDigits : HexadecimalDigit ; // TODO: limit this to 8 characters
+
+fragment EscapedNewLine : ;
 
 /////////////////////////////////////////////////////////
 // Whitespace
