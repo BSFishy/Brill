@@ -1,0 +1,36 @@
+{
+    // See https://go.microsoft.com/fwlink/?LinkId=733558
+    // for the documentation about the tasks.json format
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Compile antlr",
+            "type": "shell",
+            "command": "antlr4",
+            "args": [
+                "-o",
+                "generated",
+                "-package",
+                "Brill",
+                "${file}"
+            ],
+            "group": "build",
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated"
+            },
+            "problemMatcher": {
+                "owner": "antlr",
+                "fileLocation": "absolute",
+                "pattern": {
+                    "regexp": "^(warning|error)\\(\\d+\\): (.*):(\\d+):(\\d+): (.*)$",
+                    "file": 2,
+                    "line": 3,
+                    "column": 4,
+                    "severity": 1,
+                    "message": 5
+                }
+            }
+        }
+    ]
+}
