@@ -1,13 +1,17 @@
 {
-  // Use IntelliSense to learn about possible attributes.
-  // Hover to view descriptions of existing attributes.
-  "version": "0.2.0",
-  "configurations": [
-      {
-        "type": "antlr-debug",
-        "request": "launch",
-        "name": "Debug antlr",
-        "input": "src/lang/Brill.g4"
-      }
-  ]
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Hello world",
+            "type": "antlr-debug",
+            "request": "launch",
+            "input": "examples/HelloWorld.brill",
+            "grammar": "src/lang/Brill.g4",
+            "startRule": "expression",
+            "printParseTree": true,
+            "visualParseTree": true
+        }
+    ]
 }
