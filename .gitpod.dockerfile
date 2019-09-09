@@ -70,7 +70,7 @@ RUN sudo apt-get update \
 RUN sudo apt-get update \
   && sudo apt-get install -yq \
     antlr4 \
-    libantlr4-runtime-dev \
+    antlr4-cpp-runtime \
   && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/*
 # RUN sudo curl https://www.antlr.org/download/antlr-4.7.2-complete.jar -o /usr/local/lib/antlr.jar \
 #   && echo '#!/bin/sh\n\njava -jar /usr/local/lib/antlr.jar $@' >> /usr/bin/antlr \

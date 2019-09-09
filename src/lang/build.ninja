@@ -1,0 +1,5 @@
+
+build $builddir/lexer.o: antlrCompile src/lang/generated/BrillLexer.cpp
+build $builddir/parser.o: antlrCompile src/lang/generated/BrillParser.cpp
+
+build $builddir/liblang.a: archive $builddir/lexer.o $builddir/parser.o

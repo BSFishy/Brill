@@ -6,13 +6,9 @@
         {
             "label": "Compile antlr",
             "type": "shell",
-            "command": "antlr4",
+            "command": "bash",
             "args": [
-                "-o",
-                "generated",
-                "-package",
-                "Brill",
-                "${file}"
+                "tools/compileAntlr.sh"
             ],
             "group": "build",
             "presentation": {

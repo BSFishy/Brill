@@ -128,7 +128,7 @@ fragment InterpolatedStringLiteral : StringLiteralOpeningDelimiter InterpolatedT
                                    ;
 
 fragment InterpolatedText : InterpolatedTextItem InterpolatedText? ;
-fragment InterpolatedTextItem : '\\('  ')' | QuotedTextItem ;
+fragment InterpolatedTextItem : '\\(' . ')' | QuotedTextItem ;
 
 fragment MultilineInterpolatedText : MultilineInterpolatedTextItem MultilineInterpolatedText? ;
 fragment MultilineInterpolatedTextItem : '\\('  ')' | MultilineQuotedTextItem ;
@@ -139,7 +139,7 @@ fragment EscapedCharacter : EscapeSequence '0' | EscapeSequence '\\' | EscapeSeq
                           ;
 fragment UnicodeScalarDigits : HexadecimalDigit ; // TODO: limit this to 8 characters
 
-fragment EscapedNewLine : ;
+fragment EscapedNewLine : EscapeSequence WS? LB ;
 
 /////////////////////////////////////////////////////////
 // Whitespace
@@ -164,8 +164,8 @@ MultiLineComment : '/*' MultiLineCommentText '*/'  ;
 fragment MultiLineCommentText : MultiLineCommentTextItem MultiLineCommentText? ;
 fragment MultiLineCommentTextItem : MultiLineComment
                                   | CommentTextItem
-                                  | ~('/*' | '*/')
-                                  ;
+	| ('/' ~'*' | ~'/' . | '*' ~'/' | ~'*' .)
+;
 
 // Line break
 LB : '\u000A'

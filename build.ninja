@@ -1,5 +1,12 @@
 cc = clang-9
+ar = ar
+
 cflags = -Wall
+antlrCompileFlags =
+antlrLinkFlags =
+llvmCompileFlags = `llvm-config-9 --cxxflags`
+llvmLinkFlags = `llvm-config-9 --ldflags`
+
 builddir = build
 
 rule compile
@@ -8,4 +15,20 @@ rule compile
 rule link
   command = $cc $in -o $out
 
+rule archive
+  command = $ar $out $in
+
+rule antlrCompile
+  command = $cc $cflags $antlrCompileFlags -c $in -o $out
+
+rule antlrLink
+  command = $cc $antlrLinkFlags $in -o $out
+
+rule llvmCompile
+  command = $cc $cflags $llvmCompileFlags -c $in -o $out
+
+rule llvmLink
+  command = $cc $llvmLinkFlags $in -o $out
+
 subninja src/builder/build.ninja
+subninja src/lang/build.ninja
