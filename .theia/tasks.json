@@ -27,6 +27,31 @@
                     "message": 5
                 }
             }
+        },
+        {
+            "label": "Generate compdb",
+            "type": "shell",
+            "command": "bash",
+            "args": [
+                "tools/generateCompdb.sh"
+            ],
+            "group": "build",
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated"
+            },
+            "problemMatcher": {
+                "owner": "antlr",
+                "fileLocation": "absolute",
+                "pattern": {
+                    "regexp": "^(warning|error)\\(\\d+\\): (.*):(\\d+):(\\d+): (.*)$",
+                    "file": 2,
+                    "line": 3,
+                    "column": 4,
+                    "severity": 1,
+                    "message": 5
+                }
+            }
         }
     ]
 }
