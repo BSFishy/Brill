@@ -1,0 +1,5 @@
+
+build $builddir/brill.o: compile src/main.cpp
+build $builddir/brill: link $builddir/brill.o $builddir/liblang.a
+
+subninja src/lang/build.ninja

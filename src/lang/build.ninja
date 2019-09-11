@@ -1,5 +1,18 @@
 
-build $builddir/lexer.o: antlrCompile src/lang/generated/BrillLexer.cpp
-build $builddir/parser.o: antlrCompile src/lang/generated/BrillParser.cpp
+lexerFiles = src/lang/generated/BrillLexer.cpp
+build $builddir/lexer.o: antlrCompile $lexerFiles
+build $builddir/lexer.so: antlrLibrary $lexerFiles
 
-build $builddir/liblang.a: archive $builddir/lexer.o $builddir/parser.o
+parserFiles = src/lang/generated/BrillParser.cpp
+build $builddir/parser.o: antlrCompile $parserFiles
+build $builddir/parser.so: antlrLibrary $parserFiles
+
+astFiles = src/lang/ast/expression.cpp
+build $builddir/ast.o: antlrCompile $astFiles
+build $builddir/ast.so: antlrLibrary $astFiles
+
+langFiles = src/lang/brill.cpp
+build $builddir/lang.o: antlrCompile $langFiles
+build $builddir/lang.so: antlrLibrary $langFiles
+
+build $builddir/liblang.a: archive $builddir/lexer.o $builddir/parser.o $builddir/ast.o $builddir/lang.o
