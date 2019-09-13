@@ -4,10 +4,206 @@ grammar Brill;
 //#######################################################
 // PARSER
 
-expression : '.' ;
+/////////////////////////////////////////////////////////
+// Expressions
+
+expression : tryOperator? prefixExpression binaryExpressions? ;
+expressionList : expression ( ',' expression )* ;
+
+prefixExpression : prefixOperator? postfixExpression
+                 | inoutExpression
+                 ;
+inoutExpression : '&' identifier ;
+
+tryOperator : 'try' | 'try' '?' | 'try' '!' ;
+
+binaryExpression : binaryOperator prefixExpression
+                 | assignmentOperator tryOperator? prefixExpression
+                 | conditionalOperator tryOperator? prefixExpression
+                 | typeCastingOperator
+                 ;
+binaryExpressions : binaryExpression+ ;
+
+assignmentOperator : '=' ;
+
+conditionalOperator : '?' expression ':' ;
+
+typeCastingOperator : 'is' type
+                    | 'as' type
+                    | 'as' '?' type
+                    | 'as' '!' type
+                    ;
+
+primaryExpression : identifier genericArgumentClause?
+                  | literalExpression
+                  | selfExpression
+                  | superclassExpression
+                  | closureExpression
+                  | parenthesizedExpression
+                  | tupleExpression
+                  | implicitMemberExpression
+                  | wildcardExpression
+                  | keyPathExpression
+                  | selectorExpression
+                  | keyPathStringExpression
+                  ;
+
+literalExpression : literal
+                  | arrayLiteral | dictionaryLiteral
+                  | '#file' | '#line' | '#column' | '#function' | '#dsohandle'
+                  ;
+
+arrayLiteral : '[' arrayLiteralItems? ']' ;
+arrayLiteralItems : arrayLiteralItem ','? | arrayLiteralItem ',' arrayLiteralItems ;
+arrayLiteralItem : expression ;
+
+dictionaryLiteral : '[' dictionaryLiteralItems ']' | '[' ':' ']' ;
+dictionaryLiteralItems : dictionaryLiteralItem ','? | dictionaryLiteralItem ',' dictionaryLiteralItems ;
+dictionaryLiteralItem : expression ':' expression ;
+
+selfExpression : 'self' | selfMethodExpression | selfSubscriptExpression | selfInitializerExpression ;
+selfMethodExpression : 'self' '.' identifier ;
+selfSubscriptExpression : 'self' '[' functionCallArgumentList ']' ;
+selfInitializerExpression : 'self' '.' 'init' ;
+
+superclassExpression : superclassMethodExpression | superclassSubscriptExpression | superclassInitializerExpression ;
+superclassMethodExpression : 'super' '.' identifier ;
+superclassSubscriptExpression : 'super' '[' functionCallArgumentList ']' ;
+superclassInitializerExpression : 'super' '.' 'init' ;
+
+closureExpression : '{' closureSignature? statements? '}' ;
+closureSignature : captureList? closureParameterClause 'throws'? functionResult? 'in'
+                 | captureList 'in'
+                 ;
+closureParameterClause : '(' ')' | '(' closureParameterList ')' | identifierList ;
+closureParameterList : closureParameter ( ',' closureParameter )* ;
+closureParameter : closureParameterName typeAnnotation?
+                 | closureParameterName typeAnnotation '...'
+                 ;
+closureParameterName : identifier ;
+captureList : '[' captureListItems ']' ;
+captureListItems : captureListItem ( ',' captureListItem )* ;
+captureListItem : captureSpecifier? expression ;
+captureSpecifier : 'weak' | 'unowned' | 'unowned(safe)' | 'unowned(unsafe)' ;
+
+implicitMemberExpression : '.' identifier ;
+
+parenthesizedExpression : '(' expression ')' ;
+
+tupleExpression : '(' ')' | '(' tupleElement ',' tupleElementList ')' ;
+tupleElementList : tupleElement ( ',' tupleElement )* ;
+tupleElement : expression | identifier ':' expression ;
+
+wildcardExpression : '_' ;
+
+keyPathExpression : '\\' type? '.' keyPathComponents ;
+keyPathComponents : keyPathComponent ( '.' keyPathComponent )* ;
+keyPathComponent : identifier keyPathPostfixes? | keyPathPostfixes ;
+keyPathPostfixes : keyPathPostfix+ ;
+keyPathPostfix : '?' | '!' | 'self' | '[' functionCallArgumentList ']' ;
+
+/////////////////////////////////////////////////////////
+// Types
+
+type : functionType
+     | arrayType
+     | dictionaryType
+     | typeIdentifier
+     | tupleType
+     | optionalType
+     | implicitlyUnwrappedOptionalType
+     | protocolCompositionType
+     | opaqueType
+     | metatypeType
+     | selfType
+     | 'Any'
+     | '(' type ')'
+     ;
+
+typeAnnotation : attributes? 'inout'? type ;
+
+typeIdentifier : typeName genericArgumentClause? ('.' typeIdentifier)?
+               | identifier
+               ;
+
+tupleType : '(' ')' | '(' tupleTypeElement ',' tupleTypeElementList ')' ;
+tupleTypeElementList : tupleTypeElement ( ',' tupleTypeElementList )* ;
+tupleTypeElement : elementName typeAnnotation | type ;
+elementName : identifier ;
+
+functionType : attributes? functionTypeArgumentClause 'throws'? '->' type ;
+functionTypeArgumentClause : '(' ')'
+                           | '(' functionTypeArgumentList '...'? ')'
+                           ;
+functionTypeArgumentList : functionTypeArgument ( ',' functionTypeArgument )* ;
+functionTypeArgument : attributes? 'inout'? type | argumentLabel typeAnnotation ;
+argumentLabel : identifier ;
+
+arrayType : '[' type ']' ;
+
+dictionaryType : '[' type ':' type ']' ;
+
+optionalType : type '?' ;
+
+implicitlyUnwrappedOptionalType : type '!' ;
+
+protocolCompositionType : typeIdentifier ( '&' typeIdentifier )+ ;
+
+opaqueType : 'some' type ;
+
+metatypeType : type '.' 'Type' | type '.' 'Protocol' ;
+
+selfType : 'Self' ;
+
+typeInheritanceClause : ':' typeInheritanceList ;
+typeInheritanceList : typeIdentifier ( ',' typeIdentifier )* ;
 
 //#######################################################
 // LEXER
+
+/////////////////////////////////////////////////////////
+// Operators
+
+op : OperatorHead OperatorCharacters?
+         | DotOperatorHead DotOperatorCharacters?
+         ;
+
+fragment OperatorHead : '/' | '=' | '-' | '+' | '!' | '*' | '%' | '<' | '>' | '&' | '|' | '^' | '~' | '?'
+                      | '\u00A1'..'\u00A7'
+                      | '\u00A9' | '\u00AB'
+                      | '\u00AC' | '\u00AE'
+                      | '\u00B0'..'\u00B1'
+                      | '\u00B6' | '\u00BB' | '\u00BF' | '\u00D7' | '\u00F7'
+                      | '\u2016'..'\u2017'
+                      | '\u2020'..'\u2027'
+                      | '\u2030'..'\u203E'
+                      | '\u2041'..'\u2053'
+                      | '\u2055'..'\u205E'
+                      | '\u2190'..'\u23FF'
+                      | '\u2500'..'\u2775'
+                      | '\u2794'..'\u2BFF'
+                      | '\u2E00'..'\u2E7F'
+                      | '\u3001'..'\u3003'
+                      | '\u3008'..'\u3020'
+                      | '\u3030'
+                      ;
+fragment OperatorCharacter : OperatorHead
+                           | '\u0300'..'\u036F'
+                           | '\u1DC0'..'\u1DFF'
+                           | '\u20D0'..'\u20FF'
+                           | '\uFE00'..'\uFE0F'
+                           | '\uFE20'..'\uFE2F'
+                           | '\u{E0100}'..'\u{E01EF}'
+                           ;
+fragment OperatorCharacters : OperatorCharacter+ ;
+
+fragment DotOperatorHead : '.' ;
+fragment DotOperatorCharacter : '.' | OperatorCharacter ;
+fragment DotOperatorCharacters : DotOperatorCharacter+ ;
+
+binaryOperator : op ;
+prefixOperator : op ;
+postfixOperator : op ;
 
 /////////////////////////////////////////////////////////
 // Identifiers
@@ -16,7 +212,7 @@ identifier : IdentifierHead IdentifierCharacters
            | '`' IdentifierHead IdentifierCharacters? '`'
            | ImplicitParameterName
            ;
-identifier_list : identifier | identifier ',' identifier_list ;
+identifierList : identifier ( ',' identifier )* ;
 
 ImplicitParameterName : '$' DecimalDigits ;
 
@@ -40,7 +236,7 @@ fragment IdentifierHead : [a-zA-Z]
                         ;
 
 // Identifier characters
-IdentifierCharacters : ItentifierCharacter IdentifierCharacters ;
+IdentifierCharacters : ItentifierCharacter+ ;
 fragment ItentifierCharacter : [0-9]
                              | '\u0300'..'\u036F' | '\u1DC0'..'\u1DFF' | '\u20D0'..'\u20FF' | '\uFE20'..'\uFE2F'
                              | IdentifierHead
@@ -49,85 +245,85 @@ fragment ItentifierCharacter : [0-9]
 /////////////////////////////////////////////////////////
 // Literal
 
-literal : NumericLiteral | StringLiteral | BooleanLiteral | NilLiteral ;
+literal : numericLiteral | stringLiteral | booleanLiteral | nilLiteral ;
 
-fragment NumericLiteral : '-'? IntegerLiteral | '-'? FloatingPointLiteral ;
-fragment BooleanLiteral : 'true' | 'false' ;
-fragment NilLiteral : 'nil' ;
+numericLiteral : '-'? integerLiteral | '-'? floatingPointLiteral ;
+booleanLiteral : 'true' | 'false' ;
+nilLiteral : 'nil' ;
 
 // Integer Literals
-fragment IntegerLiteral : BinaryLiteral
-                        | OctalLiteral
-                        | DecimalLiteral
-                        | HexadecimalLiteral
-                        ;
+integerLiteral : binaryLiteral
+               | octalLiteral
+               | decimalLiteral
+               | hexadecimalLiteral
+               ;
 
-fragment BinaryLiteral : '0b' BinaryDigit BinaryLiteralCharacters? ;
+binaryLiteral : '0b' BinaryDigit BinaryLiteralCharacters? ;
 fragment BinaryDigit : '0' | '1' ;
 fragment BinaryLiteralCharacter : BinaryDigit | '_' ;
-fragment BinaryLiteralCharacters : BinaryLiteralCharacter BinaryLiteralCharacters? ;
+fragment BinaryLiteralCharacters : BinaryLiteralCharacter+ ;
 
-fragment OctalLiteral : '0o' OctalDigit OctalLiteralCharacters? ;
+octalLiteral : '0o' OctalDigit OctalLiteralCharacters? ;
 fragment OctalDigit : [0-7] ;
 fragment OctalLiteralCharacter : OctalDigit | '_' ;
-fragment OctalLiteralCharacters : OctalLiteralCharacter OctalLiteralCharacters? ;
+fragment OctalLiteralCharacters : OctalLiteralCharacter+ ;
 
-fragment DecimalLiteral : DecimalDigit DecimalLiteralCharacters? ;
+decimalLiteral : DecimalDigit DecimalLiteralCharacters? ;
 fragment DecimalDigit : [0-9] ;
-fragment DecimalDigits : DecimalDigit DecimalDigits? ;
+fragment DecimalDigits : DecimalDigit+ ;
 fragment DecimalLiteralCharacter : DecimalDigit | '_' ;
-fragment DecimalLiteralCharacters : DecimalLiteralCharacter DecimalLiteralCharacters? ;
+fragment DecimalLiteralCharacters : DecimalLiteralCharacter+ ;
 
-fragment HexadecimalLiteral : '0x' HexadecimalDigit HexadecimalLiteralCharacters? ;
+hexadecimalLiteral : '0x' HexadecimalDigit HexadecimalLiteralCharacters? ;
 fragment HexadecimalDigit : [0-9a-fA-F] ;
 fragment HexadecimalLiteralCharacter : HexadecimalDigit | '_' ;
-fragment HexadecimalLiteralCharacters : HexadecimalLiteralCharacter HexadecimalLiteralCharacters? ;
+fragment HexadecimalLiteralCharacters : HexadecimalLiteralCharacter+ ;
 
 // Floating point literals
-fragment FloatingPointLiteral : DecimalLiteral DecimalFraction? DecimalExponent?
-                              | HexadecimalLiteral HexadecimalFraction? HexadecimalExponent
-                              ;
+floatingPointLiteral : decimalLiteral decimalFraction? decimalExponent?
+                     | hexadecimalLiteral hexadecimalFraction? hexadecimalExponent
+                     ;
 
-fragment DecimalFraction : '.' DecimalLiteral ;
-fragment DecimalExponent : FloatingPointE Sign? DecimalLiteral ;
+decimalFraction : '.' decimalLiteral ;
+decimalExponent : FloatingPointE Sign? decimalLiteral ;
 
-fragment HexadecimalFraction : '.' HexadecimalDigit HexadecimalLiteralCharacters ;
-fragment HexadecimalExponent : FloatingPointP Sign? DecimalLiteral ;
+hexadecimalFraction : '.' HexadecimalDigit HexadecimalLiteralCharacters ;
+hexadecimalExponent : FloatingPointP Sign? decimalLiteral ;
 
 fragment FloatingPointE : 'e' | 'E' ;
 fragment FloatingPointP : 'p' | 'P' ;
 fragment Sign : '+' | '-' ;
 
 // String literals
-fragment StringLiteral : StaticStringLiteral | InterpolatedStringLiteral ;
+stringLiteral : staticStringLiteral | interpolatedStringLiteral ;
 
 fragment StringLiteralOpeningDelimiter : ExtendedStringLiteralDelimiter? '"' ;
 fragment StringLiteralClosingDelimiter : '"' ExtendedStringLiteralDelimiter? ;
 
-fragment StaticStringLiteral : StringLiteralOpeningDelimiter QuotedText? StringLiteralClosingDelimiter
+staticStringLiteral : StringLiteralOpeningDelimiter QuotedText? StringLiteralClosingDelimiter
                              | MultilineStringLiteralOpeningDelimiter MultilineQuotedText? MultilineStringLiteralClosingDelimiter
                              ;
 
 fragment MultilineStringLiteralOpeningDelimiter : ExtendedStringLiteralDelimiter '"""' ;
 fragment MultilineStringLiteralClosingDelimiter : '"""' ExtendedStringLiteralDelimiter ;
-fragment ExtendedStringLiteralDelimiter : '#' ExtendedStringLiteralDelimiter? ;
+fragment ExtendedStringLiteralDelimiter : '#'+ ;
 
-fragment QuotedText : QuotedTextItem QuotedText? ;
+fragment QuotedText : QuotedTextItem+ ;
 fragment QuotedTextItem : EscapedCharacter
                         | ~('"' | '\\' | '\u000A' | '\u000D')
                         ;
 
-fragment MultilineQuotedText : MultilineQuotedTextItem MultilineQuotedText? ;
+fragment MultilineQuotedText : MultilineQuotedTextItem+ ;
 fragment MultilineQuotedTextItem : EscapedCharacter
                                  | ~('\\')
                                  | EscapedNewLine
                                  ;
 
-fragment InterpolatedStringLiteral : StringLiteralOpeningDelimiter InterpolatedText? StringLiteralClosingDelimiter
+interpolatedStringLiteral : StringLiteralOpeningDelimiter InterpolatedText? StringLiteralClosingDelimiter
                                    | MultilineStringLiteralOpeningDelimiter InterpolatedText? MultilineStringLiteralClosingDelimiter
                                    ;
 
-fragment InterpolatedText : InterpolatedTextItem InterpolatedText? ;
+fragment InterpolatedText : InterpolatedTextItem+ ;
 fragment InterpolatedTextItem : '\\(' . ')' | QuotedTextItem ;
 
 fragment MultilineInterpolatedText : MultilineInterpolatedTextItem MultilineInterpolatedText? ;
@@ -144,28 +340,32 @@ fragment EscapedNewLine : EscapeSequence WS? LB ;
 /////////////////////////////////////////////////////////
 // Whitespace
 
-WS : WSItem WS? -> skip ;
+WS : WSItem+ -> skip ;
 
 fragment WSItem : LB
-                | Comment
-                | MultiLineComment
+//                | comment
+//                | multiLineComment
                 | '\u0000' | '\u0009' | '\u000B' | '\u000C' | '\u0020'
                 ;
 
 // Comment
-Comment : '//' CommentText LB ;
+comment : '//' CommentText LB ;
 
-fragment CommentText : CommentTextItem CommentText? ;
+fragment CommentText : CommentTextItem+ ;
 fragment CommentTextItem : ~[\u000A\u000D] ;
 
 // Multi-line comment
-MultiLineComment : '/*' MultiLineCommentText '*/'  ;
+multiLineComment : '/*' multiLineCommentText '*/'  ;
 
-fragment MultiLineCommentText : MultiLineCommentTextItem MultiLineCommentText? ;
-fragment MultiLineCommentTextItem : MultiLineComment
-                                  | CommentTextItem
-	| ('/' ~'*' | ~'/' . | '*' ~'/' | ~'*' .)
-;
+multiLineCommentText : multiLineCommentTextItem+ ;
+multiLineCommentTextItem : multiLineComment
+                         | CommentTextItem
+	                     | NotMultiLineCommentDelimiter
+                         ;
+
+NotMultiLineCommentDelimiter : ( NotMultiLineCommentOpeningDelimiter | NotMultilineCommentClosingDelimiter ) ;
+fragment NotMultiLineCommentOpeningDelimiter : '/' ~'*' | ~'/' . ;
+fragment NotMultilineCommentClosingDelimiter : '*' ~'/' | ~'*' . ;
 
 // Line break
 LB : '\u000A'
