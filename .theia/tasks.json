@@ -8,7 +8,7 @@
             "type": "shell",
             "command": "bash",
             "args": [
-                "tools/compileAntlr.sh"
+                "scripts/compileAntlr.sh"
             ],
             "group": "build",
             "presentation": {
@@ -33,7 +33,7 @@
             "type": "shell",
             "command": "bash",
             "args": [
-                "tools/generateCompdb.sh"
+                "scripts/generateCompdb.sh"
             ],
             "group": "build",
             "presentation": {
