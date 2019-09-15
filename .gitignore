@@ -1,7 +1,5 @@
-build/
 compile_commands.json
 .clangd/
-core.*
 
-.antlr/
-generated/
+cmake*/
+.idea/

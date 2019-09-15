@@ -2,7 +2,6 @@
 
 #include "antlr4-runtime.h"
 #include "lang/brill.h"
-#include "lang/generated/BrillParser.h"
 
 using namespace std;
 

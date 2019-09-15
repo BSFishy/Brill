@@ -1,5 +1,0 @@
-
-build $builddir/brill.o: antlrCompile src/main.cpp
-build $builddir/brill: link $builddir/brill.o $builddir/lang.so
-
-subninja src/lang/build.ninja
