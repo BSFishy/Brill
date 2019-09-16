@@ -77,6 +77,12 @@ RUN sudo apt-get update \
     pkg-config \
   && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/*
 
+# Git
+RUN sudo apt-get update \
+  && sudo apt-get install -yq \
+    git \
+  && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/*
+
 # Install antlr stuff
 RUN git clone --branch 4.7 https://github.com/antlr/antlr4.git \
   && cd antlr4/runtime/Cpp \
