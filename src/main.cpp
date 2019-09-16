@@ -1,4 +1,4 @@
-#include <cstdio>
+#include <iostream>
 
 #include "antlr4-runtime.h"
 #include "lang/brill.h"
@@ -13,13 +13,12 @@ int main(int argc, const char *argv[]) {
 
     printf("Parsing: %s\n", argv[1]);
 
-    antlr4::tree::ParseTree *expr = Brill::parseFile(argv[1]);
-    if (expr) {
-        printf("Expression: %s\n", expr->toStringTree().c_str());
-    } else {
-        printf("Could not parse file\n");
-        return 1;
-    }
+    Brill::BrillParser::TopLevelContext *file = Brill::parseFile(argv[1]);
+    printf("got expression\n");
+    Brill::ParseTreeListener listener;
+    printf("got walker\n");
+    antlr4::tree::ParseTreeWalker::DEFAULT.walk(&listener, file);
+    printf("finished\n");
 
     return 0;
 }

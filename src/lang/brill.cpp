@@ -1,32 +1,33 @@
 
 #include "brill.h"
 
-#include "antlr4-runtime.h"
-#include "BrillLexer.h"
-#include "BrillParser.h"
+//#include <antlr4-runtime.h>
 #include <iostream>
 
 using namespace Brill;
 
-antlr4::tree::ParseTree *Brill::parseFile(const char *filename) {
-    std::ifstream stream;
-    stream.open(filename);
-    antlr4::ANTLRInputStream input(stream);
-    BrillLexer lexer(&input);
-    antlr4::BufferedTokenStream tokens(&lexer);
-    tokens.fill();
-    printf("Created token stream:\n");
-    for (antlr4::Token *t : tokens.getTokens()) {
-        printf("\t%s - %s\n", t->getText().c_str(), lexer.getVocabulary().getSymbolicName(t->getType()).c_str());
-    }
-    BrillParser parser(&tokens);
+BrillParser::TopLevelContext *Brill::parse(std::istream &stream) {
+    antlr4::ANTLRInputStream  input(stream);
+    BrillLexer                lexer(&input);
+    antlr4::CommonTokenStream tokens(&lexer);
+    BrillParser               parser(&tokens);
 
-    antlr4::tree::ParseTree *tree = parser.topLevel();
+    BrillParser::TopLevelContext *tree = parser.topLevel();
     return tree;
 }
 
-void Brill::compile() {
-//   AST::Expression expression;
+BrillParser::TopLevelContext *Brill::parse(const char *) {
+
+}
+
+BrillParser::TopLevelContext *Brill::parseFile(const char *filename) {
+    std::ifstream stream;
+    stream.open(filename);
+
+    return parse(stream);
+}
+
+void Brill::compile(const char *filename) {
 }
 
 void Brill::compileFile(const char *filename) {

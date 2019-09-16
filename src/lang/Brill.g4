@@ -8,7 +8,7 @@ language=Cpp;
 //#######################################################
 // PARSER
 
-topLevel : statements? ;
+topLevel : declarations? EOF ;
 
 /////////////////////////////////////////////////////////
 // Expressions
@@ -21,7 +21,7 @@ prefixExpression : prefixOperator? postfixExpression
                  ;
 inoutExpression : '&' Identifier ;
 
-tryOperator : 'try' | 'try' '?' | 'try' '!' ;
+tryOperator : 'try' ( '?' | '!' )? ;
 
 binaryExpression : binaryOperator prefixExpression
                  | assignmentOperator tryOperator? prefixExpression
@@ -35,9 +35,7 @@ assignmentOperator : '=' ;
 conditionalOperator : '?' expression ':' ;
 
 typeCastingOperator : 'is' type
-                    | 'as' type
-                    | 'as' '?' type
-                    | 'as' '!' type
+                    | 'as' ( '?' | '!' )? type
                     ;
 
 primaryExpression : Identifier genericArgumentClause?
@@ -60,11 +58,11 @@ literalExpression : literal
                   ;
 
 arrayLiteral : '[' arrayLiteralItems? ']' ;
-arrayLiteralItems : arrayLiteralItem ','? | arrayLiteralItem ',' arrayLiteralItems ;
+arrayLiteralItems : arrayLiteralItem ( ',' arrayLiteralItem )* ;
 arrayLiteralItem : expression ;
 
-dictionaryLiteral : '[' dictionaryLiteralItems ']' | '[' ':' ']' ;
-dictionaryLiteralItems : dictionaryLiteralItem ','? | dictionaryLiteralItem ',' dictionaryLiteralItems ;
+dictionaryLiteral : '[' ( dictionaryLiteralItems | ':' ) ']' ;
+dictionaryLiteralItems : dictionaryLiteralItem ( ',' dictionaryLiteralItem )* ;
 dictionaryLiteralItem : expression ':' expression ;
 
 selfExpression : 'self' | selfMethodExpression | selfSubscriptExpression | selfInitializerExpression ;
@@ -81,7 +79,7 @@ closureExpression : '{' closureSignature? statements? '}' ;
 closureSignature : captureList? closureParameterClause 'throws'? functionResult? 'in'
                  | captureList 'in'
                  ;
-closureParameterClause : '(' ')' | '(' closureParameterList ')' | identifierList ;
+closureParameterClause : '(' closureParameterList? ')' | identifierList ;
 closureParameterList : closureParameter ( ',' closureParameter )* ;
 closureParameter : closureParameterName typeAnnotation?
                  | closureParameterName typeAnnotation '...'
@@ -90,15 +88,15 @@ closureParameterName : Identifier ;
 captureList : '[' captureListItems ']' ;
 captureListItems : captureListItem ( ',' captureListItem )* ;
 captureListItem : captureSpecifier? expression ;
-captureSpecifier : 'weak' | 'unowned' | 'unowned' '(' 'safe' ')' | 'unowned' '(' 'unsafe' ')' ;
+captureSpecifier : 'weak' | 'unowned' ( '(' ( 'safe' | 'unsafe' ) ')' )? ;
 
 implicitMemberExpression : '.' Identifier ;
 
 parenthesizedExpression : '(' expression ')' ;
 
-tupleExpression : '(' ')' | '(' tupleElement ',' tupleElementList ')' ;
+tupleExpression : '(' ( tupleElement ',' tupleElementList )? ')' ;
 tupleElementList : tupleElement ( ',' tupleElement )* ;
-tupleElement : expression | Identifier ':' expression ;
+tupleElement : ( Identifier ':' )? expression ;
 
 wildcardExpression : '_' ;
 
@@ -108,32 +106,35 @@ keyPathComponent : Identifier keyPathPostfixes? | keyPathPostfixes ;
 keyPathPostfixes : keyPathPostfix+ ;
 keyPathPostfix : '?' | '!' | 'self' | '[' functionCallArgumentList ']' ;
 
-selectorExpression : '#selector' '(' expression ')'
-                   | '#selector' '(' 'getter' ':' expression ')'
-                   | '#selector' '(' 'setter' ':' expression ')'
-                   ;
+selectorExpression : '#selector' '(' ( ( 'getter' | 'setter' ) ':' )? expression ')' ;
 
 keyPathStringExpression : '#keypath' '(' expression ')' ;
 
-postfixExpression : primaryExpression
-                  | postfixExpression postfixOperator
-                  | postfixExpression functionCallArgumentClause | postfixExpression functionCallArgumentClause? trailingClosure
-                  | postfixExpression '.' 'init' | postfixExpression '.' 'init' '(' argumentNames ')'
-                  | postfixExpression '.' DecimalDigits | postfixExpression '.' Identifier genericArgumentClause? | postfixExpression '.' Identifier '(' argumentNames ')'
-                  | postfixExpression '.' 'self'
-                  | postfixExpression '[' functionCallArgumentList ']'
-                  | postfixExpression '!'
-                  | postfixExpression '?'
+//postfixExpression : primaryExpression #postfixPrimaryExpression
+//                  | postfixExpression postfixOperator #postfixOperatorExpression
+//                  | postfixExpression ( functionCallArgumentClause | functionCallArgumentClause? trailingClosure ) #functionCallExpression
+//                  | postfixExpression '.' 'init' ( '(' argumentNames ')' )? #initializerExpression
+//                  | postfixExpression '.' ( DecimalDigits | Identifier ( genericArgumentClause? | '(' argumentNames ')' ) ) #explicitMemberExpression
+//                  | postfixExpression '.' 'self' #postfixSelfExpression
+//                  | postfixExpression '[' functionCallArgumentList ']' #subscriptExpression
+//                  | postfixExpression '!' #forcedValueExpression
+//                  | postfixExpression '?' #optionalChainingExpression
+//                  ;
+postfixExpression : postfixBaseExpression
+                  | postfixExpression postfixFunctionExpression
+                  | postfixExpression postfixPostExpression
                   ;
+postfixBaseExpression : primaryExpression postfixDotExpression? ;
+postfixDotExpression : '.' ( 'init' | DecimalDigits | Identifier | 'self' ) ;
+postfixFunctionExpression : functionCallArgumentClause | functionCallArgumentClause? trailingClosure ;
+postfixPostExpression : '[' functionCallArgumentList ']' | '!' | '?'  ;
 
 //functionCallExpression : postfixExpression functionCallArgumentClause
 //                       | postfixExpression functionCallArgumentClause? trailingClosure
 //                       ;
-functionCallArgumentClause : '(' ')' | '(' functionCallArgumentList ')' ;
+functionCallArgumentClause : '(' functionCallArgumentList? ')' ;
 functionCallArgumentList : functionCallArgument ( ',' functionCallArgument )* ;
-functionCallArgument : expression | Identifier ':' expression
-                     | op | Identifier ':' op
-                     ;
+functionCallArgument : ( Identifier ':' )? ( expression | op ) ;
 trailingClosure : closureExpression ;
 
 //initializerExpression : postfixExpression '.' 'init'
@@ -163,11 +164,10 @@ type : functionType
      | dictionaryType
      | typeIdentifier
      | tupleType
-     | type '?'
-     | type '!'
+     | type ( '?' | '!' )
      | protocolCompositionType
      | opaqueType
-     | type '.' 'Type' | type '.' 'Protocol'
+     | type '.' ( 'Type' | 'Protocol' )
      | selfType
      | 'Any'
      | '(' type ')'
@@ -180,15 +180,13 @@ typeIdentifier : typeName genericArgumentClause? ('.' typeIdentifier)?
                ;
 typeName : Identifier ;
 
-tupleType : '(' ')' | '(' tupleTypeElement ',' tupleTypeElementList ')' ;
+tupleType : '(' ( tupleTypeElement ',' tupleTypeElementList )? ')' ;
 tupleTypeElementList : tupleTypeElement ( ',' tupleTypeElementList )* ;
 tupleTypeElement : elementName typeAnnotation | type ;
 elementName : Identifier ;
 
 functionType : attributes? functionTypeArgumentClause 'throws'? '->' type ;
-functionTypeArgumentClause : '(' ')'
-                           | '(' functionTypeArgumentList '...'? ')'
-                           ;
+functionTypeArgumentClause : '(' ( functionTypeArgumentList '...'? )? ')' ;
 functionTypeArgumentList : functionTypeArgument ( ',' functionTypeArgument )* ;
 functionTypeArgument : attributes? 'inout'? type | argumentLabel typeAnnotation ;
 argumentLabel : Identifier ;
@@ -215,15 +213,16 @@ typeInheritanceList : typeIdentifier ( ',' typeIdentifier )* ;
 /////////////////////////////////////////////////////////
 // Statements
 
-statement : expression ';'?
-          | declaration ';'?
-          | loopStatement ';'?
-          | branchStatement ';'?
-          | labeledStatement ';'?
-          | controlTransferStatement ';'?
-          | deferStatement ';'?
-          | doStatement ';'?
-          | compilerControlStatement ';'?
+statement : ( expression
+              | declaration
+              | loopStatement
+              | branchStatement
+              | labeledStatement
+              | controlTransferStatement
+              | deferStatement
+              | doStatement
+              | compilerControlStatement
+          ) ';'?
           ;
 statements : statement+ ;
 
@@ -238,7 +237,7 @@ whileStatement : 'while' conditionList codeBlock ;
 conditionList : condition ( ',' condition )* ;
 condition : expression | availabilityCondition | caseCondition | optionalBindingCondition ;
 caseCondition : 'case' pattern initializer ;
-optionalBindingCondition : 'let' pattern initializer | 'var' pattern initializer ;
+optionalBindingCondition : ( 'let' | 'var' ) pattern initializer ;
 
 repeatWhileStatement : 'repeat' codeBlock 'while' expression ;
 
@@ -248,18 +247,17 @@ branchStatement : ifStatement
                 ;
 
 ifStatement : 'if' conditionList codeBlock elseClause? ;
-elseClause : 'else' codeBlock | 'else' ifStatement ;
+elseClause : 'else' ( codeBlock | ifStatement ) ;
 
 guardStatement : 'guard' conditionList 'else' codeBlock ;
 
 switchStatement : 'switch' expression '{' switchCases? '}' ;
 switchCases : switchCase+ ;
-switchCase : caseLabel statements
-           | defaultLabel statements
+switchCase : ( caseLabel | defaultLabel ) statements
            | conditionalSwitchCase
            ;
 caseLabel : attributes? 'case' caseItemList ':' ;
-caseItemList : pattern whereClause? | pattern whereClause? ',' caseItemList ;
+caseItemList : pattern whereClause? ( ',' caseItemList )? ;
 defaultLabel : attributes? 'default' ':' ;
 whereClause : 'where' whereExpression ;
 whereExpression : expression ;
@@ -269,11 +267,7 @@ switchElseifDirectiveClauses : elseifDirectiveClause+ ;
 switchElseifDirectiveClause : elseifDirective compilationCondition switchCases? ;
 switchElseDirectiveClause : elseDirective switchCases? ;
 
-labeledStatement : statementLabel loopStatement
-                 | statementLabel ifStatement
-                 | statementLabel switchStatement
-                 | statementLabel doStatement
-                 ;
+labeledStatement : statementLabel ( loopStatement | ifStatement | switchStatement | doStatement ) ;
 statementLabel : labelName ':' ;
 labelName : Identifier ;
 
@@ -319,13 +313,11 @@ compilationCondition : platformCondition
                      | booleanLiteral
                      | '(' compilationCondition ')'
                      | '!' compilationCondition
-                     | compilationCondition '&&' compilationCondition
-                     | compilationCondition '||' compilationCondition
+                     | compilationCondition ( '&&' | '||' ) compilationCondition
                      ;
 platformCondition : 'os' '(' operatingSystem ')'
                   | 'arch' '(' architecture ')'
-                  | 'brill' '(' '>=' brillVersion ')' | 'brill' '(' '<' brillVersion ')'
-                  | 'compiler' '(' '>=' brillVersion ')' | 'compiler' '(' '<' brillVersion ')'
+                  | ( 'brill' | 'compiler' ) '(' ( '>=' | '<' ) brillVersion ')'
                   | 'canImport' '(' moduleName ')'
                   | 'targetEnvironment' '(' environment ')'
                   ;
@@ -336,16 +328,11 @@ brillVersionContinuation : ('.' DecimalDigits)+ ;
 moduleName : Identifier ;
 environment : 'library' | 'executable' ;
 
-lineControlStatement : '#sourceLocation' '(' 'file' ':' fileName ',' 'line' ':' LineNumber ')'
-                     | '#sourceLocation' '(' ')'
-                     ;
-fileName : staticStringLiteral ;
+lineControlStatement : '#sourceLocation' '(' ( 'file' ':' fileName ',' 'line' ':' LineNumber )? ')' ;
+fileName : StaticStringLiteral ;
 
-diagnosticStatement : '#error' '(' diagnosticMessage ')'
-                    | '#warning' '(' diagnosticMessage ')'
-                    | '#todo' '(' diagnosticMessage ')'
-                    ;
-diagnosticMessage : staticStringLiteral ;
+diagnosticStatement : ( '#error' | '#warning' | '#todo' ) '(' diagnosticMessage ')' ;
+diagnosticMessage : StaticStringLiteral ;
 
 availabilityCondition : '#available' '(' availabilityArguments ')' ;
 availabilityArguments : availabilityArgument ( ',' availabilityArgument )* ;
@@ -356,10 +343,7 @@ platformName : 'macOS'
              | 'windows'
              | 'linux'
              ;
-platformVersion : DecimalDigits
-                | DecimalDigits '.' DecimalDigits
-                | DecimalDigits '.' DecimalDigits '.' DecimalDigits
-                ;
+platformVersion : DecimalDigits ( '.' DecimalDigits ( '.' DecimalDigits )? )? ;
 
 /////////////////////////////////////////////////////////
 // Declarations
@@ -396,30 +380,20 @@ patternInitializerList : patternInitializer ( ',' patternInitializer )* ;
 patternInitializer : pattern initializer? ;
 initializer : expression ;
 
-variableDeclaration : variableDeclarationHead patternInitializerList
-                    | variableDeclarationHead variableName typeAnnotation codeBlock
-                    | variableDeclarationHead variableName typeAnnotation getterSetterBlock
-                    | variableDeclarationHead variableName typeAnnotation getterSetterKeywordBlock
-                    | variableDeclarationHead variableName initializer willSetDidSetBlock
-                    | variableDeclarationHead variableName typeAnnotation initializer? willSetDidSetBlock
-                    ;
+variableDeclaration : variableDeclarationHead ( patternInitializerList
+                    | variableName ( typeAnnotation ( codeBlock | getterSetterBlock | getterSetterKeywordBlock | initializer? willSetDidSetBlock ) | initializer willSetDidSetBlock )  ) ;
 variableDeclarationHead : attributes? declarationModifiers? 'var' ;
 variableName : Identifier ;
 getterSetterBlock : codeBlock
-                  | '{' getterClause setterClause? '}'
-                  | '{' setterClause getterClause '}'
+                  | '{' ( getterClause setterClause? | setterClause getterClause ) '}'
                   ;
 getterClause : attributes? mutationModifier? 'get' codeBlock ;
 setterClause : attributes? mutationModifier? 'set' setterName? codeBlock ;
 setterName : '(' Identifier ')' ;
-getterSetterKeywordBlock : '{' getterKeywordClause setterKeywordClause? '}'
-                         | '{' setterKeywordClause getterKeywordClause '}'
-                         ;
+getterSetterKeywordBlock : '{' ( getterKeywordClause setterKeywordClause? | setterKeywordClause getterKeywordClause ) '}' ;
 getterKeywordClause : attributes? mutationModifier? 'get' ;
 setterKeywordClause : attributes? mutationModifier? 'set' ;
-willSetDidSetBlock : '{' willSetClause didSetClause? '}'
-                   | '{' didSetClause willSetClause? '}'
-                   ;
+willSetDidSetBlock : '{' ( willSetClause didSetClause? | didSetClause willSetClause? ) '}' ;
 willSetClause : attributes? 'willSet' setterName? codeBlock ;
 didSetClause : attributes? 'didSet' setterName? codeBlock ;
 
@@ -430,24 +404,17 @@ typealiasAssignment : '=' type ;
 functionDeclaration : functionHead functionName genericParameterClause? functionSignature genericWhereClause? functionBody? ;
 functionHead : attributes? declarationModifiers? 'func' ;
 functionName : Identifier | op ;
-functionSignature : parameterClause 'throws'? functionResult?
-                  | parameterClause 'rethrows' functionResult?
-                  ;
+functionSignature : parameterClause ( 'throws' | 'rethrows' )? functionResult? ;
 functionResult : '->' attributes? type ;
 functionBody : codeBlock ;
-parameterClause : '(' ')' | '(' parameterList ')' ;
+parameterClause : '(' parameterList? ')' ;
 parameterList : parameter ( ',' parameter )* ;
-parameter : externalParameterName? localParameterName typeAnnotation defaultArgumentClause?
-          | externalParameterName? localParameterName typeAnnotation
-          | externalParameterName? localParameterName typeAnnotation '...'
-          ;
+parameter : externalParameterName? localParameterName typeAnnotation ( defaultArgumentClause | '...' )? ;
 externalParameterName : Identifier ;
 localParameterName : Identifier ;
 defaultArgumentClause : '=' expression ;
 
-enumDeclaration : attributes? accessLevelModifier? unionStyleEnum
-                | attributes? accessLevelModifier? rawValueStyleEnum
-                ;
+enumDeclaration : attributes? accessLevelModifier? ( unionStyleEnum | rawValueStyleEnum ) ;
 unionStyleEnum : 'indirect'? 'enum' enumName genericParameterClause? typeInheritanceClause? genericWhereClause? '{' unionStyleEnumMembers? '}' ;
 unionStyleEnumMembers : unionStyleEnumMember+ ;
 unionStyleEnumMember : declaration | unionStyleEnumCaseClause | compilerControlStatement ;
@@ -463,7 +430,7 @@ rawValueStyleEnumCaseClause : attributes? 'case' rawValueStyleEnumCaseList ;
 rawValueStyleEnumCaseList : rawValueStyleEnumCase ( ',' rawValueStyleEnumCase )* ;
 rawValueStyleEnumCase : enumCaseName rawValueAssignment? ;
 rawValueAssignment : '=' rawValueLiteral ;
-rawValueLiteral : numericLiteral | staticStringLiteral | booleanLiteral ;
+rawValueLiteral : numericLiteral | StaticStringLiteral | booleanLiteral ;
 
 structDeclaration : attributes? accessLevelModifier? 'struct' structName genericParameterClause? typeInheritanceClause? genericWhereClause? structBody ;
 structName : Identifier ;
@@ -471,9 +438,7 @@ structBody : '{' structMembers? '}' ;
 structMembers : structMember+ ;
 structMember : declaration | compilerControlStatement ;
 
-classDeclaration : attributes? accessLevelModifier? 'final'? 'class' className genericParameterClause? typeInheritanceClause? genericWhereClause? classBody
-                 | attributes? 'final' accessLevelModifier? 'class' className genericParameterClause? typeInheritanceClause? genericWhereClause? classBody
-                 ;
+classDeclaration : attributes? ( accessLevelModifier? 'final'? | 'final' accessLevelModifier? ) 'class' className genericParameterClause? typeInheritanceClause? genericWhereClause? classBody ;
 className : Identifier ;
 classBody : '{' classMembers? '}' ;
 classMembers : classMember+ ;
@@ -496,21 +461,14 @@ protocolPropertyDeclaration : variableDeclarationHead variableName typeAnnotatio
 
 protocolMethodDeclaration : functionHead functionName genericParameterClause? functionSignature genericWhereClause? ;
 
-protocolInitializerDeclaration : initializerHead genericParameterClause? parameterClause 'throws'? genericWhereClause?
-                               | initializerHead genericParameterClause? parameterClause 'rethrows' genericWhereClause?
-                               ;
+protocolInitializerDeclaration : initializerHead genericParameterClause? parameterClause ( 'throws' | 'rethrows' )? genericWhereClause? ;
 
 protocolSubscriptDeclaration : subscriptHead subscriptResult genericWhereClause? getterSetterKeywordBlock ;
 
 protocolAssociatedTypeDeclaration : attributes? accessLevelModifier? 'associatedtype' typealiasName typeInheritanceClause? typealiasAssignment genericWhereClause? ;
 
-initializerDeclaration : initializerHead genericParameterClause? parameterClause 'throws'? genericWhereClause? initializerBody
-                       | initializerHead genericParameterClause? parameterClause 'rethrows' genericWhereClause? initializerBody
-                       ;
-initializerHead : attributes? declarationModifiers? 'init'
-                | attributes? declarationModifiers? 'init' '?'
-                | attributes? declarationModifiers? 'init' '!'
-                ;
+initializerDeclaration : initializerHead genericParameterClause? parameterClause ( 'throws' | 'rethrows' )? genericWhereClause? initializerBody ;
+initializerHead : attributes? declarationModifiers? 'init' ( '?' | '!' )? ;
 initializerBody : codeBlock ;
 
 deinitializerDeclaration : attributes? 'deinit' codeBlock ;
@@ -520,10 +478,7 @@ extensionBody : '{' extensionMembers '}' ;
 extensionMembers : extensionMember+ ;
 extensionMember : declaration | compilerControlStatement ;
 
-subscriptDeclaration : subscriptHead subscriptResult genericWhereClause? codeBlock
-                     | subscriptHead subscriptResult genericWhereClause? getterSetterBlock
-                     | subscriptHead subscriptResult genericWhereClause? getterSetterKeywordBlock
-                     ;
+subscriptDeclaration : subscriptHead subscriptResult genericWhereClause? ( codeBlock | getterSetterBlock | getterSetterKeywordBlock ) ;
 subscriptHead : attributes? declarationModifiers? 'subscript' genericParameterClause? parameterClause ;
 subscriptResult : '->' attributes? type ;
 
@@ -539,28 +494,18 @@ precedenceGroupAttribute : precedenceGroupRelation
                          | precedenceGroupAssignment
                          | precedenceGroupAssociativity
                          ;
-precedenceGroupRelation : 'higherThan' ':' precedenceGroupNames
-                        | 'lowerThan' ':' precedenceGroupNames
-                        ;
+precedenceGroupRelation : ( 'higherThan' | 'lowerThan' ) ':' precedenceGroupNames ;
 precedenceGroupAssignment : 'assignment' ':' booleanLiteral ;
-precedenceGroupAssociativity : 'associativity' ':' 'left'
-                             | 'associativity' ':' 'right'
-                             | 'associativity' ':' 'none'
-                             ;
+precedenceGroupAssociativity : 'associativity' ':' ( 'left' | 'right' | 'none' ) ;
 precedenceGroupNames : precedenceGroupName ( ',' precedenceGroupName )* ;
 precedenceGroupName : Identifier ;
 
-declarationModifier : 'class' | 'convenience' | 'dynamic' | 'final' | 'infix' | 'lazy' | 'optional' | 'override' | 'postfix' | 'prefix' | 'required' | 'static' | 'unowned' | 'unowned' '(' 'safe' ')' | 'unowned' '(' 'unsafe' ')' | 'weak'
+declarationModifier : 'class' | 'convenience' | 'dynamic' | 'final' | 'infix' | 'lazy' | 'optional' | 'override' | 'postfix' | 'prefix' | 'required' | 'static' | 'unowned' ( '(' ( 'safe' | 'unsafe' ) ')' )? | 'weak'
                     | accessLevelModifier
                     | mutationModifier
                     ;
 declarationModifiers : declarationModifier+ ;
-accessLevelModifier : 'private' | 'private' '(' 'set' ')'
-                    | 'fileprivate' | 'fileprivate' '(' 'set' ')'
-                    | 'internal' | 'internal' '(' 'set' ')'
-                    | 'public' | 'public' '(' 'set' ')'
-                    | 'open' | 'open' '(' 'set' ')'
-                    ;
+accessLevelModifier : ( 'private' | 'fileprivate' | 'internal' | 'public' | 'open' ) ( '(' 'set' ')' )? ;
 mutationModifier : 'mutating' | 'nonmutating' ;
 
 /////////////////////////////////////////////////////////
@@ -581,10 +526,8 @@ balancedToken : '(' balancedTokens? ')'
 /////////////////////////////////////////////////////////
 // Patterns
 
-pattern : wildcardPattern typeAnnotation?
-        | identifierPattern typeAnnotation?
+pattern : ( wildcardPattern | identifierPattern | tuplePattern ) typeAnnotation?
         | valueBindingPattern
-        | tuplePattern typeAnnotation?
         | enumCasePattern
         | optionalPattern
         | 'is' type | pattern 'as' type
@@ -595,11 +538,11 @@ wildcardPattern : '_' ;
 
 identifierPattern : Identifier ;
 
-valueBindingPattern : 'var' pattern | 'let' pattern ;
+valueBindingPattern : ( 'var' | 'let' ) pattern ;
 
 tuplePattern : '(' tuplePatternElementList? ')' ;
 tuplePatternElementList : tuplePatternElement ( ',' tuplePatternElement )* ;
-tuplePatternElement : pattern | Identifier ':' pattern ;
+tuplePatternElement : ( Identifier ':' )? pattern ;
 
 enumCasePattern : typeIdentifier? '.' enumCaseName tuplePattern? ;
 
@@ -616,16 +559,11 @@ expressionPattern : expression ;
 
 genericParameterClause : '<' genericParameterList '>' ;
 genericParameterList : genericParameter ( ',' genericParameter )* ;
-genericParameter : typeName
-                 | typeName ':' typeIdentifier
-                 | typeName ':' protocolCompositionType
-                 ;
+genericParameter : typeName ( ':' ( typeIdentifier | protocolCompositionType ) )? ;
 genericWhereClause : 'where' requirementList ;
 requirementList : requirement ( ',' requirement )* ;
 requirement : conformanceRequirement | sameTypeRequirement ;
-conformanceRequirement : typeIdentifier ':' typeIdentifier
-                       | typeIdentifier ':' protocolCompositionType
-                       ;
+conformanceRequirement : typeIdentifier ':' ( typeIdentifier | protocolCompositionType ) ;
 sameTypeRequirement : typeIdentifier '==' type ;
 
 genericArgumentClause : '<' genericArgumentList '>' ;
@@ -653,9 +591,9 @@ identifierList : Identifier ( ',' Identifier )* ;
 /////////////////////////////////////////////////////////
 // Literal
 
-literal : numericLiteral | stringLiteral | booleanLiteral | nilLiteral ;
+literal : numericLiteral | StringLiteral | booleanLiteral | nilLiteral ;
 
-numericLiteral : '-'? integerLiteral | '-'? floatingPointLiteral ;
+numericLiteral : '-'? ( integerLiteral | floatingPointLiteral ) ;
 booleanLiteral : 'true' | 'false' ;
 nilLiteral : 'nil' ;
 
@@ -681,53 +619,6 @@ decimalExponent : FloatingPointE Sign? decimalLiteral ;
 
 hexadecimalFraction : '.' HexadecimalDigit HexadecimalLiteralCharacters ;
 hexadecimalExponent : FloatingPointP Sign? decimalLiteral ;
-
-// String literals
-stringLiteral : staticStringLiteral | interpolatedStringLiteral ;
-
-staticStringLiteral : StringLiteralOpeningDelimiter quotedText? StringLiteralClosingDelimiter
-                             | MultilineStringLiteralOpeningDelimiter multilineQuotedText? MultilineStringLiteralClosingDelimiter
-                             ;
-
-interpolatedStringLiteral : StringLiteralOpeningDelimiter interpolatedText? StringLiteralClosingDelimiter
-                                   | MultilineStringLiteralOpeningDelimiter interpolatedText? MultilineStringLiteralClosingDelimiter
-                                   ;
-
-// Comment
-comment : '//' commentText LB ;
-
-// Multi-line comment
-multiLineComment : '/*' multiLineCommentText '*/'  ;
-
-multiLineCommentText : multiLineCommentTextItem+ ;
-multiLineCommentTextItem : multiLineComment
-                         | commentTextItem
-	                     | notMultiLineCommentDelimiter
-                         ;
-commentText : commentTextItem+ ;
-
-notMultiLineCommentDelimiter : ( notMultiLineCommentOpeningDelimiter | notMultilineCommentClosingDelimiter ) ;
-notMultiLineCommentOpeningDelimiter : '/' ~'*' | ~'/' . ;
-notMultilineCommentClosingDelimiter : '*' ~'/' | ~'*' . ;
-
-quotedText : quotedTextItem+ ;
-quotedTextItem : EscapedCharacter
-                        | ~('"' | '\\' | '\u000A' | '\u000D')
-                        ;
-
-multilineQuotedText : multilineQuotedTextItem+ ;
-multilineQuotedTextItem : EscapedCharacter
-                                 | ~('\\')
-                                 | EscapedNewLine
-                                 ;
-
-interpolatedText : interpolatedTextItem+ ;
-interpolatedTextItem : '\\(' . ')' | quotedTextItem ;
-
-multilineInterpolatedText : multilineInterpolatedTextItem multilineInterpolatedText? ;
-multilineInterpolatedTextItem : '\\('  ')' | multilineQuotedTextItem ;
-
-commentTextItem : ~('\u000A'|'\u000B'|'\u000C'|'\u000D') ;
 
 TRY : 'try' ;
 SELF : 'self' ;
@@ -1009,14 +900,61 @@ fragment UnicodeScalarDigits : HexadecimalDigit ; // TODO: limit this to 8 chara
 
 EscapedNewLine : EscapeSequence WS? LB ;
 
+// String literals
+StringLiteral : StaticStringLiteral | InterpolatedStringLiteral ;
+
+StaticStringLiteral : StringLiteralOpeningDelimiter QuotedText? StringLiteralClosingDelimiter
+                             | MultilineStringLiteralOpeningDelimiter MultilineQuotedText? MultilineStringLiteralClosingDelimiter
+                             ;
+
+InterpolatedStringLiteral : StringLiteralOpeningDelimiter InterpolatedText? StringLiteralClosingDelimiter
+                                   | MultilineStringLiteralOpeningDelimiter InterpolatedText? MultilineStringLiteralClosingDelimiter
+                                   ;
+
+fragment QuotedText : QuotedTextItem+ ;
+fragment QuotedTextItem : EscapedCharacter
+                        | ~('"' | '\\' | '\u000A' | '\u000D')
+                        ;
+
+fragment MultilineQuotedText : MultilineQuotedTextItem+ ;
+fragment MultilineQuotedTextItem : EscapedCharacter
+                                 | ~('\\')
+                                 | EscapedNewLine
+                                 ;
+
+fragment InterpolatedText : InterpolatedTextItem+ ;
+fragment InterpolatedTextItem : '\\(' . ')' | QuotedTextItem ;
+
+fragment MultilineInterpolatedText : MultilineInterpolatedTextItem MultilineInterpolatedText? ;
+fragment MultilineInterpolatedTextItem : '\\(' . ')' | MultilineQuotedTextItem ;
+
+fragment CommentTextItem : ~('\u000A'|'\u000B'|'\u000C'|'\u000D') ;
+
+// Comment
+Comment : '//' CommentText LB ;
+
+// Multi-line comment
+MultiLineComment : '/*' MultiLineCommentText '*/'  ;
+
+fragment MultiLineCommentText : MultiLineCommentTextItem+ ;
+fragment MultiLineCommentTextItem : MultiLineComment
+                         | CommentTextItem
+	                     | NotMultiLineCommentDelimiter
+                         ;
+fragment CommentText : CommentTextItem+ ;
+
+fragment NotMultiLineCommentDelimiter : ( NotMultiLineCommentOpeningDelimiter | NotMultilineCommentClosingDelimiter ) ;
+fragment NotMultiLineCommentOpeningDelimiter : '/' ~'*' | ~'/' . ;
+fragment NotMultilineCommentClosingDelimiter : '*' ~'/' | ~'*' . ;
+
 /////////////////////////////////////////////////////////
 // Whitespace
 
 WS : WSItem+ -> skip ;
 
 fragment WSItem : LB
-//                | comment
-//                | multiLineComment
+                | Comment
+                | MultiLineComment
                 | '\u0000' | '\u0009' | '\u000B' | '\u000C' | '\u0020'
                 ;
 
