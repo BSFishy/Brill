@@ -1,9 +1,3 @@
 {
-    "editor.autoSave": "on",
-    "cpp.buildConfigurations": [
-        {
-            "name": "Debug",
-            "directory": "build/"
-        }
-    ]
+    "editor.autoSave": "on"
 }

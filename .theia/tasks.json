@@ -4,11 +4,11 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Compile antlr",
+            "label": "Compile",
             "type": "shell",
             "command": "bash",
             "args": [
-                "scripts/compileAntlr.sh"
+                "scripts/create.sh"
             ],
             "group": "build",
             "presentation": {
@@ -16,33 +16,8 @@
                 "panel": "dedicated"
             },
             "problemMatcher": {
-                "owner": "antlr",
-                "fileLocation": "absolute",
-                "pattern": {
-                    "regexp": "^(warning|error)\\(\\d+\\): (.*):(\\d+):(\\d+): (.*)$",
-                    "file": 2,
-                    "line": 3,
-                    "column": 4,
-                    "severity": 1,
-                    "message": 5
-                }
-            }
-        },
-        {
-            "label": "Generate compdb",
-            "type": "shell",
-            "command": "bash",
-            "args": [
-                "scripts/generateCompdb.sh"
-            ],
-            "group": "build",
-            "presentation": {
-                "reveal": "always",
-                "panel": "dedicated"
-            },
-            "problemMatcher": {
-                "owner": "antlr",
-                "fileLocation": "absolute",
+                "owner": "cpp",
+                "fileLocation": "relative",
                 "pattern": {
                     "regexp": "^(warning|error)\\(\\d+\\): (.*):(\\d+):(\\d+): (.*)$",
                     "file": 2,

@@ -32,7 +32,9 @@ RUN sudo apt-get update \
     clang-format-9 \
     python-clang-9 \
     clangd-9 \
-  && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/*
+  && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* \
+  && ln -s /usr/bin/clang++-9 /usr/bin/clang++ \
+  && ln -s /usr/bin/clang-9 /usr/bin/clang
 
 # LibFuzzer
 RUN sudo apt-get update \
@@ -61,10 +63,10 @@ RUN sudo apt-get update \
   && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/*
 
 # Ninja
-RUN sudo apt-get update \
-  && sudo apt-get install -yq \
-    ninja-build \
-  && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/*
+# RUN sudo apt-get update \
+#   && sudo apt-get install -yq \
+#     ninja-build \
+#   && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/*
 
 # Antlr
 RUN sudo apt-get update \
@@ -74,11 +76,14 @@ RUN sudo apt-get update \
     libantlr4-runtime4.7.2 \
     pkg-config \
   && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/*
-# RUN sudo curl https://www.antlr.org/download/antlr-4.7.2-complete.jar -o /usr/local/lib/antlr.jar \
-#   && echo '#!/bin/sh\n\njava -jar /usr/local/lib/antlr.jar $@' >> /usr/bin/antlr \
-#   && echo '#!/bin/sh\n\njava org.antlr.v4.gui.TestRig $@' >> /usr/bin/grun \
-#   && sudo chmod 777 /usr/bin/antlr \
-#   && sudo chmod 777 /usr/bin/grun
+
+# Install antlr stuff
+RUN git clone --branch 4.7 https://github.com/antlr/antlr4.git \
+  && cd antlr4/runtime/Cpp \
+  && mkdir build && mkdir run && cd build \
+  && cmake .. -DCMAKE_CXX_COMPILER=/usr/bin/clang++-9 -DCMAKE_C_COMPILER=/usr/bin/clang-9 -DANTLR_JAR_LOCATION=/usr/share/java/antlr4-4.7.2.jar -DWITH_DEMO=True -DANTLR4_INSTALL=True \
+  && make \
+  && sudo make install
 
 # USER gitpod
 

@@ -4,12 +4,12 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Hello world",
+            "name": "Brill antlr",
             "type": "antlr-debug",
             "request": "launch",
             "input": "examples/HelloWorld.brill",
             "grammar": "src/lang/Brill.g4",
-            "startRule": "expression",
+            "startRule": "topLevel",
             "printParseTree": true,
             "visualParseTree": true
         }
