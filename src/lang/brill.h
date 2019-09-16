@@ -1,6 +1,7 @@
 
 #pragma once
 
+#include <istream>
 #include "BrillParser.h"
 #include "BrillLexer.h"
 #include "BrillParseTreeListener.h"

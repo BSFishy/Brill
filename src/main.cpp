@@ -1,7 +1,7 @@
 #include <iostream>
 
 #include "antlr4-runtime.h"
-#include "lang/brill.h"
+#include "brill.h"
 
 using namespace std;
 

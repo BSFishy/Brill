@@ -1,7 +1,5 @@
 
-project(brill VERSION 0.1 DESCRIPTION "Brill language")
-
-include_directories( ${PROJECT_BINARY_DIR} ${ANTLR4_INCLUDE_DIR} lang/ )
+include_directories( ${PROJECT_BINARY_DIR} ${ANTLR4_INCLUDE_DIR} ${ANTLR4_INCLUDE_DIR_antlr} lang/ )
 
 add_executable(brill main.cpp)
 
