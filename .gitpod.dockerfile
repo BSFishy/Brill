@@ -87,7 +87,7 @@ RUN sudo apt-get update \
 RUN git clone --branch 4.7 https://github.com/antlr/antlr4.git \
   && cd antlr4/runtime/Cpp \
   && mkdir build && mkdir run && cd build \
-  && cmake .. -DCMAKE_CXX_COMPILER=/usr/bin/clang++-9 -DCMAKE_C_COMPILER=/usr/bin/clang-9 -DWITH_DEMO=False -DANTLR4_INSTALL=True \
+  && cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=/usr/bin/clang++-9 -DCMAKE_C_COMPILER=/usr/bin/clang-9 -DWITH_DEMO=False -DANTLR4_INSTALL=True \
   && make \
   && sudo make install
 
