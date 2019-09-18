@@ -15,15 +15,4 @@ endif()
 find_package(antlr4-generator REQUIRED)
 find_package(antlr4-runtime REQUIRED)
 
-message("${CMAKE_CURRENT_SOURCE_DIR}/src/lang/Brill.g4")
-antlr4_generate(
-        antlr
-        ${CMAKE_CURRENT_SOURCE_DIR}/src/lang/Brill.g4
-        BOTH
-        TRUE
-        TRUE
-        "Brill"
-)
-
-add_subdirectory(src/lang)
 add_subdirectory(src)
