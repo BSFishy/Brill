@@ -76,6 +76,8 @@ RUN sudo apt-get update \
     libantlr4-runtime4.7.2 \
     pkg-config \
   && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/*
+RUN cd /usr/local/lib \
+  && sudo curl -O https://www.antlr.org/download/antlr-4.7.2-complete.jar
 
 # Git
 RUN sudo apt-get update \
