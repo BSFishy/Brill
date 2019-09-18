@@ -1,7 +1,7 @@
 
 add_subdirectory(lang)
 
-include_directories( ${PROJECT_BINARY_DIR} ${ANTLR4_INCLUDE_DIR} ${ANTLR4_INCLUDE_DIR_antlr} lang/ )
+include_directories( ${PROJECT_BINARY_DIR} ${ANTLR4_INCLUDE_DIR} ${ANTLR_INCLUDES} lang/ )
 
 add_executable(brill main.cpp)
 
