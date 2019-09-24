@@ -11,27 +11,25 @@ RUN curl -fsSL https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add - \
 # LLVM
 RUN sudo apt-get update \
   && sudo apt-get install -yq \
-    libllvm-9-ocaml-dev \
-    libllvm9 \
-    llvm-9 \
-    llvm-9-dev \
-    llvm-9-doc \
-    llvm-9-examples \
-    llvm-9-runtime \
+    libllvm10 \
+    llvm-10 \
+    llvm-10-dev \
+    llvm-10-doc \
+    llvm-10-examples \
+    llvm-10-runtime \
   && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/*
 
 # CLang
 RUN sudo apt-get update \
   && sudo apt-get install -yq \
-    clang-9 \
-    #clang-tools-9 \
-    clang-9-doc \
-    libclang-common-9-dev \
-    libclang-9-dev \
-    libclang1-9 \
-    clang-format-9 \
-    python-clang-9 \
-    clangd-9 \
+    clang-10 \
+    clang-tools-10 \
+    clang-10-doc \
+    libclang-common-10-dev \
+    libclang-10-dev \
+    libclang1-10 \
+    clang-format-10 \
+    clangd-10 \
   && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* \
   && ln -s /usr/bin/clang++-9 /usr/bin/clang++ \
   && ln -s /usr/bin/clang-9 /usr/bin/clang
@@ -39,34 +37,33 @@ RUN sudo apt-get update \
 # LibFuzzer
 RUN sudo apt-get update \
   && sudo apt-get install -yq \
-    libfuzzer-9-dev \
+    libfuzzer-10-dev \
   && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/*
 
 # LLDB
-# RUN sudo apt-get update \
-#   && sudo apt-get install -yq \
-#     llvm-9-dev \
-#     lldb-9 \
-#   && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/*
+RUN sudo apt-get update \
+  && sudo apt-get install -yq \
+    lldb-10 \
+  && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/*
 
 # LLD
 RUN sudo apt-get update \
   && sudo apt-get install -yq \
-    lld-9 \
+    lld-10 \
   && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/*
 
 # LibC++
 RUN sudo apt-get update \
   && sudo apt-get install -yq \
-    libc++-9-dev \
-    libc++abi-9-dev \
+    libc++-10-dev \
+    libc++abi-10-dev \
   && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/*
 
-# Ninja
-# RUN sudo apt-get update \
-#   && sudo apt-get install -yq \
-#     ninja-build \
-#   && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/*
+# OpenMP
+RUN sudo apt-get update \
+  && sudo apt-get install -yq \
+    libomp-10-dev \
+  && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/*
 
 # Antlr
 RUN sudo apt-get update \
@@ -93,7 +90,3 @@ RUN git clone https://github.com/antlr/antlr4.git && cd antlr4 \
   && cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=/usr/bin/clang++-9 -DCMAKE_C_COMPILER=/usr/bin/clang-9 -DWITH_DEMO=False -DANTLR4_INSTALL=True \
   && make \
   && sudo make install
-
-# USER gitpod
-
-# ENV CLASSPATH=.:/usr/local/lib/antlr.jar:$CLASSPATH
