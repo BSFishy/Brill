@@ -1,9 +1,9 @@
 
 add_subdirectory(lang)
 
-include_directories( ${PROJECT_BINARY_DIR} ${ANTLR4_INCLUDE_DIR} ${ANTLR_INCLUDES} lang/ )
+include_directories(${ANTLR_INCLUDES} lang/)
 
 add_executable(brill main.cpp)
 
-add_dependencies(brill antlr4_shared lang)
-target_link_libraries(brill PRIVATE antlr4_shared lang)
+add_dependencies(brill antlr4_shared lang ${llvm_libs})
+target_link_libraries(brill PRIVATE lang)

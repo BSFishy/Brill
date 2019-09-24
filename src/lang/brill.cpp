@@ -1,7 +1,6 @@
 
 #include "brill.h"
 
-//#include <antlr4-runtime.h>
 #include <iostream>
 
 using namespace Brill;
@@ -27,8 +26,16 @@ BrillParser::TopLevelContext *Brill::parseFile(const char *filename) {
     return parse(stream);
 }
 
+void compile(std::istream &stream) {
+
+}
+
 void Brill::compile(const char *filename) {
 }
 
 void Brill::compileFile(const char *filename) {
+}
+
+void compile(Brill::BrillParser::TopLevelContext *) {
+
 }
