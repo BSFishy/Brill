@@ -4,7 +4,8 @@
 #include <istream>
 #include "BrillParser.h"
 #include "BrillLexer.h"
-#include "BrillParseTreeListener.h"
+#include "compiler.h"
+#include "codegen/codegen.h"
 
 namespace Brill {
     /**
@@ -43,4 +44,9 @@ namespace Brill {
      * work in progress
      */
     void compileFile(const char *);
+
+    /**
+     * work in progress
+     */
+    void compile(Brill::BrillParser::TopLevelContext *);
 }
