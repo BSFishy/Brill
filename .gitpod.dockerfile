@@ -21,10 +21,9 @@ RUN sudo apt-get update \
     llvm-10-runtime \
   && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/*
 
-# CLang
+# CLang 10
 RUN sudo apt-get update \
   && sudo apt-get install -yq \
-    clang-9 \
     clang-10 \
     clang-tools-10 \
     clang-10-doc \
@@ -34,8 +33,21 @@ RUN sudo apt-get update \
     clang-format-10 \
     clangd-10 \
   && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* \
-  && ln -s /usr/bin/clang++-9 /usr/bin/clang++ \
-  && ln -s /usr/bin/clang-9 /usr/bin/clang
+  && ln -s /usr/bin/clang++-10 /usr/bin/clang++ \
+  && ln -s /usr/bin/clang-10 /usr/bin/clang
+
+# CLang 9
+RUN sudo apt-get update \
+  && sudo apt-get install -yq \
+    clang-9 \
+    clang-tools-9 \
+    clang-9-doc \
+    libclang-common-9-dev \
+    libclang-9-dev \
+    libclang1-9 \
+    clang-format-9 \
+    clangd-9 \
+  && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/*
 
 # LibFuzzer
 RUN sudo apt-get update \

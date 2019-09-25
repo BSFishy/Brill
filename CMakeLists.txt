@@ -17,8 +17,10 @@ find_package(LLVM REQUIRED CONFIG)
 find_package(antlr4-generator REQUIRED)
 find_package(antlr4-runtime REQUIRED)
 
-if ( EXISTS /usr/include/llvm-10 AND $ENV{CLION_IDE} )
-    include_directories(/usr/include/llvm-10)
+if ( $ENV{CLION_IDE} )
+    if ( EXISTS /usr/include/llvm-10 )
+        include_directories(/usr/include/llvm-10)
+    endif ()
 endif ()
 
 include_directories(${PROJECT_BINARY_DIR} ${LLVM_INCLUDE_DIRS} ${ANTLR4_INCLUDE_DIR})
