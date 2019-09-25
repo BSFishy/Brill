@@ -4,13 +4,14 @@ USER root
 
 # Add llvm stuff
 RUN curl -fsSL https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add - \
+  && apt-add-repository -yu "deb http://apt.llvm.org/disco/ llvm-toolchain-disco main" \
   && apt-add-repository -yu "deb http://apt.llvm.org/disco/ llvm-toolchain-disco-9 main" \
+  && sudo sh -c "echo deb-src http://apt.llvm.org/disco/ llvm-toolchain-disco main \ >> /etc/apt/sources.list" \
   && sudo sh -c "echo deb-src http://apt.llvm.org/disco/ llvm-toolchain-disco-9 main \ >> /etc/apt/sources.list" \
   && sudo apt-get update
 
 # LLVM
-RUN sudo apt-get update \
-  && sudo apt-get install -yq \
+RUN sudo apt-get install -yq \
     libllvm10 \
     llvm-10 \
     llvm-10-dev \
@@ -20,8 +21,7 @@ RUN sudo apt-get update \
   && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/*
 
 # CLang
-RUN sudo apt-get update \
-  && sudo apt-get install -yq \
+RUN sudo apt-get install -yq \
     clang-10 \
     clang-tools-10 \
     clang-10-doc \
@@ -35,39 +35,33 @@ RUN sudo apt-get update \
   && ln -s /usr/bin/clang-9 /usr/bin/clang
 
 # LibFuzzer
-RUN sudo apt-get update \
-  && sudo apt-get install -yq \
+RUN sudo apt-get install -yq \
     libfuzzer-10-dev \
   && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/*
 
 # LLDB
-RUN sudo apt-get update \
-  && sudo apt-get install -yq \
+RUN sudo apt-get install -yq \
     lldb-10 \
   && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/*
 
 # LLD
-RUN sudo apt-get update \
-  && sudo apt-get install -yq \
+RUN sudo apt-get install -yq \
     lld-10 \
   && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/*
 
 # LibC++
-RUN sudo apt-get update \
-  && sudo apt-get install -yq \
+RUN sudo apt-get install -yq \
     libc++-10-dev \
     libc++abi-10-dev \
   && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/*
 
 # OpenMP
-RUN sudo apt-get update \
-  && sudo apt-get install -yq \
+RUN sudo apt-get install -yq \
     libomp-10-dev \
   && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/*
 
 # Antlr
-RUN sudo apt-get update \
-  && sudo apt-get install -yq \
+RUN sudo apt-get install -yq \
     antlr4 \
     libantlr4-runtime-dev \
     libantlr4-runtime4.7.2 \
@@ -77,8 +71,7 @@ RUN cd /usr/local/lib \
   && sudo curl -O https://www.antlr.org/download/antlr-4.7.2-complete.jar
 
 # Git
-RUN sudo apt-get update \
-  && sudo apt-get install -yq \
+RUN sudo apt-get install -yq \
     git \
   && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/*
 
