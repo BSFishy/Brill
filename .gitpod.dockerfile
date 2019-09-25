@@ -58,6 +58,8 @@ RUN sudo apt-get update \
 # LibC++
 RUN sudo apt-get update \
   && sudo apt-get install -yq \
+    libc++-9-dev \
+    libc++abi-9-dev \
     libc++-10-dev \
     libc++abi-10-dev \
   && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/*
