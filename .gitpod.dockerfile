@@ -55,13 +55,18 @@ RUN sudo apt-get update \
     lld-10 \
   && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/*
 
-# LibC++
+# LibC++ 10
+RUN sudo apt-get update \
+  && sudo apt-get install -yq \
+    libc++-10-dev \
+    libc++abi-10-dev \
+  && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/*
+
+# LibC++ 9
 RUN sudo apt-get update \
   && sudo apt-get install -yq \
     libc++-9-dev \
     libc++abi-9-dev \
-    libc++-10-dev \
-    libc++abi-10-dev \
   && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/*
 
 # OpenMP
