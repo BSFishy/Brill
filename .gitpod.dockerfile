@@ -24,7 +24,7 @@ RUN sudo apt-get install -yq \
 RUN sudo apt-get install -yq \
     clang-10 \
     clang-tools-10 \
-    clang-10-doc \
+    # clang-10-doc \
     libclang-common-10-dev \
     libclang-10-dev \
     libclang1-10 \
