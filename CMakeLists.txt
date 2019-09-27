@@ -4,6 +4,11 @@ project(brill VERSION 0.1 DESCRIPTION "Brill language")
 
 set(CMAKE_PREFIX_PATH /usr/local/lib/cmake/antlr4 ${CMAKE_PREFIX_PATH})
 
+if (CMAKE_BUILD_TYPE MATCHES Debug)
+    message(STATUS "Explicitly setting debug flag")
+    set(CMAKE_CXX_FLAGS_DEBUG  "-g")
+endif ()
+
 if (EXISTS /usr/local/lib/antlr-4.7.2-complete.jar)
     set(ANTLR4_JAR_LOCATION /usr/local/lib/antlr-4.7.2-complete.jar)
 elseif (EXISTS /usr/share/java/antlr4-4.7.2.jar)
