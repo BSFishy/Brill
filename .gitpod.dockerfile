@@ -29,19 +29,19 @@ RUN sudo apt-get update \
 #     clangd-9 \
 #   && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/*
 
-# # LibC++ 9
-# RUN sudo apt-get update \
-#   && sudo apt-get install -yq \
-#     libc++-9-dev \
-#     libc++abi-9-dev \
-#   && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/*
-
-# LibC++ 10
+# LibC++ 9
 RUN sudo apt-get update \
   && sudo apt-get install -yq \
-    libc++-10-dev \
-    libc++abi-10-dev \
+    libc++-9-dev \
+    libc++abi-9-dev \
   && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/*
+
+# # LibC++ 10
+# RUN sudo apt-get update \
+#   && sudo apt-get install -yq \
+#     libc++-10-dev \
+#     libc++abi-10-dev \
+#   && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/*
 
 # Antlr
 RUN sudo apt-get update \
