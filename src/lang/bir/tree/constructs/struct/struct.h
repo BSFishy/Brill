@@ -1,10 +1,8 @@
 
 #pragma once
 
-namespace Brill {
-    namespace IR {
-        class Struct {
+namespace Brill::IR {
+    class Struct {
 
-        };
-    }
+    };
 }

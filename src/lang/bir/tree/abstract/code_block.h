@@ -1,10 +1,8 @@
 
 #pragma once
 
-namespace Brill {
-    namespace IR {
-        class CodeBlock {
+namespace Brill::IR {
+    class CodeBlock {
 
-        };
-    }
+    };
 }

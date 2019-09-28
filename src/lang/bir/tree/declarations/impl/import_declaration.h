@@ -6,16 +6,14 @@
 
 #include "bir.h"
 
-namespace Brill {
-    namespace IR {
-        class ModuleName;
+namespace Brill::IR {
+    class ModuleName;
 
-        class ImportDeclaration : public Declaration {
-            Brill::IR::ModuleName moduleName;
+    class ImportDeclaration : public Declaration {
+        Brill::IR::ModuleName moduleName;
 
-            explicit ImportDeclaration(std::string name) : moduleName(std::move(name)) {} ;
+        explicit ImportDeclaration(const std::string &name) : moduleName(std::move(name)) {};
 
-            llvm::Value* codegen() override;
-        };
-    }
+        llvm::Value *codegen() override;
+    };
 }

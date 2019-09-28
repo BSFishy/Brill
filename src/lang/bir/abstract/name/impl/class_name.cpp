@@ -1,8 +1,9 @@
 
-#include "module_name.h"
+#include "class_name.h"
+
 #include "not_implemented_exception.h"
 
-std::string Brill::IR::ModuleName::stringValue() {
+std::string Brill::IR::ClassName::stringValue() {
     std::string result;
     if (this->parent.has_value()) {
         result = this->parent.value().stringValue() + ".";
@@ -12,10 +13,10 @@ std::string Brill::IR::ModuleName::stringValue() {
     return result;
 }
 
-Brill::IR::mangled_name Brill::IR::ModuleName::mangle() {
+Brill::IR::mangled_name Brill::IR::ClassName::mangle() {
     throw NotImplementedException();
 }
 
-Brill::IR::demangled_name Brill::IR::ModuleName::demangle(Brill::IR::mangled_name) {
+Brill::IR::demangled_name Brill::IR::ClassName::demangle(Brill::IR::mangled_name) {
     throw NotImplementedException();
 }

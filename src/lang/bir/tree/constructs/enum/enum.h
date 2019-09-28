@@ -1,10 +1,8 @@
 
 #pragma once
 
-namespace Brill {
-    namespace IR {
-        class Enum {
+namespace Brill::IR {
+    class Enum {
 
-        };
-    }
+    };
 }

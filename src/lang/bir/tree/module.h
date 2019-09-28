@@ -10,39 +10,43 @@
 
 using namespace std;
 
-namespace Brill {
-    namespace IR {
-        class ModuleName;
-        class ImportDeclaration;
+namespace Brill::IR {
+    class ModuleName;
 
-        class Variable;
-        class Function;
+    class ImportDeclaration;
 
-        class Protocol;
-        class Class;
-        class Enum;
-        class Struct;
-        class Extension;
+    class Variable;
 
-        /**
-         * An object that represents a Brill module. This contains everything from classes, functions, global variables, extensions, etc.
-         */
-        class Module {
-        public:
-            Brill::IR::ModuleName name;
+    class Function;
 
-            explicit Module(std::string n) : name(std::move(n)) {} ;
-        public:
-            list<Brill::IR::ImportDeclaration> imports;
+    class Protocol;
 
-            list<Brill::IR::Variable> variables;
-            list<Brill::IR::Function> functions;
+    class Class;
 
-            list<Brill::IR::Protocol> protocols;
-            list<Brill::IR::Class> classes;
-            list<Brill::IR::Enum> enums;
-            list<Brill::IR::Struct> structs;
-            list<Brill::IR::Extension> extensions;
-        };
-    }
+    class Enum;
+
+    class Struct;
+
+    class Extension;
+
+    /**
+     * An object that represents a Brill module. This contains everything from classes, functions, global variables, extensions, etc.
+     */
+    class Module {
+    public:
+        Brill::IR::ModuleName name;
+
+        explicit Module(const std::string &n) : name(std::move(n)) {};
+    public:
+        list<Brill::IR::ImportDeclaration> imports;
+
+        list<Brill::IR::Variable> variables;
+        list<Brill::IR::Function> functions;
+
+        list<Brill::IR::Protocol>  protocols;
+        list<Brill::IR::Class>     classes;
+        list<Brill::IR::Enum>      enums;
+        list<Brill::IR::Struct>    structs;
+        list<Brill::IR::Extension> extensions;
+    };
 }

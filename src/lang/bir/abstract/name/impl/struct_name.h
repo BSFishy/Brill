@@ -9,11 +9,11 @@
 #include "abstract/name/parented_name.h"
 
 namespace Brill::IR {
-    class ModuleName : public Mangleable, public ParentedName {
+    class StructName : public Mangleable, public ParentedName {
     public:
-        explicit ModuleName(std::string n) : ParentedName(), name(std::move(n)) {}
+        explicit StructName(std::string n) : ParentedName(), name(std::move(n)) {}
 
-        explicit ModuleName(std::optional<ModuleName> p, std::string n) : ParentedName(p), name(std::move(n)) {}
+        explicit StructName(std::optional<Name> p, std::string n) : ParentedName(p), name(std::move(n)) {}
 
         std::string stringValue() override;
 

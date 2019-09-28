@@ -1,10 +1,8 @@
 
 #pragma once
 
-namespace Brill {
-    namespace IR {
-        class VariableDeclaration {
+namespace Brill::IR {
+    class VariableDeclaration {
 
-        };
-    }
+    };
 }

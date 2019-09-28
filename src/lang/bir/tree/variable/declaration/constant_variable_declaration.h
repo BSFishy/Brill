@@ -1,10 +1,8 @@
 
 #pragma once
 
-namespace Brill {
-    namespace IR {
-        class ConstantVariableDeclaration {
+namespace Brill::IR {
+    class ConstantVariableDeclaration {
 
-        };
-    }
+    };
 }

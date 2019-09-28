@@ -8,12 +8,14 @@
 #include "abstract/name/mangleable.h"
 #include "abstract/name/parented_name.h"
 
-namespace Brill::IR {
-    class ModuleName : public Mangleable, public ParentedName {
-    public:
-        explicit ModuleName(std::string n) : ParentedName(), name(std::move(n)) {}
+#include "module_name.h"
 
-        explicit ModuleName(std::optional<ModuleName> p, std::string n) : ParentedName(p), name(std::move(n)) {}
+namespace Brill::IR {
+    class ExtensionName : public Mangleable, public ParentedName {
+    public:
+        explicit ExtensionName(std::string n) : ParentedName(), name(std::move(n)) {}
+
+        explicit ExtensionName(std::optional<ModuleName> p, std::string n) : ParentedName(p), name(std::move(n)) {}
 
         std::string stringValue() override;
 

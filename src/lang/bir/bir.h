@@ -7,8 +7,16 @@
 // Abstract parts
 #include "abstract/name/name.h"
 #include "abstract/name/mangleable.h"
+#include "abstract/name/parented_name.h"
 
 #include "abstract/name/impl/module_name.h"
+#include "abstract/name/impl/variable_name.h"
+#include "abstract/name/impl/function_name.h"
+#include "abstract/name/impl/protocol_name.h"
+#include "abstract/name/impl/class_name.h"
+#include "abstract/name/impl/enum_name.h"
+#include "abstract/name/impl/struct_name.h"
+#include "abstract/name/impl/extension_name.h"
 
 // Abstract tree parts
 #include "tree/abstract/code_generator.h"
@@ -33,8 +41,6 @@
 // Implementations
 #include "tree/declarations/impl/import_declaration.h"
 
-namespace Brill {
-    namespace IR {
-        std::unique_ptr<Declaration> convert(Brill::BrillParser::TopLevelContext *);
-    }
+namespace Brill::IR {
+    std::unique_ptr<Declaration> convert(Brill::BrillParser::TopLevelContext *);
 }
