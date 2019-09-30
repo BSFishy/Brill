@@ -33,6 +33,7 @@ antlr4_generate(
 )
 
 include_directories(${ANTLR4_INCLUDE_DIR} ${ANTLR4_INCLUDE_DIR_parser})
+link_libraries(antlr4_shared)
 add_library(parser SHARED ${ANTLR4_SRC_FILES_parser})
 add_dependencies(parser antlr4_shared)
 
@@ -50,6 +51,6 @@ include_directories(${PROJECT_BINARY_DIR} ${LLVM_INCLUDE_DIRS})
 llvm_map_components_to_libnames(llvm_libs support core native)
 add_definitions(${LLVM_DEFINITIONS})
 
-link_libraries(antlr4_shared ${llvm_libs})
+link_libraries(${llvm_libs})
 
 add_subdirectory(src)

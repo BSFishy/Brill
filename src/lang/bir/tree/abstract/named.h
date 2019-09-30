@@ -1,7 +1,7 @@
 
 #pragma once
 
-#include "bir.h"
+#include <string>
 
 namespace Brill::IR {
     /**
@@ -10,6 +10,6 @@ namespace Brill::IR {
      */
     class Named {
     public:
-        virtual Brill::IR::Name getName() = 0;
+        virtual std::string getName() = 0;
     };
 }

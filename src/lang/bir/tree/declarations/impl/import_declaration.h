@@ -10,7 +10,7 @@ namespace Brill::IR {
     class ModuleName;
 
     class ImportDeclaration : public Declaration {
-        Brill::IR::ModuleName moduleName;
+        std::string moduleName;
 
         explicit ImportDeclaration(const std::string &name) : moduleName(std::move(name)) {};
 
