@@ -3,7 +3,7 @@
 
 #include <utility>
 #include <string>
-#include <optional>
+#include <memory>
 
 #include "abstract/name/mangleable.h"
 #include "abstract/name/parented_name.h"
@@ -13,7 +13,7 @@ namespace Brill::IR {
     public:
         explicit ModuleName(std::string n) : ParentedName(), name(std::move(n)) {}
 
-        explicit ModuleName(std::optional<ModuleName> p, std::string n) : ParentedName(p), name(std::move(n)) {}
+        explicit ModuleName(ModuleName& p, std::string n) : ParentedName(p), name(std::move(n)) {}
 
         std::string stringValue() override;
 

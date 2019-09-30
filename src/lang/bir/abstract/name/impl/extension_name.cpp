@@ -5,8 +5,8 @@
 
 std::string Brill::IR::ExtensionName::stringValue() {
     std::string result;
-    if (this->parent.has_value()) {
-        result = this->parent.value().stringValue() + ".";
+    if (this->parent) {
+        result = this->parent->stringValue() + ".";
     }
 
     result += this->name;

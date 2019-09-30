@@ -5,8 +5,8 @@
 
 std::string Brill::IR::FunctionName::stringValue() {
     std::string result;
-    if (this->parent.has_value()) {
-        result = this->parent.value().stringValue() + ".";
+    if (this->parent) {
+        result = (reinterpret_cast<Name>(*(this->parent)))->stringValue() + ".";
     }
 
     result += this->name;

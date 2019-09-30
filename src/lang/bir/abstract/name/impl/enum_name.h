@@ -13,7 +13,7 @@ namespace Brill::IR {
     public:
         explicit EnumName(std::string n) : ParentedName(), name(std::move(n)) {}
 
-        explicit EnumName(std::optional<Name> p, std::string n) : ParentedName(p), name(std::move(n)) {}
+        explicit EnumName(NameType &p, std::string n) : ParentedName(p), name(std::move(n)) {}
 
         std::string stringValue() override;
 

@@ -15,7 +15,7 @@ namespace Brill::IR {
     public:
         explicit ExtensionName(std::string n) : ParentedName(), name(std::move(n)) {}
 
-        explicit ExtensionName(std::optional<ModuleName> p, std::string n) : ParentedName(p), name(std::move(n)) {}
+        explicit ExtensionName(ModuleName& p, std::string n) : ParentedName(p), name(std::move(n)) {}
 
         std::string stringValue() override;
 

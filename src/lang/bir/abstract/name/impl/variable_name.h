@@ -13,7 +13,7 @@ namespace Brill::IR {
     public:
         explicit VariableName(std::string n) : ParentedName(), name(std::move(n)) {}
 
-        explicit VariableName(std::optional<Name> p, std::string n) : ParentedName(p), name(std::move(n)) {}
+        explicit VariableName(NameType& p, std::string n) : ParentedName(p), name(std::move(n)) {}
 
         std::string stringValue() override;
 
