@@ -30,41 +30,11 @@ RUN sudo apt-get update \
 #   && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/*
 
 # LibC++ 9
-RUN sudo apt-get update \
-  && sudo apt-get install -yq \
-    libc++-9-dev \
-    libc++abi-9-dev \
-  && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/*
-
-# # LibC++ 10
 # RUN sudo apt-get update \
 #   && sudo apt-get install -yq \
-#     libc++-10-dev \
-#     libc++abi-10-dev \
+#     libc++-9-dev \
+#     libc++abi-9-dev \
 #   && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/*
-
-# Antlr
-RUN sudo apt-get update \
-  && sudo apt-get install -yq \
-    antlr4 \
-    libantlr4-runtime-dev \
-    libantlr4-runtime4.7.2 \
-    pkg-config \
-  && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/*
-RUN cd /usr/local/lib \
-  && sudo curl -O https://www.antlr.org/download/antlr-4.7.2-complete.jar
-
-# Install antlr stuff
-RUN sudo apt-get update && sudo apt-get install -yq clang-9 \
-  && git clone https://github.com/antlr/antlr4.git && cd antlr4 \
-  && git reset --hard 06705edafd6b77d455f403c6297e25f9e718406b \
-  && cd runtime/Cpp \
-  && mkdir build && mkdir run && cd build \
-  && cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=/usr/bin/clang++-9 -DCMAKE_C_COMPILER=/usr/bin/clang-9 -DWITH_DEMO=False -DANTLR4_INSTALL=True \
-  && make \
-  && sudo make install \
-  && sudo apt-get remove -yq clang-9 && sudo apt-get autoremove -yq \
-  && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/*
 
 # LLVM
 RUN sudo apt-get update \
@@ -92,6 +62,13 @@ RUN sudo apt-get update \
   && ln -s /usr/bin/clang++-10 /usr/bin/clang++ \
   && ln -s /usr/bin/clang-10 /usr/bin/clang
 
+# LibC++ 10
+RUN sudo apt-get update \
+  && sudo apt-get install -yq \
+    libc++-10-dev \
+    libc++abi-10-dev \
+  && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/*
+
 # LibFuzzer
 RUN sudo apt-get update \
   && sudo apt-get install -yq \
@@ -114,4 +91,25 @@ RUN sudo apt-get update \
 RUN sudo apt-get update \
   && sudo apt-get install -yq \
     libomp-10-dev \
+  && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/*
+
+# Antlr
+RUN sudo apt-get update \
+  && sudo apt-get install -yq \
+    antlr4 \
+    libantlr4-runtime-dev \
+    libantlr4-runtime4.7.2 \
+    pkg-config \
+  && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/*
+RUN cd /usr/local/lib \
+  && sudo curl -O https://www.antlr.org/download/antlr-4.7.2-complete.jar
+
+# Install antlr stuff
+RUN git clone https://github.com/antlr/antlr4.git && cd antlr4 \
+  && git reset --hard 06705edafd6b77d455f403c6297e25f9e718406b \
+  && cd runtime/Cpp \
+  && mkdir build && mkdir run && cd build \
+  && cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=/usr/bin/clang++-10 -DCMAKE_C_COMPILER=/usr/bin/clang-10 -DWITH_DEMO=False -DANTLR4_INSTALL=True \
+  && make \
+  && sudo make install \
   && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/*
