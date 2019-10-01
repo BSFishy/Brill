@@ -1,7 +1,11 @@
 
 #pragma once
 
+#include <memory>
+
 #import "llvm/IR/Value.h"
+
+#include "codegen_context.h"
 
 namespace Brill::IR {
     /**
@@ -11,6 +15,6 @@ namespace Brill::IR {
      */
     class CodeGenerator {
     public:
-        virtual llvm::Value *codegen() = 0;
+        virtual llvm::Value *codegen(std::shared_ptr<CodegenContext>) = 0;
     };
 }

@@ -1,7 +1,7 @@
 
 #pragma once
 
-#include "bir.h"
+#include "tree/abstract/codegen/code_generator.h"
 
 namespace Brill::IR {
     /**

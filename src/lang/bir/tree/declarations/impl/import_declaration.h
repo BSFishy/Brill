@@ -4,7 +4,7 @@
 #include <string>
 #include <utility>
 
-#include "bir.h"
+#include "tree/declarations/declaration.h"
 
 namespace Brill::IR {
     class ModuleName;

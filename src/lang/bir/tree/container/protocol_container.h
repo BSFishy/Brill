@@ -4,9 +4,10 @@
 #include <list>
 
 #include "container.h"
-#include "tree/constructs/protocol/protocol.h"
 
 namespace Brill::IR {
+    class Protocol;
+
     class ProtocolContainer : public Container {
     public:
         std::list<Protocol> protocols;

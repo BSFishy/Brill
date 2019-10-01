@@ -16,26 +16,6 @@ RUN sudo apt-get update \
     git \
   && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/*
 
-# # CLang 9
-# RUN sudo apt-get update \
-#   && sudo apt-get install -yq \
-#     clang-9 \
-#     clang-tools-9 \
-#     clang-9-doc \
-#     libclang-common-9-dev \
-#     libclang-9-dev \
-#     libclang1-9 \
-#     clang-format-9 \
-#     clangd-9 \
-#   && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/*
-
-# LibC++ 9
-# RUN sudo apt-get update \
-#   && sudo apt-get install -yq \
-#     libc++-9-dev \
-#     libc++abi-9-dev \
-#   && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/*
-
 # LLVM
 RUN sudo apt-get update \
   && sudo apt-get install -yq \

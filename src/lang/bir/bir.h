@@ -5,7 +5,8 @@
 #include <brill.h>
 
 // Abstract tree parts
-#include "tree/abstract/code_generator.h"
+#include "tree/abstract/codegen/codegen_context.h"
+#include "tree/abstract/codegen/code_generator.h"
 #include "tree/abstract/named.h"
 #include "tree/abstract/code_block.h"
 #include "tree/type.h"
@@ -30,7 +31,7 @@
 #include "tree/constructs/extension/extension.h"
 #include "tree/constructs/protocol/protocol.h"
 #include "tree/constructs/struct/struct.h"
-#include "tree/statements/statement.h"
+#include "tree/statement/statement.h"
 #include "tree/variable/variable.h"
 #include "tree/variable/declaration/variable_declaration.h"
 #include "tree/variable/declaration/constant_variable_declaration.h"
