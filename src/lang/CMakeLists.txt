@@ -1,5 +1,5 @@
 
-include_directories(${CMAKE_CURRENT_SOURCE_DIR})
+include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/bir/)
 
 add_library(lang SHARED brill.cpp compiler.cpp codegen/codegen.cpp)
 

@@ -2,12 +2,12 @@
 # Util
 include_directories(${CMAKE_CURRENT_SOURCE_DIR} ${CMAKE_CURRENT_SOURCE_DIR}/util/)
 
-add_library(util SHARED ${CMAKE_CURRENT_SOURCE_DIR}/util/not_implemented_exception.h)
+add_library(util SHARED ${CMAKE_CURRENT_SOURCE_DIR}/util/util.h)
 
 # Lang
 add_subdirectory(lang)
 
-include_directories(${CMAKE_CURRENT_SOURCE_DIR}/lang/)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/lang/ ${CMAKE_CURRENT_SOURCE_DIR}/lang/bir/)
 
 # Main
 

@@ -1,8 +1,8 @@
 
 #include "import_declaration.h"
 
-#include "not_implemented_exception.h"
+#include "util.h"
 
-llvm::Value *Brill::IR::ImportDeclaration::codegen() {
+llvm::Value *Brill::IR::ImportDeclaration::codegen(std::shared_ptr<CodegenContext> ctx) {
     throw NotImplementedException();
 }

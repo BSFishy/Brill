@@ -6,6 +6,7 @@
 #include "BrillLexer.h"
 #include "compiler.h"
 #include "codegen/codegen.h"
+#include "bir/bir.h"
 
 namespace Brill {
     /**

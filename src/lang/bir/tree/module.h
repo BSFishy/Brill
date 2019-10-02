@@ -26,7 +26,7 @@ namespace Brill::IR {
         std::shared_ptr<Module> parent;
 
         explicit Module(std::string n) : name(std::move(n)), parent(nullptr) {}
-        explicit Module(std::string n, std::shared_ptr<Module> p) : name(std::move(n)), parent(p) {}
+        explicit Module(std::string n, std::shared_ptr<Module> &p) : name(std::move(n)), parent(p) {}
 
         bool hasParent() {
             return parent != nullptr;

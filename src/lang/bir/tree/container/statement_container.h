@@ -9,7 +9,7 @@
 namespace Brill::IR {
     class Statement;
 
-    class StatementContainer {
+    class StatementContainer : public Container {
     public:
         std::list<std::shared_ptr<Statement>> statements;
 

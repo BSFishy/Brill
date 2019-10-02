@@ -2,6 +2,7 @@
 #pragma once
 
 #include <list>
+#include <memory>
 
 #include "container.h"
 
@@ -10,6 +11,6 @@ namespace Brill::IR {
 
     class ProtocolContainer : public Container {
     public:
-        std::list<Protocol> protocols;
+        std::list<std::shared_ptr<Protocol>> protocols;
     };
 }

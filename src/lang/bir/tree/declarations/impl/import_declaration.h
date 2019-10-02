@@ -12,8 +12,8 @@ namespace Brill::IR {
     class ImportDeclaration : public Declaration {
         std::string moduleName;
 
-        explicit ImportDeclaration(const std::string &name) : moduleName(std::move(name)) {};
+        explicit ImportDeclaration(std::string &name) : moduleName(std::move(name)) {};
 
-        llvm::Value *codegen() override;
+        llvm::Value *codegen(std::shared_ptr<CodegenContext>) override;
     };
 }

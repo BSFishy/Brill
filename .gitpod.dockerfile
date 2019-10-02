@@ -77,8 +77,8 @@ RUN sudo apt-get update \
 RUN sudo apt-get update \
   && sudo apt-get install -yq \
     antlr4 \
-    libantlr4-runtime-dev \
-    libantlr4-runtime4.7.2 \
+#    libantlr4-runtime-dev \
+#    libantlr4-runtime4.7.2 \
     pkg-config \
   && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/*
 RUN cd /usr/local/lib \
@@ -89,7 +89,8 @@ RUN git clone https://github.com/antlr/antlr4.git && cd antlr4 \
   && git reset --hard 06705edafd6b77d455f403c6297e25f9e718406b \
   && cd runtime/Cpp \
   && mkdir build && mkdir run && cd build \
-  && cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=/usr/bin/clang++-10 -DCMAKE_C_COMPILER=/usr/bin/clang-10 -DWITH_DEMO=False -DANTLR4_INSTALL=True \
-  && make \
+#  && cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=/usr/bin/clang++-10 -DCMAKE_C_COMPILER=/usr/bin/clang-10 -DWITH_DEMO=False -DANTLR4_INSTALL=True \
+  && cmake .. -DWITH_DEMO=False -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=/usr/bin/clang++-10 -DCMAKE_C_COMPILER=/usr/bin/clang-10 -DANTLR4_INSTALL=True -DWITH_LIBCXX=False -G "CodeBlocks - Unix Makefiles" \
+  && make -j 8 \
   && sudo make install \
   && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/*
