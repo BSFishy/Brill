@@ -97,6 +97,6 @@ RUN git clone https://github.com/BSFishy/antlr4.git && cd antlr4 \
 #  && cmake .. -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=/usr/bin/clang++-10 -DCMAKE_C_COMPILER=/usr/bin/clang-10 -DWITH_DEMO=False -DANTLR4_INSTALL=True \
 #  && cmake .. -DWITH_DEMO=False -DCMAKE_BUILD_TYPE=Release -DCMAKE_CXX_COMPILER=/usr/bin/clang++-10 -DCMAKE_C_COMPILER=/usr/bin/clang-10 -DANTLR4_INSTALL=True -DWITH_LIBCXX=False -G "CodeBlocks - Unix Makefiles" \
   && cmake .. -DWITH_DEMO=False -DCMAKE_BUILD_TYPE=Release -DANTLR4_INSTALL=True -DWITH_LIBCXX=False -G "CodeBlocks - Unix Makefiles" \
-  && make -j 8 \
+  && make -j 16 \
   && sudo make install \
   && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/*

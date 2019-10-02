@@ -1,1 +1,1 @@
-cmake --build "cmake-build-debug" --target brill -- -j 4
+cmake --build "cmake-build-debug" --target brill -- -j 8

@@ -6,21 +6,23 @@
 
 using namespace Brill;
 
-BrillParser::TopLevelContext *Brill::parse(std::istream &stream) {
-    antlr4::ANTLRInputStream  input(stream);
-    BrillLexer                lexer(&input);
-    antlr4::CommonTokenStream tokens(&lexer);
-    BrillParser               parser(&tokens);
+std::shared_ptr<ParseContext> Brill::parse(std::istream &stream) {
+    std::shared_ptr<antlr4::ANTLRInputStream>  input(new antlr4::ANTLRInputStream(stream));
+    std::shared_ptr<BrillLexer>                lexer(new BrillLexer(&*input));
+    std::shared_ptr<antlr4::CommonTokenStream> tokens(new antlr4::CommonTokenStream(&*lexer));
+    std::shared_ptr<BrillParser>               parser(new BrillParser(&*tokens));
 
-    BrillParser::TopLevelContext *tree = parser.topLevel();
-    return tree;
+    BrillParser::TopLevelContext *tree = parser->topLevel();
+
+    std::shared_ptr<ParseContext> context(new ParseContext(tree, input, lexer, tokens, parser));
+    return context;
 }
 
-BrillParser::TopLevelContext *Brill::parse(const char *) {
+std::shared_ptr<ParseContext> Brill::parse(const char *) {
 
 }
 
-BrillParser::TopLevelContext *Brill::parseFile(const char *filename) {
+std::shared_ptr<ParseContext> Brill::parseFile(const char *filename) {
     std::ifstream stream;
     stream.open(filename);
 
