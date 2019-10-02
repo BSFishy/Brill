@@ -3,7 +3,7 @@
 
 #include <memory>
 
-#import "llvm/IR/Value.h"
+#include "llvm/IR/Value.h"
 
 #include "codegen_context.h"
 
