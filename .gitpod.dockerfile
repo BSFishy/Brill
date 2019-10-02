@@ -73,6 +73,12 @@ RUN sudo apt-get update \
     libomp-10-dev \
   && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/*
 
+# Valgrind
+RUN sudo apt-get update \
+  && sudo apt-get install -yq \
+    valgrind \
+  && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/*
+
 # Antlr
 RUN sudo apt-get update \
   && sudo apt-get install -yq \
