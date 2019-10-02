@@ -2,6 +2,7 @@
 #include "brill.h"
 
 #include <iostream>
+#include <memory>
 
 using namespace Brill;
 

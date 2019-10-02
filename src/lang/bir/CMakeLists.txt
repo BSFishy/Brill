@@ -16,4 +16,4 @@ add_library(bir SHARED
         ${CMAKE_CURRENT_SOURCE_DIR}/convert/function/function.cpp)
 
 add_dependencies(bir antlr4_shared util parser)
-target_link_libraries(bir PRIVATE antlr4_shared util parser)
+target_link_libraries(bir PRIVATE util parser antlr4_shared)

@@ -3,6 +3,7 @@
 #include <memory>
 
 #include "brill.h"
+#include "BrillParser.h"
 
 using namespace std;
 

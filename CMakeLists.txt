@@ -2,11 +2,6 @@ cmake_minimum_required(VERSION 3.5)
 
 project(brill VERSION 0.1 DESCRIPTION "Brill language")
 set (CMAKE_CXX_STANDARD 17)
-#set (CMAKE_CXX_STANDARD_REQUIRED ON)
-#set (CMAKE_CXX_EXTENSIONS OFF)
-#set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++ -D_GLIBCXX_USE_CXX11_ABI=0 -std=c++17")
-#set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -stdlib=libc++")
-#set (CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -stdlib=libc++ -lc++abi")
 
 # Antlr stuff
 
@@ -33,7 +28,6 @@ antlr4_generate(
 )
 
 include_directories(${ANTLR4_INCLUDE_DIR} ${ANTLR4_INCLUDE_DIR_parser})
-link_libraries(antlr4_shared)
 add_library(parser SHARED ${ANTLR4_SRC_FILES_parser})
 add_dependencies(parser antlr4_shared)
 

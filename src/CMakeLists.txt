@@ -14,4 +14,4 @@ include_directories(${CMAKE_CURRENT_SOURCE_DIR}/lang/ ${CMAKE_CURRENT_SOURCE_DIR
 add_executable(brill main.cpp)
 
 add_dependencies(brill antlr4_shared ${llvm_libs} util parser lang bir)
-target_link_libraries(brill PRIVATE util parser lang bir)
+target_link_libraries(brill PRIVATE util parser bir lang antlr4_shared)
