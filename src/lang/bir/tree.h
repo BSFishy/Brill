@@ -24,6 +24,8 @@
 #include "tree/expression/postfix/postfix_self_expression.h"
 #include "tree/expression/postfix/subscript_expression.h"
 
+#include "tree/expression/literal/literal.h"
+
 #include "tree/expression/primary/primary_expression.h"
 #include "tree/expression/primary/identifier_expression.h"
 

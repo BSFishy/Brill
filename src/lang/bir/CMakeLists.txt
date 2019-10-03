@@ -2,6 +2,8 @@
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
 add_library(bir SHARED
+        ${CMAKE_CURRENT_SOURCE_DIR}/tree/module.cpp
+
         ${CMAKE_CURRENT_SOURCE_DIR}/tree/declarations/impl/import_declaration.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/tree/variable/variable.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/tree/variable/declaration/variable_declaration.cpp
@@ -39,5 +41,5 @@ add_library(bir SHARED
 
         ${CMAKE_CURRENT_SOURCE_DIR}/tree/modules.cpp)
 
-add_dependencies(bir antlr4_shared util parser)
-target_link_libraries(bir PRIVATE util parser antlr4_shared)
+add_dependencies(bir antlr4_shared ${llvm_libs} util parser)
+target_link_libraries(bir PRIVATE util parser antlr4_shared ${llvm_libs})

@@ -12,6 +12,7 @@ using namespace Brill::IR;
 
 std::shared_ptr<PostfixExpression> Convert::convert(BrillParser::PostfixExpressionContext *ctx) {
     std::string name = ctx->postfixBaseExpression()->getText();
+    printf("Postfix name: %s\n", name.c_str());
 
     if (BrillParser::PostfixFunctionExpressionContext *functionContext = ctx->postfixFunctionExpression()) {
         return convert(ctx->postfixBaseExpression(), functionContext);

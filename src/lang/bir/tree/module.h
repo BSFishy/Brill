@@ -6,6 +6,8 @@
 #include <utility>
 #include <memory>
 
+#include "tree/abstract/codegen/codegen_context.h"
+
 #include "tree/container/variable_container.h"
 #include "tree/container/function_container.h"
 #include "tree/container/protocol_container.h"
@@ -31,5 +33,7 @@ namespace Brill::IR {
         bool hasParent() {
             return parent != nullptr;
         }
+
+        std::shared_ptr<CodegenContext> codegen();
     };
 }
