@@ -2,22 +2,22 @@
 #include "top_level.h"
 #include <iostream>
 
+#include "tree/modules.h"
 #include "convert/function/function.h"
 
 #include "util.h"
 
 using namespace Brill::IR;
 
-std::shared_ptr<CodegenContext> Brill::convert(Brill::BrillParser::TopLevelContext *context) {
-    std::shared_ptr<CodegenContext> ctx;
+void Brill::convert(BrillParser::TopLevelContext *context) {
+    std::shared_ptr<IR::Module> module = Brill::getOrCreateModule("test");
 
-    for(Brill::BrillParser::DeclarationContext *declaration : context->declarations()->declaration()) {
-        if (Brill::BrillParser::FunctionDeclarationContext *function = declaration->functionDeclaration()) {
-            Convert::convert(ctx, function);
+    for(BrillParser::DeclarationContext *declaration : context->declarations()->declaration()) {
+        if (BrillParser::FunctionDeclarationContext *functionContext = declaration->functionDeclaration()) {
+            std::shared_ptr<Function> function = Convert::convert(functionContext);
+            module->addFunction(function);
         } else {
             throw NotImplementedException();
         }
     }
-
-    return ctx;
 }

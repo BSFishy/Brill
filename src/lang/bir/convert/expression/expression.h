@@ -6,8 +6,8 @@
 #include "BrillParser.h"
 
 #include "tree/abstract/codegen/codegen_context.h"
-#include "tree/function/function.h"
+#include "tree/expression/expression.h"
 
 namespace Brill::IR::Convert {
-    std::shared_ptr<Function> convert(BrillParser::FunctionDeclarationContext *);
+    std::shared_ptr<Expression> convert(BrillParser::ExpressionContext *);
 }

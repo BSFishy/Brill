@@ -3,7 +3,6 @@
 #include <memory>
 
 #include "brill.h"
-#include "BrillParser.h"
 
 using namespace std;
 
@@ -16,7 +15,10 @@ int main(int argc, const char *argv[]) {
     fprintf(stderr, "Compiling: %s\n", argv[1]);
 
     std::shared_ptr<Brill::ParseContext> file = Brill::parseFile(argv[1]);
-    shared_ptr<Brill::IR::CodegenContext> ctx = Brill::convert(file->topLevel);
+    Brill::convert(file->topLevel);
+
+    std::shared_ptr<Brill::IR::Module> module = Brill::getOrCreateModule("test");
+//    module->
 
     return 0;
 }

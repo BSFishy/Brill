@@ -14,8 +14,8 @@ namespace Brill::IR {
     public:
         std::list<std::shared_ptr<Class>> classes;
 
-        void addClass(std::shared_ptr<Class>);
-        std::shared_ptr<Class> getClass(std::string);
+        void addClass(const std::shared_ptr<Class>&);
+        std::shared_ptr<Class> getClass(const std::string&);
         size_t classCount();
     };
 }

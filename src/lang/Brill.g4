@@ -120,10 +120,7 @@ keyPathStringExpression : '#keypath' '(' expression ')' ;
 //                  | postfixExpression '!' #forcedValueExpression
 //                  | postfixExpression '?' #optionalChainingExpression
 //                  ;
-postfixExpression : postfixBaseExpression
-                  | postfixExpression postfixFunctionExpression
-                  | postfixExpression postfixPostExpression
-                  ;
+postfixExpression : postfixBaseExpression ( postfixFunctionExpression | postfixPostExpression )? ;
 postfixBaseExpression : primaryExpression postfixDotExpression? ;
 postfixDotExpression : '.' ( 'init' | DecimalDigits | Identifier | 'self' ) ;
 postfixFunctionExpression : functionCallArgumentClause | functionCallArgumentClause? trailingClosure ;

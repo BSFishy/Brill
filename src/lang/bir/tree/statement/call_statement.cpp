@@ -3,8 +3,6 @@
 
 #include <vector>
 
-#include "llvm/IR/Value.h"
-
 #include "util.h"
 
 using namespace Brill::IR;
