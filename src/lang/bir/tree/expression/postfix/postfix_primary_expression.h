@@ -13,6 +13,6 @@ namespace Brill::IR {
         
         explicit PostfixPrimaryExpression(std::shared_ptr<PrimaryExpression> &e) : primaryExpression(e) {}
 
-//        std::string valuegen(std::shared_ptr<CodegenContext>) override;
+        llvm::Value *codegen(std::shared_ptr<CodegenContext>) override;
     };
 }

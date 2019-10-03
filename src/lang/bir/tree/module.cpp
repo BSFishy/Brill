@@ -8,18 +8,14 @@
 using namespace Brill::IR;
 
 std::shared_ptr<CodegenContext> Module::codegen() {
-    std::unique_ptr<llvm::LLVMContext> llvmContext;
-    std::unique_ptr<llvm::Module> module;
-    std::unique_ptr<llvm::IRBuilder<>> builder(new llvm::IRBuilder<>(*llvmContext));
+    std::shared_ptr<llvm::LLVMContext> llvmContext = std::make_shared<llvm::LLVMContext>();
+    std::shared_ptr<llvm::Module>      module      = std::make_shared<llvm::Module>("test", *llvmContext);
+    std::shared_ptr<llvm::IRBuilder<>> builder     = std::make_shared<llvm::IRBuilder<>>(*llvmContext);
 
     std::shared_ptr<CodegenContext> ctx(new CodegenContext(llvmContext, module, builder));
 
-    for (std::shared_ptr<Function> const& function : this->functions) {
-        fprintf(stderr, "Function: %s\n", function->name.c_str());
-        if(auto * func = function->codegen(ctx)) {
-            func->print(llvm::errs());
-            fprintf(stderr, "\n");
-        }
+    for (std::shared_ptr<Function> const &function : this->functions) {
+        function->codegen(ctx);
     }
 
     return ctx;

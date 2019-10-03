@@ -9,10 +9,10 @@
 
 namespace Brill::IR {
     struct CodegenContext {
-        std::unique_ptr<llvm::LLVMContext> context;
-        std::unique_ptr<llvm::Module> module;
-        std::unique_ptr<llvm::IRBuilder<>> builder;
+        std::shared_ptr<llvm::LLVMContext> context;
+        std::shared_ptr<llvm::Module> module;
+        std::shared_ptr<llvm::IRBuilder<>> builder;
 
-        explicit CodegenContext(std::unique_ptr<llvm::LLVMContext> &c, std::unique_ptr<llvm::Module> &m, std::unique_ptr<llvm::IRBuilder<>> &b) : context(std::move(c)), module(std::move(m)), builder(std::move(b)) {}
+        explicit CodegenContext(std::shared_ptr<llvm::LLVMContext> &c, std::shared_ptr<llvm::Module> &m, std::shared_ptr<llvm::IRBuilder<>> &b) : context(c), module(m), builder(b) {}
     };
 }

@@ -7,8 +7,8 @@
 
 using namespace Brill::IR;
 
-std::shared_ptr<FunctionCallExpression> Convert::convert(BrillParser::PostfixBaseExpressionContext *baseCtx, BrillParser::PostfixFunctionExpressionContext *ctx) {
-    std::shared_ptr<FunctionCallExpression> functionCall(new FunctionCallExpression(baseCtx->getText()));
+std::shared_ptr<FunctionCallExpression> Convert::convert(std::shared_ptr<PrimaryExpression> identifier, BrillParser::PostfixFunctionExpressionContext *ctx) {
+    std::shared_ptr<FunctionCallExpression> functionCall = std::make_shared<FunctionCallExpression>(identifier);
 
     if (BrillParser::FunctionCallArgumentListContext *argumentList = ctx->functionCallArgumentClause()->functionCallArgumentList()) {
         for (BrillParser::FunctionCallArgumentContext* const& argumentContext : argumentList->functionCallArgument()) {

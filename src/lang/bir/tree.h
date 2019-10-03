@@ -25,9 +25,12 @@
 #include "tree/expression/postfix/subscript_expression.h"
 
 #include "tree/expression/literal/literal.h"
+#include "tree/expression/literal/string_literal.h"
 
 #include "tree/expression/primary/primary_expression.h"
 #include "tree/expression/primary/identifier_expression.h"
+#include "tree/expression/primary/literal_expression.h"
+#include "tree/expression/primary/literal_literal_expression.h"
 
 #include "tree/container/container.h"
 #include "tree/container/variable_container.h"

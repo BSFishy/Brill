@@ -13,12 +13,15 @@ llvm::Value *Function::codegen(std::shared_ptr<CodegenContext> ctx) {
         throw IllegalStateException("Could not generate function: " + this->name);
     }
 
-    llvm::BasicBlock *block = llvm::BasicBlock::Create(*(ctx->context), "entry", function);
-    ctx->builder->SetInsertPoint(block);
+    if (!this->statements.empty()) {
+        llvm::BasicBlock *block = llvm::BasicBlock::Create(*(ctx->context), "entry", function);
+        ctx->builder->SetInsertPoint(block);
 
-    fprintf(stderr, "Function statemetns\n");
-    for (std::shared_ptr<Statement> const& statement : this->statements) {
-        statement->codegen(ctx);
+        for (std::shared_ptr<Statement> const &statement : this->statements) {
+            statement->codegen(ctx);
+        }
+
+        ctx->builder->CreateRetVoid();
     }
 
     return function;

@@ -19,6 +19,7 @@ add_library(bir SHARED
         ${CMAKE_CURRENT_SOURCE_DIR}/tree/expression/prefix_expression.cpp
 
         ${CMAKE_CURRENT_SOURCE_DIR}/tree/expression/primary/identifier_expression.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/tree/expression/primary/literal_literal_expression.cpp
 
         ${CMAKE_CURRENT_SOURCE_DIR}/tree/expression/postfix/explicit_member_expression.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/tree/expression/postfix/forced_value_expression.cpp
@@ -30,14 +31,23 @@ add_library(bir SHARED
         ${CMAKE_CURRENT_SOURCE_DIR}/tree/expression/postfix/postfix_self_expression.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/tree/expression/postfix/subscript_expression.cpp
 
+        ${CMAKE_CURRENT_SOURCE_DIR}/tree/expression/literal/string_literal.cpp
+
         ${CMAKE_CURRENT_SOURCE_DIR}/convert/top_level.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/convert/function/function.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/convert/statement/statement.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/convert/expression/expression.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/convert/expression/prefix_expression.cpp
 
+        ${CMAKE_CURRENT_SOURCE_DIR}/convert/expression/primary/primary_expression.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/convert/expression/primary/identifier_expression.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/convert/expression/primary/literal_expression.cpp
+
         ${CMAKE_CURRENT_SOURCE_DIR}/convert/expression/postfix/postfix_expression.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/convert/expression/postfix/function_call_expression.cpp
+
+        ${CMAKE_CURRENT_SOURCE_DIR}/convert/expression/literal/literal.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/convert/expression/literal/string_literal.cpp
 
         ${CMAKE_CURRENT_SOURCE_DIR}/tree/modules.cpp)
 

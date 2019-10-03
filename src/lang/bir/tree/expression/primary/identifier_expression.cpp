@@ -3,6 +3,6 @@
 
 using namespace Brill::IR;
 
-std::string IdentifierExpression::valuegen(std::shared_ptr<CodegenContext> ctx) {
-    return this->value;
+llvm::Value *IdentifierExpression::codegen(std::shared_ptr<CodegenContext> ctx) {
+    return ctx->module->getFunction(this->value);
 }

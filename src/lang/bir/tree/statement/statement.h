@@ -8,6 +8,6 @@
 namespace Brill::IR {
     class Statement : public CodeGenerator {
     public:
-        virtual llvm::Value *codegen(std::shared_ptr<CodegenContext>) override = 0;
+        llvm::Value *codegen(std::shared_ptr<CodegenContext>) override = 0;
     };
 }

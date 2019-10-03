@@ -5,10 +5,10 @@
 
 #include "llvm/IR/Value.h"
 
-#include "tree/abstract/codegen/code_generator.h"
+#include "primary_expression.h"
 
 namespace Brill::IR {
-    class PrimaryExpression : public CodeGenerator {
+    class LiteralExpression : public PrimaryExpression {
     public:
         llvm::Value *codegen(std::shared_ptr<CodegenContext>) override = 0;
     };

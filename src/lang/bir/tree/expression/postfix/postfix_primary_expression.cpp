@@ -3,6 +3,6 @@
 
 using namespace Brill::IR;
 
-//std::string PostfixPrimaryExpression::valuegen(std::shared_ptr<CodegenContext> ctx) {
-////    return this->primaryExpression->valuegen(ctx);
-//}
+llvm::Value *PostfixPrimaryExpression::codegen(std::shared_ptr<CodegenContext> ctx) {
+    return this->primaryExpression->codegen(ctx);
+}
