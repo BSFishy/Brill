@@ -9,6 +9,7 @@ add_library(bir SHARED
         ${CMAKE_CURRENT_SOURCE_DIR}/tree/variable/declaration/variable_declaration.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/tree/variable/declaration/constant_variable_declaration.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/tree/function/function.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/tree/function/argument.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/tree/container/class_container.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/tree/container/function_container.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/tree/container/statement_container.cpp
@@ -35,6 +36,7 @@ add_library(bir SHARED
 
         ${CMAKE_CURRENT_SOURCE_DIR}/convert/top_level.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/convert/function/function.cpp
+        ${CMAKE_CURRENT_SOURCE_DIR}/convert/function/argument.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/convert/statement/statement.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/convert/expression/expression.cpp
         ${CMAKE_CURRENT_SOURCE_DIR}/convert/expression/prefix_expression.cpp

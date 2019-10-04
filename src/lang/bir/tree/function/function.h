@@ -1,7 +1,7 @@
 
 #pragma once
 
-#include <list>
+#include <vector>
 #include <string>
 #include <memory>
 
@@ -14,6 +14,7 @@
 #include "tree/module.h"
 #include "tree/constructs/class/class.h"
 #include "tree/statement/statement.h"
+#include "argument.h"
 
 namespace Brill::IR {
     class Function : public StatementContainer, public CodeGenerator {
@@ -21,6 +22,8 @@ namespace Brill::IR {
         std::string name;
         std::shared_ptr<Module> module;
         std::shared_ptr<Class> parentClass;
+
+        std::vector<std::shared_ptr<Argument>> arguments;
 
         explicit Function(std::shared_ptr<Module> &m, std::string n) : module(m), name(std::move(n)), parentClass(nullptr) {}
         explicit Function(std::shared_ptr<Module> &m, std::string n, std::shared_ptr<Class> &p) : module(m), name(std::move(n)), parentClass(p) {}

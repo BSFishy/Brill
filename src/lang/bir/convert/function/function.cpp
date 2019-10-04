@@ -9,6 +9,8 @@
 #include "tree/modules.h"
 #include "tree/statement/statement.h"
 
+#include "argument.h"
+
 using namespace Brill::IR;
 
 std::shared_ptr<Function> Convert::convert(BrillParser::FunctionDeclarationContext *ctx) {
@@ -17,6 +19,14 @@ std::shared_ptr<Function> Convert::convert(BrillParser::FunctionDeclarationConte
     std::basic_string<char> name = ctx->functionName()->Identifier()->getText();
     std::shared_ptr<Function> function(new Function(module, name));
 
+    if (BrillParser::ParameterListContext *parameterListContext = ctx->functionSignature()->parameterClause()->parameterList()) {
+        for (BrillParser::ParameterContext* const& parameterContext : parameterListContext->parameter()) {
+            std::shared_ptr<Argument> parameter = convert(parameterContext);
+
+            function->arguments.push_back(parameter);
+        }
+    }
+
     if (BrillParser::FunctionBodyContext *body = ctx->functionBody()) {
         if (BrillParser::StatementsContext *statements = body->codeBlock()->statements()) {
             for (BrillParser::StatementContext *statementContext : statements->statement()) {
@@ -24,11 +34,7 @@ std::shared_ptr<Function> Convert::convert(BrillParser::FunctionDeclarationConte
 
                 function->addStatement(statement);
             }
-        } else {
-            printf("No statements\n");
         }
-    } else {
-        printf("No function body\n");
     }
 
     return function;

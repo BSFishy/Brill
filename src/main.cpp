@@ -18,10 +18,6 @@ int main(int argc, const char *argv[]) {
     Brill::convert(file->topLevel);
 
     std::shared_ptr<Brill::IR::Module> module = Brill::getOrCreateModule("test");
-
-//    std::shared_ptr<Brill::IR::Function> printFunction = std::make_shared<Brill::IR::Function>(module, "print");
-//    module->addFunction(printFunction);
-
     std::shared_ptr<Brill::IR::CodegenContext> ctx = module->codegen();
 
     ctx->module->print(llvm::errs(), nullptr);

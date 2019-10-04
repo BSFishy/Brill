@@ -170,7 +170,7 @@ type : functionType
      | '(' type ')'
      ;
 
-typeAnnotation : attributes? 'inout'? type ;
+typeAnnotation : ':' attributes? 'inout'? type ;
 
 typeIdentifier : typeName genericArgumentClause? ('.' typeIdentifier)?
                | Identifier

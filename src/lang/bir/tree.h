@@ -44,6 +44,7 @@
 // Abstract concepts
 #include "tree/module.h"
 #include "tree/function/function.h"
+#include "tree/function/argument.h"
 #include "tree/constructs/construct.h"
 #include "tree/constructs/class/class.h"
 #include "tree/constructs/enum/enum.h"

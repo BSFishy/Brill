@@ -29,5 +29,6 @@ llvm::Value *FunctionCallExpression::codegen(std::shared_ptr<CodegenContext> ctx
         }
     }
 
-    return ctx->builder->CreateCall(callee, args, "_call");
+//    return ctx->builder->CreateCall(callee, args, "_call");
+    return ctx->builder->CreateCall(callee, args);
 }

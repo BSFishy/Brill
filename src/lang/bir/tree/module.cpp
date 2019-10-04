@@ -12,6 +12,7 @@ std::shared_ptr<CodegenContext> Module::codegen() {
     std::shared_ptr<llvm::Module>      module      = std::make_shared<llvm::Module>("test", *llvmContext);
     std::shared_ptr<llvm::IRBuilder<>> builder     = std::make_shared<llvm::IRBuilder<>>(*llvmContext);
 
+    module->setSourceFileName("-");
     std::shared_ptr<CodegenContext> ctx(new CodegenContext(llvmContext, module, builder));
 
     for (std::shared_ptr<Function> const &function : this->functions) {
