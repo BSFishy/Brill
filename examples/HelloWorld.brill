@@ -1,6 +1,6 @@
 
-func print(message: i8...)
+func printf(message: i8...)
 
 func main() {
-    print("Hello world!")
+    printf("Hello world!")
 }
