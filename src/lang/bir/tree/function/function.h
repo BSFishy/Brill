@@ -24,6 +24,7 @@ namespace Brill::IR {
         std::shared_ptr<Class> parentClass;
 
         std::vector<std::shared_ptr<Argument>> arguments;
+        bool varargs = false;
 
         explicit Function(std::shared_ptr<Module> &m, std::string n) : module(m), name(std::move(n)), parentClass(nullptr) {}
         explicit Function(std::shared_ptr<Module> &m, std::string n, std::shared_ptr<Class> &p) : module(m), name(std::move(n)), parentClass(p) {}

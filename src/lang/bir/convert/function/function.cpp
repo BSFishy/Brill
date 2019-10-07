@@ -25,6 +25,10 @@ std::shared_ptr<Function> Convert::convert(BrillParser::FunctionDeclarationConte
 
             function->arguments.push_back(parameter);
         }
+
+        if (parameterListContext->ELIPSES()) {
+            function->varargs = true;
+        }
     }
 
     if (BrillParser::FunctionBodyContext *body = ctx->functionBody()) {

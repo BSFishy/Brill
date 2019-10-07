@@ -17,13 +17,13 @@ llvm::Value *Function::codegen(std::shared_ptr<CodegenContext> ctx) {
         }
     }
 
-    llvm::FunctionType *functionType = llvm::FunctionType::get(llvm::Type::getVoidTy(*(ctx->context)), args, false);
+    llvm::FunctionType *functionType = llvm::FunctionType::get(llvm::Type::getVoidTy(*(ctx->context)), args, this->varargs);
     llvm::Function *function = llvm::Function::Create(functionType, llvm::Function::ExternalLinkage, this->name, *(ctx->module));
 
     if (!function) {
         throw IllegalStateException("Could not generate function: " + this->name);
     }
-    
+
     unsigned index = 0;
     for (llvm::Argument &arg : function->args()) {
         arg.setName(this->arguments[index++]->name);
@@ -37,7 +37,7 @@ llvm::Value *Function::codegen(std::shared_ptr<CodegenContext> ctx) {
             statement->codegen(ctx);
         }
 
-        ctx->builder->CreateRetVoid();
+        //ctx->builder->CreateRetVoid();
     }
 
     return function;

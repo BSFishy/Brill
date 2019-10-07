@@ -1,6 +1,6 @@
 
-func print(message: i8)
+func print(message: i8...)
 
-func main(test: i8) {
+func main() {
     print("Hello world!")
 }
