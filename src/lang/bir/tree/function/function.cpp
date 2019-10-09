@@ -3,6 +3,8 @@
 
 #include <vector>
 
+#include "llvm/IR/Verifier.h"
+
 #include "util.h"
 
 using namespace Brill::IR;
@@ -18,7 +20,10 @@ llvm::Value *Function::codegen(std::shared_ptr<CodegenContext> ctx) {
     }
 
     llvm::FunctionType *functionType = llvm::FunctionType::get(llvm::Type::getVoidTy(*(ctx->context)), args, this->varargs);
-    llvm::Function *function = llvm::Function::Create(functionType, llvm::Function::ExternalLinkage, this->name, *(ctx->module));
+
+    // std::string name = (this->name == "main") ? "_start" : this->name;
+    std::string name = this->name;
+    llvm::Function *function = llvm::Function::Create(functionType, llvm::Function::ExternalLinkage, name, *(ctx->module));
 
     if (!function) {
         throw IllegalStateException("Could not generate function: " + this->name);
@@ -37,8 +42,10 @@ llvm::Value *Function::codegen(std::shared_ptr<CodegenContext> ctx) {
             statement->codegen(ctx);
         }
 
-        //ctx->builder->CreateRetVoid();
+        ctx->builder->CreateRetVoid();
     }
+
+    llvm::verifyFunction(*function);
 
     return function;
 }

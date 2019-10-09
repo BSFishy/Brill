@@ -6,5 +6,7 @@
 using namespace Brill::IR;
 
 llvm::Value *StringLiteral::codegen(std::shared_ptr<CodegenContext> ctx) {
-    return llvm::ConstantDataArray::getString(*(ctx->context), this->value);
+    // llvm::ConstantExpr::getGetElementPtr()
+    // return llvm::ConstantDataArray::getString(*(ctx->context), this->value);
+    return ctx->builder->CreateGlobalString(this->value);
 }

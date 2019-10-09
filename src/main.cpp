@@ -10,6 +10,8 @@
 #include "llvm/Support/TargetSelect.h"
 #include "llvm/Target/TargetMachine.h"
 #include "llvm/Target/TargetOptions.h"
+#include "llvm/MC/MCContext.h"
+#include "llvm/MC/MCObjectFileInfo.h"
 
 #include "brill.h"
 
@@ -60,7 +62,7 @@ int main(int argc, const char *argv[]) {
 
     ctx->module->setDataLayout(targetMachine->createDataLayout());
 
-    auto filename = "output";
+    auto filename = "output.o";
     std::error_code ec;
     llvm::raw_fd_ostream dest(filename, ec, llvm::sys::fs::OF_None);
 
@@ -70,10 +72,10 @@ int main(int argc, const char *argv[]) {
     }
 
     llvm::legacy::PassManager pass;
-    auto fileType = llvm::TargetMachine::CGFT_AssemblyFile;
+    auto fileType = llvm::TargetMachine::CGFT_ObjectFile;
 
     if (targetMachine->addPassesToEmitFile(pass, dest, nullptr, fileType)) {
-        fprintf(stderr, "Could not emit file of type\n");
+        fprintf(stderr, "Machine code is not supported\n");
         return 1;
     }
 
