@@ -1,1 +1,1 @@
-c++ -g output.o -o output -lc
+clang-10 -g output.s -o output -stdlib=libc++

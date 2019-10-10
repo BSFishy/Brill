@@ -14,8 +14,6 @@ std::shared_ptr<CodegenContext> Module::codegen() {
 
     module->setSourceFileName("-");
     std::shared_ptr<CodegenContext> ctx(new CodegenContext(llvmContext, module, builder));
-    ctx->module->setPICLevel(llvm::PICLevel::Level::NotPIC);
-    ctx->module->setPIELevel(llvm::PIELevel::Level::Default);
 
     for (std::shared_ptr<Function> const &function : this->functions) {
         function->codegen(ctx);
