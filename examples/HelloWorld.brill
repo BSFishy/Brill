@@ -2,5 +2,5 @@
 func printf(message: i8...)
 
 func main() {
-    printf("Hello world!")
+    printf("Hello world!\n")
 }

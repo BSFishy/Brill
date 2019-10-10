@@ -887,7 +887,7 @@ StringLiteralClosingDelimiter : '"' ExtendedStringLiteralDelimiter? ;
 
 MultilineStringLiteralOpeningDelimiter : ExtendedStringLiteralDelimiter '"""' ;
 MultilineStringLiteralClosingDelimiter : '"""' ExtendedStringLiteralDelimiter ;
-fragment ExtendedStringLiteralDelimiter : '#'+ ;
+fragment ExtendedStringLiteralDelimiter : '#'* ;
 
 EscapeSequence : '\\' ExtendedStringLiteralDelimiter ;
 EscapedCharacter : EscapeSequence '0' | EscapeSequence '\\' | EscapeSequence 't' | EscapeSequence 'n' | EscapeSequence 'r' | EscapeSequence '"' | EscapeSequence '\''
