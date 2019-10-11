@@ -4,11 +4,11 @@
 // Abstract tree parts
 #include "tree/abstract/codegen/codegen_context.h"
 #include "tree/abstract/codegen/code_generator.h"
+#include "tree/abstract/codegen/named_code_generator.h"
 #include "tree/abstract/codegen/value_generator.h"
 #include "tree/abstract/named.h"
 #include "tree/abstract/code_block.h"
 #include "tree/type.h"
-#include "tree/symbol/symbol.h"
 #include "tree/symbol/symbol_table.h"
 #include "tree/expression/expression.h"
 #include "tree/expression/prefix_expression.h"

@@ -14,5 +14,7 @@ namespace Brill::IR {
     class Class : public VariableContainer, public FunctionContainer, public ClassContainer, public ProtocolContainer, public EnumContainer, public StructContainer {
     public:
         std::string name;
+
+        explicit Class(std::string n) : name(std::move(n)) {}
     };
 }

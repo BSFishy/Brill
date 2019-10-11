@@ -1,6 +1,12 @@
 
 func printf(message: i8...)
 
+class Test {
+    func example() {
+        printf("From test")
+    }
+}
+
 func main() {
     printf("Hello world!\n")
 }
