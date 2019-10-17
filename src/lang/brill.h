@@ -11,6 +11,7 @@
 #include "codegen/codegen.h"
 
 #include "bir/bir.h"
+#include "ast/ast.h"
 
 namespace Brill {
     struct ParseContext {

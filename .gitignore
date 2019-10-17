@@ -1,5 +1,7 @@
 compile_commands.json
 .clangd/
+.antlr/
+docs/_build/
 
 cmake*/
 CMakeFiles/
