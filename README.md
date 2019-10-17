@@ -1,4 +1,4 @@
-# Brill
+# Brill [![Documentation Status](https://readthedocs.org/projects/brill/badge/?version=latest)](https://brill.readthedocs.io/en/latest/?badge=latest)
 [![Open in Gitpod][gitpod-img]][gitpod-link]
 
 A language highly influenced by Swift
