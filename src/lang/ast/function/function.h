@@ -8,6 +8,7 @@
 
 #include "node.h"
 #include "named_node.h"
+#include "symbol_table.h"
 
 namespace Brill::AST {
     class Function : public NamedNode {

@@ -62,7 +62,7 @@ int main(int argc, const char *argv[]) {
 
     ctx->module->setDataLayout(targetMachine->createDataLayout());
 
-    auto filename = "output.s";
+    auto filename = "output.o";
     std::error_code ec;
     llvm::raw_fd_ostream dest(filename, ec, llvm::sys::fs::OF_None);
 
@@ -72,7 +72,7 @@ int main(int argc, const char *argv[]) {
     }
 
     llvm::legacy::PassManager pass;
-    auto fileType = llvm::TargetMachine::CGFT_AssemblyFile;
+    auto fileType = llvm::TargetMachine::CGFT_ObjectFile;
 
     if (targetMachine->addPassesToEmitFile(pass, dest, nullptr, fileType)) {
         fprintf(stderr, "Emitting to a file is not supported\n");
