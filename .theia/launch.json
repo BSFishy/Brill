@@ -3,15 +3,5 @@
     // Hover to view descriptions of existing attributes.
     "version": "0.2.0",
     "configurations": [
-        {
-            "name": "Brill antlr",
-            "type": "antlr-debug",
-            "request": "launch",
-            "input": "examples/HelloWorld.brill",
-            "grammar": "src/lang/Brill.g4",
-            "startRule": "topLevel",
-            "printParseTree": true,
-            "visualParseTree": true
-        }
     ]
 }
