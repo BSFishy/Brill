@@ -42,7 +42,8 @@ if ( $ENV{CLION_IDE} )
 endif ()
 
 include_directories(${PROJECT_BINARY_DIR} ${LLVM_INCLUDE_DIRS})
-llvm_map_components_to_libnames(llvm_libs ${LLVM_TARGETS_TO_BUILD} support core native)
+llvm_map_components_to_libnames(llvm_libs ${LLVM_TARGETS_TO_BUILD})
+#llvm_map_components_to_libnames(llvm_libs ${LLVM_TARGETS_TO_BUILD} support core native)
 add_definitions(${LLVM_DEFINITIONS})
 
 #link_libraries(${llvm_libs})

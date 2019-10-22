@@ -3,6 +3,6 @@ if [ ! -d "cmake-build-debug" ]; then
 fi
 
 pushd cmake-build-debug
-#cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=On -DCMAKE_BUILD_TYPE=Debug -DCMAKE_C_COMPILER=/usr/bin/clang-10 -DCMAKE_CXX_COMPILER=/usr/bin/clang++-10 -G "CodeBlocks - Unix Makefiles" ../
 cmake -DCMAKE_EXPORT_COMPILE_COMMANDS=On -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" ../
+#cmake -DCMAKE_VERBOSE_MAKEFILE=On -DCMAKE_EXPORT_COMPILE_COMMANDS=On -DCMAKE_BUILD_TYPE=Debug -G "CodeBlocks - Unix Makefiles" ../
 popd
