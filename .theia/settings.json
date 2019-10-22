@@ -1,9 +1,8 @@
 {
-   "editor.autoSave": "on",
-   "cpp.buildConfigurations": [
-      {
-         "name": "Debug",
-         "directory": "/workspace/Brill/cmake-build-debug"
-      }
-   ]
+    "cpp.buildConfigurations": [
+        {
+            "name": "Debug",
+            "directory": "/workspace/Brill/cmake-build-debug"
+        }
+    ]
 }

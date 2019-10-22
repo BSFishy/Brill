@@ -7,11 +7,11 @@
 #include "BrillParser.h"
 #include "BrillLexer.h"
 
-#include "compiler.h"
-#include "codegen/codegen.h"
+// #include "compiler.h"
+// #include "codegen/codegen.h"
 
-#include "bir/bir.h"
-#include "ast/ast.h"
+// #include "lang/bir/bir.h"
+// #include "ast/ast.h"
 
 namespace Brill {
     struct ParseContext {

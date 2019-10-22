@@ -6,9 +6,9 @@
 
 #include "BrillParser.h"
 
-#include "node.h"
-#include "named_node.h"
-#include "symbol_table.h"
+#include "lang/ast/node.h"
+#include "lang/ast/named_node.h"
+#include "lang/ast/symbol_table.h"
 
 namespace Brill::AST {
     class Function : public NamedNode {

@@ -13,7 +13,9 @@
 #include "llvm/MC/MCContext.h"
 #include "llvm/MC/MCObjectFileInfo.h"
 
-#include "brill.h"
+#include "lang/brill.h"
+
+#include "lang/ast/module.h"
 
 using namespace std;
 
@@ -26,10 +28,11 @@ int main(int argc, const char *argv[]) {
     fprintf(stderr, "Compiling: %s\n\n", argv[1]);
 
     std::shared_ptr<Brill::ParseContext> file = Brill::parseFile(argv[1]);
-    Brill::convert(file->topLevel);
+    // Brill::convert(file->topLevel);
 
-    std::shared_ptr<Brill::IR::Module> module = Brill::getOrCreateModule("test");
-    std::shared_ptr<Brill::IR::CodegenContext> ctx = module->codegen();
+    // std::shared_ptr<Brill::IR::Module> module = Brill::getOrCreateModule("test");
+    std::shared_ptr<Brill::AST::Module> module = Brill::AST::convert(file->topLevel);
+    std::shared_ptr<Brill::AST::CodegenContext> ctx = module->codegen();
 
     fprintf(stderr, "Output:\n\n");
     ctx->module->print(llvm::errs(), nullptr);

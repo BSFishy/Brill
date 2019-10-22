@@ -1,7 +1,7 @@
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR})
 
-file(GLOB_RECURSE bir_sources *.cpp)
+file(GLOB_RECURSE bir_sources ${CMAKE_CURRENT_SOURCE_DIR}/*.cpp)
 
 add_library(bir SHARED ${bir_sources})
 
