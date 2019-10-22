@@ -10,12 +10,6 @@ RUN curl -fsSL https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add - \
   && sudo sh -c "echo deb-src http://apt.llvm.org/disco/ llvm-toolchain-disco-9 main \ >> /etc/apt/sources.list" \
   && sudo apt-get update
 
-# Git
-RUN sudo apt-get update \
-  && sudo apt-get install -yq \
-    git \
-  && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/*
-
 # LLVM
 RUN sudo apt-get update \
   && sudo apt-get install -yq \
@@ -86,7 +80,13 @@ RUN sudo apt-get update \
     pkg-config \
   && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/*
 RUN cd /usr/local/lib \
-  && sudo curl -O https://www.antlr.org/download/antlr-4.7.2-complete.jar
+    && sudo curl -O https://www.antlr.org/download/antlr-4.7.2-complete.jar
+
+# Git
+RUN sudo apt-get update \
+    && sudo apt-get install -yq \
+    git \
+    && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/*
 
 # Install antlr stuff
 RUN git clone https://github.com/BSFishy/antlr4.git && cd antlr4 \
