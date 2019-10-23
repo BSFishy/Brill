@@ -47,7 +47,7 @@ RUN sudo apt-get update \
 # CLang Alternatives
 RUN sudo update-alternatives --install /usr/bin/clang clang /usr/bin/clang-10 100 --slave /usr/bin/clang++ clang++ /usr/bin/clang++-10 \
     && sudo update-alternatives --install /usr/bin/cc cc /usr/bin/clang-10 100 \
-    && sudo update-alternatives --install /usr/bin/clangd clangd /usr/bin/clangd-10
+    && sudo update-alternatives --install /usr/bin/clangd clangd /usr/bin/clangd-10 100
 
 # LibC++ 10
 RUN sudo apt-get update \
