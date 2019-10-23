@@ -12,7 +12,7 @@ RUN curl -fsSL https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add - \
 
 # GCC
 RUN sudo apt-get update && sudo apt-get install -yq software-properties-common \
-    && sudo add-apt-repository ppa:ubuntu-toolchain-r/test && sudo apt-get update \
+    && sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test && sudo apt-get update \
     && sudo apt-get install -yq gcc-9 g++-9 \
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/*
 
