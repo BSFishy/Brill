@@ -17,8 +17,8 @@ RUN sudo apt-get update && sudo apt-get install -yq build-essential software-pro
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/*
 
 # GCC Alternatives
-RUN sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-9 90 --slave /usr/bin/g++ g++ /usr/bin/g++-9 --slave /usr/bin/gcov gcov /usr/bin/gcov-9 \
-    && sudo update-alternatives --install /usr/bin/cc cc /usr/bin/gcc 90
+RUN sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-9 90 --slave /usr/bin/g++ g++ /usr/bin/g++-9 --slave /usr/bin/gcov gcov /usr/bin/gcov-9
+#    && sudo update-alternatives --install /usr/bin/cc cc /usr/bin/gcc 90
 
 # LLVM
 RUN sudo apt-get update \
@@ -45,9 +45,9 @@ RUN sudo apt-get update \
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/*
 
 # CLang Alternatives
-RUN sudo update-alternatives --install /usr/bin/clang clang /usr/bin/clang-10 100 --slave /usr/bin/clang++ clang++ /usr/bin/clang++-10 \
-    && sudo update-alternatives --install /usr/bin/cc cc /usr/bin/clang-10 100 \
-    && sudo update-alternatives --install /usr/bin/clangd clangd /usr/bin/clangd-10 100
+# RUN sudo update-alternatives --install /usr/bin/clang clang /usr/bin/clang-10 100 --slave /usr/bin/clang++ clang++ /usr/bin/clang++-10 \
+#     && sudo update-alternatives --install /usr/bin/cc cc /usr/bin/clang-10 100 \
+#     && sudo update-alternatives --install /usr/bin/clangd clangd /usr/bin/clangd-10 100
 
 # LibC++ 10
 RUN sudo apt-get update \
