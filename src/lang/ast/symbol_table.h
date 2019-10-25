@@ -17,6 +17,10 @@ namespace Brill::AST {
 
         NamedNode *find(std::string);
         void add(NamedNode *);
+        bool remove(NamedNode *);
         SymbolTable *child();
+
+        int size();
+        NamedNode *get(int);
     };
 }

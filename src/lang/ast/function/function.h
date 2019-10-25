@@ -10,8 +10,11 @@
 #include "lang/ast/named_node.h"
 #include "lang/ast/symbol_table.h"
 
+#include "abstract/convert_context.h"
+#include "lang/ast/container/statement_container.h"
+
 namespace Brill::AST {
-    class Function : public NamedNode {
+    class Function : public NamedNode, public StatementContainer {
     public:
         Node *parent;
 
@@ -21,5 +24,5 @@ namespace Brill::AST {
         llvm::Value *codegen(std::shared_ptr<CodegenContext>) override;
     };
 
-    std::shared_ptr<Function> convert(BrillParser::FunctionDeclarationContext *);
+    std::shared_ptr<Function> convert(std::shared_ptr<ConvertContext>, BrillParser::FunctionDeclarationContext *);
 }

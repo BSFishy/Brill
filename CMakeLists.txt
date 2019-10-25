@@ -2,6 +2,7 @@ cmake_minimum_required(VERSION 3.5)
 
 project(brill VERSION 0.1 DESCRIPTION "Brill language")
 set (CMAKE_CXX_STANDARD 17)
+add_link_options("-fuse-ld=lld")
 
 # Antlr stuff
 

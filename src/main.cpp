@@ -16,6 +16,7 @@
 #include "lang/brill.h"
 
 #include "lang/ast/module.h"
+#include "lang/ast/abstract/convert_context.h"
 
 using namespace std;
 
@@ -31,7 +32,8 @@ int main(int argc, const char *argv[]) {
     // Brill::convert(file->topLevel);
 
     // std::shared_ptr<Brill::IR::Module> module = Brill::getOrCreateModule("test");
-    std::shared_ptr<Brill::AST::Module> module = Brill::AST::convert(file->topLevel);
+    std::shared_ptr<Brill::AST::ConvertContext> convertContext = std::make_shared<Brill::AST::ConvertContext>(argv[1]);
+    std::shared_ptr<Brill::AST::Module> module = Brill::AST::convert(convertContext, file->topLevel);
     std::shared_ptr<Brill::AST::CodegenContext> ctx = module->codegen();
 
     fprintf(stderr, "Output:\n\n");
