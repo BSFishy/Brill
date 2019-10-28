@@ -9,10 +9,10 @@
 #include "lang/ast/node.h"
 
 namespace Brill::AST {
-    class Statement : public Node {
+    class PrimaryExpression : public virtual Node {
     public:
         llvm::Value *codegen(std::shared_ptr<CodegenContext>) override = 0;
     };
 
-    std::shared_ptr<Statement> convert(std::shared_ptr<ConvertContext>, BrillParser::StatementContext*);
+    std::shared_ptr<PrimaryExpression> convert(std::shared_ptr<ConvertContext>, BrillParser::PrimaryExpressionContext*);
 }

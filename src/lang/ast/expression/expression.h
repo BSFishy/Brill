@@ -15,7 +15,7 @@ namespace Brill::AST {
 
         explicit Expression(std::shared_ptr<PrefixExpression> pe) : prefixExpression(std::move(pe)) {}
 
-        llvm::Value *codegen(std::shared_ptr<CodegenContext>) override = 0;
+        llvm::Value *codegen(std::shared_ptr<CodegenContext>) override;
     };
 
     std::shared_ptr<Expression> convert(std::shared_ptr<ConvertContext>, BrillParser::ExpressionContext*);

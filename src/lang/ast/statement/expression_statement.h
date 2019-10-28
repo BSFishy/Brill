@@ -3,7 +3,7 @@
 
 #include "statement.h"
 
-#include "lang/ast/expression.h"
+#include "lang/ast/expression/expression.h"
 
 namespace Brill::AST {
     class ExpressionStatement : public Statement {
