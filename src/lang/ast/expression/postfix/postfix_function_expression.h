@@ -5,6 +5,7 @@
 
 #include "BrillParser.h"
 
+#include "lang/ast/abstract/convert_context.h"
 #include "lang/ast/node.h"
 
 namespace Brill::AST {
