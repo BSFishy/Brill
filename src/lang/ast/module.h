@@ -19,8 +19,10 @@ namespace Brill::AST {
         std::shared_ptr<Module> parent;
 
         Module() = delete;
-        explicit Module(std::string n) : NamedNode(n), parent(nullptr) {}
-        explicit Module(std::string n, std::shared_ptr<Module> &p) : NamedNode(n, p->symbolTable->child()), parent(p) {}
+        explicit Module(std::string n) : NamedNode(n) {}
+        explicit Module(std::string n, std::shared_ptr<Module> const& p) : NamedNode(n, p->symbolTable->child()) {
+            parent = p;
+        }
 
         llvm::Value *codegen(std::shared_ptr<CodegenContext>) override;
         std::shared_ptr<Brill::AST::CodegenContext> codegen();

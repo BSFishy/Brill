@@ -6,7 +6,7 @@
 using namespace Brill::AST;
 
 void FunctionContainer::addFunction(std::shared_ptr<Function> function) {
-    this->getSymbolTable()->add(function);
+    this->symbolTable->add(function);
     this->functions.push_back(function);
 }
 

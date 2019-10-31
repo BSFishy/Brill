@@ -16,10 +16,10 @@
 namespace Brill::AST {
     class Function : public NamedNode, public StatementContainer {
     public:
-        Node *parent;
+        std::shared_ptr<Node> parent;
 
         Function() = delete;
-        explicit Function(std::string &n, Node* const& p) : NamedNode(n, p->symbolTable->child()) {
+        explicit Function(std::string &n, std::shared_ptr<Node> const& p) : NamedNode(n, p->symbolTable->child()) {
             parent = p;
         }
 

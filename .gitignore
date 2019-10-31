@@ -10,3 +10,5 @@ CMakeFiles/
 output
 output.s
 output.o
+core.brill.*
+vgcore.*

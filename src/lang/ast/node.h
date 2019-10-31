@@ -6,15 +6,17 @@
 #include "llvm/IR/Value.h"
 
 #include "abstract/codegen_context.h"
+#include "symbol_table.h"
 
 namespace Brill::AST {
-    class SymbolTable;
-
     class Node {
     public:
         std::shared_ptr<SymbolTable> symbolTable;
 
-        Node() = default;
+        Node() {
+            symbolTable = std::make_shared<SymbolTable>();
+        }
+
         explicit Node(std::shared_ptr<SymbolTable> const& s) {
             symbolTable = s;
         }

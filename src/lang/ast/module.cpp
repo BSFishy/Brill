@@ -29,7 +29,7 @@ std::shared_ptr<Brill::AST::CodegenContext> Module::codegen() {
 
 std::shared_ptr<Module> Brill::AST::convert(std::shared_ptr<ConvertContext> ccontext, BrillParser::TopLevelContext *ctx) {
     std::shared_ptr<Module> module = getOrCreateModule(ccontext->moduleName);
-    std::shared_ptr<ConvertContext> cctx = ccontext->withParent(module.get());
+    std::shared_ptr<ConvertContext> cctx = ccontext->withParent(module);
 
     for(BrillParser::DeclarationContext *declaration : ctx->declarations()->declaration()) {
         if (BrillParser::FunctionDeclarationContext *functionContext = declaration->functionDeclaration()) {

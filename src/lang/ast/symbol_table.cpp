@@ -1,6 +1,8 @@
 
 #include "symbol_table.h"
 
+#include "named_node.h"
+
 using namespace Brill::AST;
 
 std::shared_ptr<NamedNode> SymbolTable::find(std::string name) {
@@ -34,7 +36,7 @@ bool SymbolTable::remove(std::shared_ptr<NamedNode> node) {
 
 std::shared_ptr<SymbolTable> SymbolTable::child() {
     std::shared_ptr<SymbolTable> c = std::make_shared<SymbolTable>();
-    c->parent = this;
+    c->parent = shared_from_this();
     return c;
 }
 

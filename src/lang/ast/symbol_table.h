@@ -3,16 +3,17 @@
 
 #include <vector>
 #include <string>
-
-#include "named_node.h"
+#include <memory>
 
 namespace Brill::AST {
-    class SymbolTable {
+    class NamedNode;
+
+    class SymbolTable : public std::enable_shared_from_this<SymbolTable> {
     public:
         std::vector<std::shared_ptr<NamedNode>> symbols;
-        SymbolTable *parent;
+        std::shared_ptr<SymbolTable> parent;
 
-        SymbolTable() = default;
+        // SymbolTable() = default;
         // SymbolTable() : parent(nullptr) {
         //     // symbols = new std::vector<NamedNode*>();
         // }

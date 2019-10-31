@@ -12,7 +12,7 @@ namespace Brill::AST {
         std::string name;
 
         NamedNode() = delete;
-        explicit NamedNode(const std::string &n) : name(std::move(n)) {}
+        explicit NamedNode(const std::string &n) : Node(), name(std::move(n)) {}
         NamedNode(const std::string &n, std::shared_ptr<SymbolTable> const& s) : Node(s), name(std::move(n)) {}
 
         llvm::Value *codegen(std::shared_ptr<CodegenContext>) override = 0;
