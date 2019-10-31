@@ -5,12 +5,12 @@
 
 using namespace Brill::AST;
 
-void FunctionContainer::addFunction(Function *function) {
-    this->symbolTable->add(function);
+void FunctionContainer::addFunction(std::shared_ptr<Function> function) {
+    this->getSymbolTable()->add(function);
     this->functions.push_back(function);
 }
 
-bool FunctionContainer::removeFunction(Function *function) {
+bool FunctionContainer::removeFunction(std::shared_ptr<Function> function) {
     for (auto i = this->functions.begin(); i != this->functions.end(); ++i) {
         if (*i == function) {
             this->functions.erase(i);
@@ -22,8 +22,8 @@ bool FunctionContainer::removeFunction(Function *function) {
     return false;
 }
 
-Function *FunctionContainer::getFunction(std::string name) {
-    for(Function* const& function : this->functions) {
+std::shared_ptr<Function> FunctionContainer::getFunction(std::string name) {
+    for(std::shared_ptr<Function> const& function : this->functions) {
         if (function->name == name) {
             return function;
         }
@@ -33,7 +33,7 @@ Function *FunctionContainer::getFunction(std::string name) {
 }
 
 void FunctionContainer::codegenFunctions(std::shared_ptr<CodegenContext> ctx) {
-    for (Function* const& function : this->functions) {
+    for (std::shared_ptr<Function> const& function : this->functions) {
         function->codegen(ctx);
     }
 }

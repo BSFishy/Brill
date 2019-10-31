@@ -9,18 +9,21 @@
 namespace Brill::AST {
     class SymbolTable {
     public:
-        std::vector<NamedNode *> symbols;
+        std::vector<std::shared_ptr<NamedNode>> symbols;
         SymbolTable *parent;
 
-        SymbolTable() : parent(nullptr) {}
-        explicit SymbolTable(SymbolTable* const& p) : parent(p) {}
+        SymbolTable() = default;
+        // SymbolTable() : parent(nullptr) {
+        //     // symbols = new std::vector<NamedNode*>();
+        // }
+        // explicit SymbolTable(SymbolTable* const& p) : parent(p), symbols(new std::vector<NamedNode*>()) {}
 
-        NamedNode *find(std::string);
-        void add(NamedNode *);
-        bool remove(NamedNode *);
-        SymbolTable *child();
+        std::shared_ptr<NamedNode> find(std::string);
+        void add(std::shared_ptr<NamedNode>);
+        bool remove(std::shared_ptr<NamedNode>);
+        std::shared_ptr<SymbolTable> child();
 
         int size();
-        NamedNode *get(int);
+        std::shared_ptr<NamedNode> get(int);
     };
 }

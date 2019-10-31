@@ -12,11 +12,17 @@ namespace Brill::AST {
 
     class Node {
     public:
-        SymbolTable *symbolTable;
+        std::shared_ptr<SymbolTable> symbolTable;
 
         Node() = default;
-        explicit Node(SymbolTable* const& s) : symbolTable(std::move(s)) {}
+        explicit Node(std::shared_ptr<SymbolTable> const& s) {
+            symbolTable = s;
+        }
 
         virtual llvm::Value *codegen(std::shared_ptr<CodegenContext>) = 0;
+
+        std::shared_ptr<SymbolTable> getSymbolTable() {
+            return this->symbolTable;
+        }
     };
 }

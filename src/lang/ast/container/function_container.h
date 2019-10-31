@@ -12,11 +12,11 @@ namespace Brill::AST {
 
     class FunctionContainer : public virtual Container {
     public:
-        std::vector<Function*> functions;
+        std::vector<std::shared_ptr<Function>> functions;
 
-        void addFunction(Function*);
-        bool removeFunction(Function*);
-        Function *getFunction(std::string);
+        void addFunction(std::shared_ptr<Function>);
+        bool removeFunction(std::shared_ptr<Function>);
+        std::shared_ptr<Function> getFunction(std::string);
 
         void codegenFunctions(std::shared_ptr<CodegenContext>);
     };

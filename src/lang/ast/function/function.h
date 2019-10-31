@@ -19,7 +19,9 @@ namespace Brill::AST {
         Node *parent;
 
         Function() = delete;
-        explicit Function(std::string &n, Node* const& p) : NamedNode(n, p->symbolTable->child()), parent(p) {}
+        explicit Function(std::string &n, Node* const& p) : NamedNode(n, p->symbolTable->child()) {
+            parent = p;
+        }
 
         llvm::Value *codegen(std::shared_ptr<CodegenContext>) override;
     };

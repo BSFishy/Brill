@@ -3,25 +3,25 @@
 
 using namespace Brill::AST;
 
-NamedNode *SymbolTable::find(std::string name) {
-    for (NamedNode* const& symbol : symbols) {
+std::shared_ptr<NamedNode> SymbolTable::find(std::string name) {
+    for (std::shared_ptr<NamedNode> const& symbol : this->symbols) {
         if (symbol->name == name) {
             return symbol;
         }
     }
 
-    if (NamedNode *symbol = this->parent->find(name)) {
+    if (std::shared_ptr<NamedNode> symbol = this->parent->find(name)) {
         return symbol;
     }
 
     return nullptr;
 }
 
-void SymbolTable::add(NamedNode *node) {
+void SymbolTable::add(std::shared_ptr<NamedNode> node) {
     this->symbols.push_back(node);
 }
 
-bool SymbolTable::remove(NamedNode *node) {
+bool SymbolTable::remove(std::shared_ptr<NamedNode> node) {
     for (auto i = this->symbols.begin(); i != this->symbols.end(); ++i) {
         if (*i == node) {
             this->symbols.erase(i);
@@ -32,14 +32,16 @@ bool SymbolTable::remove(NamedNode *node) {
     return false;
 }
 
-SymbolTable *SymbolTable::child() {
-    return new SymbolTable(this);
+std::shared_ptr<SymbolTable> SymbolTable::child() {
+    std::shared_ptr<SymbolTable> c = std::make_shared<SymbolTable>();
+    c->parent = this;
+    return c;
 }
 
 int SymbolTable::size() {
     return this->symbols.size();
 }
 
-NamedNode *SymbolTable::get(int index) {
+std::shared_ptr<NamedNode> SymbolTable::get(int index) {
     return this->symbols[index];
 }

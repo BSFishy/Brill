@@ -34,7 +34,7 @@ std::shared_ptr<Module> Brill::AST::convert(std::shared_ptr<ConvertContext> ccon
     for(BrillParser::DeclarationContext *declaration : ctx->declarations()->declaration()) {
         if (BrillParser::FunctionDeclarationContext *functionContext = declaration->functionDeclaration()) {
             if (std::shared_ptr<Function> function = convert(cctx, functionContext)) {
-                module->addFunction(function.get());
+                module->addFunction(function);
             } else {
                 throw IllegalStateException("Unable to convert function");
             }

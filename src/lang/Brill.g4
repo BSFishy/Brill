@@ -1,9 +1,9 @@
 
 grammar Brill;
 
-options {
-language=Cpp;
-}
+//options {
+//language=Cpp;
+//}
 
 //#######################################################
 // PARSER
@@ -120,11 +120,21 @@ keyPathStringExpression : '#keypath' '(' expression ')' ;
 //                  | postfixExpression '!' #forcedValueExpression
 //                  | postfixExpression '?' #optionalChainingExpression
 //                  ;
-postfixExpression : postfixBaseExpression ( postfixFunctionExpression | postfixPostExpression )? ;
-postfixBaseExpression : primaryExpression postfixDotExpression? ;
-postfixDotExpression : '.' ( 'init' | DecimalDigits | Identifier | 'self' ) ;
-postfixFunctionExpression : functionCallArgumentClause | functionCallArgumentClause? trailingClosure ;
-postfixPostExpression : '[' functionCallArgumentList ']' | '!' | '?'  ;
+// postfixExpression : postfixBaseExpression ( postfixFunctionExpression | postfixPostExpression )? ;
+// postfixBaseExpression : primaryExpression postfixDotExpression? ;
+// postfixDotExpression : '.' ( 'init' | DecimalDigits | Identifier | 'self' ) ;
+// postfixFunctionExpression : functionCallArgumentClause | functionCallArgumentClause? trailingClosure ;
+// postfixPostExpression : '[' functionCallArgumentList ']' | '!' | '?'  ;
+postfixExpression : postfixExpression postfixOperator #postfixOperatorExpression
+                  | postfixExpression ( functionCallArgumentClause | functionCallArgumentClause? trailingClosure ) #functionCallExpression
+                  | postfixExpression '.' 'init' ( '(' argumentNames ')' )? #initializerExpression
+                  | postfixExpression '.' ( DecimalDigits | Identifier ( genericArgumentClause? | '(' argumentNames ')' ) ) #explicitMemberExpression
+                  | postfixExpression '.' 'self' #postfixSelfExpression
+                  | postfixExpression '[' functionCallArgumentList ']' #subscriptExpression
+                  | postfixExpression '!' #forcedValueExpression
+                  | postfixExpression '?' #optionalChainingExpression
+                  | primaryExpression #postfixPrimaryExpression
+                  ;
 
 //functionCallExpression : postfixExpression functionCallArgumentClause
 //                       | postfixExpression functionCallArgumentClause? trailingClosure
