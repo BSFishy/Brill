@@ -2,12 +2,14 @@ FROM gitpod/workspace-full
 
 USER root
 
+RUN echo "This is here to prevent build cache from being used.\n"
+
 # Add llvm stuff
 RUN curl -fsSL https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add - \
     && apt-add-repository -yu "deb http://apt.llvm.org/disco/ llvm-toolchain-disco main" \
-    && apt-add-repository -yu "deb http://apt.llvm.org/disco/ llvm-toolchain-disco-9 main" \
+    # && apt-add-repository -yu "deb http://apt.llvm.org/disco/ llvm-toolchain-disco-9 main" \
     && sudo sh -c "echo deb-src http://apt.llvm.org/disco/ llvm-toolchain-disco main \ >> /etc/apt/sources.list" \
-    && sudo sh -c "echo deb-src http://apt.llvm.org/disco/ llvm-toolchain-disco-9 main \ >> /etc/apt/sources.list" \
+    # && sudo sh -c "echo deb-src http://apt.llvm.org/disco/ llvm-toolchain-disco-9 main \ >> /etc/apt/sources.list" \
     && sudo apt-get update
 
 # GCC
