@@ -12,13 +12,10 @@ RUN curl -fsSL https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add - \
 
 # GCC
 RUN sudo apt-get update && sudo apt-get install -yq build-essential software-properties-common \
-#    && apt-add-repository -yu ppa:ubuntu-toolchain-r/test && sudo apt-get update \
     && sudo apt-get install -yq binutils gcc-9 g++-9 \
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/*
-
 # GCC Alternatives
 RUN sudo update-alternatives --install /usr/bin/gcc gcc /usr/bin/gcc-9 90 --slave /usr/bin/g++ g++ /usr/bin/g++-9 --slave /usr/bin/gcov gcov /usr/bin/gcov-9
-#    && sudo update-alternatives --install /usr/bin/cc cc /usr/bin/gcc 90
 
 # LLVM
 RUN sudo apt-get update \
@@ -44,11 +41,6 @@ RUN sudo apt-get update \
     clangd-10 \
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/*
 
-# CLang Alternatives
-# RUN sudo update-alternatives --install /usr/bin/clang clang /usr/bin/clang-10 100 --slave /usr/bin/clang++ clang++ /usr/bin/clang++-10 \
-#     && sudo update-alternatives --install /usr/bin/cc cc /usr/bin/clang-10 100 \
-#     && sudo update-alternatives --install /usr/bin/clangd clangd /usr/bin/clangd-10 100
-
 # LibC++ 10
 RUN sudo apt-get update \
     && sudo apt-get install -yq \
@@ -73,10 +65,6 @@ RUN sudo apt-get update \
     && sudo apt-get install -yq \
     lld-10 \
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/*
-
-# LLD Alternatives
-# RUN sudo update-alternatives --install /usr/bin/lld lld /usr/bin/lld-10 100 \
-#     && sudo update-alternatives --install /usr/bin/ld ld /usr/bin/ld.lld-10 100
 
 # OpenMP
 RUN sudo apt-get update \
