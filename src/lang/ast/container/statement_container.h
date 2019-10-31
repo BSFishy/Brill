@@ -5,17 +5,16 @@
 
 #include "container.h"
 #include "lang/ast/abstract/codegen_context.h"
-#include "lang/ast/symbol_table.h"
 
 namespace Brill::AST {
     class Statement;
 
     class StatementContainer : public virtual Container {
     public:
-        std::vector<Statement*> statements;
+        std::vector<std::shared_ptr<Statement>> statements;
 
-        void addStatement(Statement*);
-        bool removeStatement(Statement*);
+        void addStatement(std::shared_ptr<Statement>);
+        bool removeStatement(std::shared_ptr<Statement>);
 
         void codegenStatements(std::shared_ptr<CodegenContext>);
     };

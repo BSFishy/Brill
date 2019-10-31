@@ -5,12 +5,12 @@
 
 using namespace Brill::AST;
 
-void StatementContainer::addStatement(Statement *statement) {
+void StatementContainer::addStatement(std::shared_ptr<Statement> statement) {
     // this->symbolTable->add(statement);
     this->statements.push_back(statement);
 }
 
-bool StatementContainer::removeStatement(Statement *statement) {
+bool StatementContainer::removeStatement(std::shared_ptr<Statement> statement) {
     for (auto i = this->statements.begin(); i != this->statements.end(); ++i) {
         if (*i == statement) {
             this->statements.erase(i);
@@ -24,7 +24,7 @@ bool StatementContainer::removeStatement(Statement *statement) {
 }
 
 void StatementContainer::codegenStatements(std::shared_ptr<CodegenContext> ctx) {
-    for (Statement* const& statement : this->statements) {
+    for (std::shared_ptr<Statement> const& statement : this->statements) {
         statement->codegen(ctx);
     }
 }

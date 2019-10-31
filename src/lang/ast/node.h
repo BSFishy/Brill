@@ -22,9 +22,5 @@ namespace Brill::AST {
         }
 
         virtual llvm::Value *codegen(std::shared_ptr<CodegenContext>) = 0;
-
-        std::shared_ptr<SymbolTable> getSymbolTable() {
-            return this->symbolTable;
-        }
     };
 }
