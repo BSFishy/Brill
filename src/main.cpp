@@ -29,9 +29,7 @@ int main(int argc, const char *argv[]) {
     fprintf(stderr, "Compiling: %s\n\n", argv[1]);
 
     std::shared_ptr<Brill::ParseContext> file = Brill::parseFile(argv[1]);
-    // Brill::convert(file->topLevel);
 
-    // std::shared_ptr<Brill::IR::Module> module = Brill::getOrCreateModule("test");
     std::shared_ptr<Brill::AST::ConvertContext> convertContext = std::make_shared<Brill::AST::ConvertContext>(argv[1]);
     std::shared_ptr<Brill::AST::Module> module = Brill::AST::convert(convertContext, file->topLevel);
     std::shared_ptr<Brill::AST::CodegenContext> ctx = module->codegen();
