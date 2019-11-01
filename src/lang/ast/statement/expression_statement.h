@@ -10,7 +10,9 @@ namespace Brill::AST {
     public:
         std::shared_ptr<Expression> expression;
 
-        explicit ExpressionStatement(std::shared_ptr<Expression> e) : expression(std::move(e)) {}
+        explicit ExpressionStatement(const std::shared_ptr<Expression> &e) {
+            expression = e;
+        }
 
         llvm::Value *codegen(std::shared_ptr<CodegenContext>) override;
     };

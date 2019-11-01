@@ -17,7 +17,7 @@ namespace Brill::AST {
             symbolTable = std::make_shared<SymbolTable>();
         }
 
-        explicit Node(std::shared_ptr<SymbolTable> const& s) {
+        explicit Node(const std::shared_ptr<SymbolTable> &s) {
             symbolTable = s;
         }
 

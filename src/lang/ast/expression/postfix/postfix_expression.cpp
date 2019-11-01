@@ -5,6 +5,6 @@
 
 using namespace Brill::AST;
 
-std::shared_ptr<PostfixExpression> Brill::AST::convert(std::shared_ptr<ConvertContext> cctx, BrillParser::PostfixExpressionContext *ctx) {
+std::shared_ptr<PostfixExpression> Brill::AST::convert(const std::shared_ptr<ConvertContext> &cctx, BrillParser::PostfixExpressionContext *ctx) {
     throw NotImplementedException();
 }

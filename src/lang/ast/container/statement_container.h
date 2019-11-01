@@ -13,9 +13,9 @@ namespace Brill::AST {
     public:
         std::vector<std::shared_ptr<Statement>> statements;
 
-        void addStatement(std::shared_ptr<Statement>);
-        bool removeStatement(std::shared_ptr<Statement>);
+        void addStatement(const std::shared_ptr<Statement>&);
+        bool removeStatement(const std::shared_ptr<Statement>&);
 
-        void codegenStatements(std::shared_ptr<CodegenContext>);
+        void codegenStatements(const std::shared_ptr<CodegenContext>&);
     };
 }

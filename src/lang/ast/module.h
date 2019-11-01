@@ -19,8 +19,8 @@ namespace Brill::AST {
         std::shared_ptr<Module> parent;
 
         Module() = delete;
-        explicit Module(std::string n) : NamedNode(n) {}
-        explicit Module(std::string n, std::shared_ptr<Module> const& p) : NamedNode(n, p->symbolTable->child()) {
+        explicit Module(std::string n) : NamedNode(std::move(n)) {}
+        Module(std::string n, const std::shared_ptr<Module> &p) : NamedNode(std::move(n), p->symbolTable->child()) {
             parent = p;
         }
 
@@ -28,7 +28,7 @@ namespace Brill::AST {
         std::shared_ptr<Brill::AST::CodegenContext> codegen();
     };
 
-    std::shared_ptr<Module> convert(std::shared_ptr<ConvertContext>, BrillParser::TopLevelContext *);
+    std::shared_ptr<Module> convert(const std::shared_ptr<ConvertContext>&, BrillParser::TopLevelContext*);
 
     static std::vector<std::shared_ptr<Module>> modules;
 

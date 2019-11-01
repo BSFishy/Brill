@@ -7,7 +7,7 @@
 
 using namespace Brill::AST;
 
-std::shared_ptr<PrimaryExpression> Brill::AST::convert(std::shared_ptr<ConvertContext> cctx, BrillParser::PrimaryExpressionContext *ctx) {
+std::shared_ptr<PrimaryExpression> Brill::AST::convert(const std::shared_ptr<ConvertContext> &cctx, BrillParser::PrimaryExpressionContext *ctx) {
     if (BrillParser::LiteralExpressionContext *literalContext = ctx->literalExpression()) {
         return convert(cctx, literalContext);
     } else {

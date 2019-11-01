@@ -27,7 +27,7 @@ std::shared_ptr<Brill::AST::CodegenContext> Module::codegen() {
     return ctx;
 }
 
-std::shared_ptr<Module> Brill::AST::convert(std::shared_ptr<ConvertContext> ccontext, BrillParser::TopLevelContext *ctx) {
+std::shared_ptr<Module> Brill::AST::convert(const std::shared_ptr<ConvertContext> &ccontext, BrillParser::TopLevelContext *ctx) {
     std::shared_ptr<Module> module = getOrCreateModule(ccontext->moduleName);
     std::shared_ptr<ConvertContext> cctx = ccontext->withParent(module);
 
@@ -65,7 +65,9 @@ std::shared_ptr<Module> Brill::AST::getOrCreateModule(const std::string &name) {
         return module;
     }
 
-    return std::make_shared<Module>(name);
+    std::shared_ptr<Module> module = std::make_shared<Module>(name);
+    addModule(module);
+    return module;
 }
 
 bool Brill::AST::removeModule(const std::string &name) {

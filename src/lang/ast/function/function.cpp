@@ -37,7 +37,7 @@ llvm::Value *Function::codegen(std::shared_ptr<CodegenContext> ctx) {
     return function;
 }
 
-std::shared_ptr<Function> Brill::AST::convert(std::shared_ptr<ConvertContext> cctx, BrillParser::FunctionDeclarationContext *ctx) {
+std::shared_ptr<Function> Brill::AST::convert(const std::shared_ptr<ConvertContext> &cctx, BrillParser::FunctionDeclarationContext *ctx) {
     std::string name = ctx->functionName()->Identifier()->getText();
     std::shared_ptr<Function> function = std::make_shared<Function>(name, cctx->parent);
     std::shared_ptr<ConvertContext> childCtx = cctx->withParent(function);

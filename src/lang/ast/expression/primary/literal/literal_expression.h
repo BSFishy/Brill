@@ -13,5 +13,5 @@ namespace Brill::AST {
         llvm::Value *codegen(std::shared_ptr<CodegenContext>) override = 0;
     };
 
-    std::shared_ptr<LiteralExpression> convert(std::shared_ptr<ConvertContext>, BrillParser::LiteralExpressionContext*);
+    std::shared_ptr<LiteralExpression> convert(const std::shared_ptr<ConvertContext>&, BrillParser::LiteralExpressionContext*);
 }

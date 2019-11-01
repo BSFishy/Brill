@@ -14,10 +14,10 @@ namespace Brill::AST {
     public:
         std::vector<std::shared_ptr<Function>> functions;
 
-        void addFunction(std::shared_ptr<Function>);
-        bool removeFunction(std::shared_ptr<Function>);
-        std::shared_ptr<Function> getFunction(std::string);
+        void addFunction(const std::shared_ptr<Function>&);
+        bool removeFunction(const std::shared_ptr<Function>&);
+        std::shared_ptr<Function> getFunction(const std::string&);
 
-        void codegenFunctions(std::shared_ptr<CodegenContext>);
+        void codegenFunctions(const std::shared_ptr<CodegenContext>&);
     };
 }

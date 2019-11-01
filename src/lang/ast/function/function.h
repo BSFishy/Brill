@@ -19,12 +19,12 @@ namespace Brill::AST {
         std::shared_ptr<Node> parent;
 
         Function() = delete;
-        explicit Function(std::string &n, std::shared_ptr<Node> const& p) : NamedNode(n, p->symbolTable->child()) {
+        explicit Function(std::string &n, const std::shared_ptr<Node> &p) : NamedNode(n, p->symbolTable->child()) {
             parent = p;
         }
 
         llvm::Value *codegen(std::shared_ptr<CodegenContext>) override;
     };
 
-    std::shared_ptr<Function> convert(std::shared_ptr<ConvertContext>, BrillParser::FunctionDeclarationContext*);
+    std::shared_ptr<Function> convert(const std::shared_ptr<ConvertContext>&, BrillParser::FunctionDeclarationContext*);
 }

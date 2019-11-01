@@ -5,7 +5,7 @@
 
 using namespace Brill::AST;
 
-std::shared_ptr<NamedNode> SymbolTable::find(std::string name) {
+std::shared_ptr<NamedNode> SymbolTable::find(const std::string &name) {
     for (std::shared_ptr<NamedNode> const& symbol : this->symbols) {
         if (symbol->name == name) {
             return symbol;
@@ -19,11 +19,11 @@ std::shared_ptr<NamedNode> SymbolTable::find(std::string name) {
     return nullptr;
 }
 
-void SymbolTable::add(std::shared_ptr<NamedNode> node) {
+void SymbolTable::add(const std::shared_ptr<NamedNode> &node) {
     this->symbols.push_back(node);
 }
 
-bool SymbolTable::remove(std::shared_ptr<NamedNode> node) {
+bool SymbolTable::remove(const std::shared_ptr<NamedNode> &node) {
     for (auto i = this->symbols.begin(); i != this->symbols.end(); ++i) {
         if (*i == node) {
             this->symbols.erase(i);

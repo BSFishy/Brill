@@ -14,10 +14,12 @@ namespace Brill::AST {
     public:
         std::shared_ptr<PostfixExpression> postfixExpression;
 
-        explicit PrefixExpression(std::shared_ptr<PostfixExpression> pe) : postfixExpression(std::move(pe)) {}
+        explicit PrefixExpression(const std::shared_ptr<PostfixExpression> &pe) {
+            postfixExpression = pe;
+        }
 
         llvm::Value *codegen(std::shared_ptr<CodegenContext>) override;
     };
 
-    std::shared_ptr<PrefixExpression> convert(std::shared_ptr<ConvertContext>, BrillParser::PrefixExpressionContext*);
+    std::shared_ptr<PrefixExpression> convert(const std::shared_ptr<ConvertContext>&, BrillParser::PrefixExpressionContext*);
 }
