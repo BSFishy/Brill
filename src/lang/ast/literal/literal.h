@@ -11,6 +11,8 @@
 namespace Brill::AST {
     class Literal : public virtual Node {
     public:
+        explicit Literal(const std::shared_ptr<SymbolTable> &st) : Node(st) {}
+
         llvm::Value *codegen(std::shared_ptr<CodegenContext>) override = 0;
     };
 

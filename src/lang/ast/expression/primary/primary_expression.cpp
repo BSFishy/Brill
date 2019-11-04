@@ -13,7 +13,7 @@ std::shared_ptr<PrimaryExpression> Brill::AST::convert(const std::shared_ptr<Con
     if (BrillParser::LiteralExpressionContext *literalContext = ctx->literalExpression()) {
         return convert(cctx, literalContext);
     } else if (antlr4::tree::TerminalNode *identifier = ctx->Identifier()) {
-        return std::make_shared<PrimaryIdentifierExpression>(identifier->getText());
+        return std::make_shared<PrimaryIdentifierExpression>(cctx->parent->symbolTable, identifier->getText());
     } else {
         throw NotImplementedException();
     }

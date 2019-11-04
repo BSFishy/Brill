@@ -10,7 +10,7 @@ namespace Brill::AST {
     public:
         std::shared_ptr<Expression> expression;
 
-        explicit ExpressionStatement(const std::shared_ptr<Expression> &e) {
+        explicit ExpressionStatement(const std::shared_ptr<SymbolTable> &st, const std::shared_ptr<Expression> &e) : Statement(st) {
             expression = e;
         }
 

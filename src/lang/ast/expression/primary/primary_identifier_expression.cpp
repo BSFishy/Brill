@@ -1,6 +1,7 @@
 
 #include "primary_identifier_expression.h"
 
+#include "lang/ast/function/function.h"
 #include "lang/ast/named_node.h"
 
 #include "util.h"

@@ -13,7 +13,7 @@ namespace Brill::AST {
     public:
         std::shared_ptr<PrefixExpression> prefixExpression;
 
-        explicit Expression(const std::shared_ptr<PrefixExpression> &pe) {
+        explicit Expression(const std::shared_ptr<SymbolTable> &st, const std::shared_ptr<PrefixExpression> &pe) : Node(st) {
             prefixExpression = pe;
         }
 

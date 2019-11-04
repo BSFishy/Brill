@@ -10,5 +10,5 @@ llvm::Value *PrefixExpression::codegen(std::shared_ptr<CodegenContext> ctx) {
 std::shared_ptr<PrefixExpression> Brill::AST::convert(const std::shared_ptr<ConvertContext> &cctx, BrillParser::PrefixExpressionContext *ctx) {
     std::shared_ptr<PostfixExpression> postfixExpression = convert(cctx, ctx->postfixExpression());
 
-    return std::make_shared<PrefixExpression>(postfixExpression);
+    return std::make_shared<PrefixExpression>(cctx->parent->symbolTable, postfixExpression);
 }

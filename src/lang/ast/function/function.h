@@ -19,7 +19,7 @@ namespace Brill::AST {
         std::shared_ptr<Node> parent;
 
         Function() = delete;
-        explicit Function(std::string &n, const std::shared_ptr<Node> &p) : NamedNode(n, p->symbolTable->child()) {
+        explicit Function(std::string &n, const std::shared_ptr<Node> &p) : NamedNode(n), Node(p->symbolTable->child()) {
             parent = p;
         }
 

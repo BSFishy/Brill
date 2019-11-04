@@ -3,5 +3,12 @@
     // Hover to view descriptions of existing attributes.
     "version": "0.2.0",
     "configurations": [
+        {
+            "type": "antlr-debug",
+            "request": "launch",
+            "name": "Debug Current Grammar",
+            "input": "/workspace/Brill/examples/HelloWorld.brill",
+            "visualParseTree": true
+        }
     ]
 }

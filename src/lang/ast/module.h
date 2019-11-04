@@ -19,8 +19,8 @@ namespace Brill::AST {
         std::shared_ptr<Module> parent;
 
         Module() = delete;
-        explicit Module(std::string n) : NamedNode(std::move(n)) {}
-        Module(std::string n, const std::shared_ptr<Module> &p) : NamedNode(std::move(n), p->symbolTable->child()) {
+        explicit Module(const std::string &n) : NamedNode(n) {}
+        Module(const std::string &n, const std::shared_ptr<Module> &p) : NamedNode(n), Node(p->symbolTable->child()) {
             parent = p;
         }
 

@@ -17,5 +17,5 @@ llvm::Value *FunctionCallExpression::codegen(std::shared_ptr<CodegenContext> ctx
 std::shared_ptr<FunctionCallExpression> Brill::AST::convert(const std::shared_ptr<ConvertContext> &cctx, BrillParser::FunctionCallExpressionContext *ctx) {
     std::shared_ptr<PostfixExpression> postfixExpression = convert(cctx, ctx->postfixExpression());
 
-    return std::make_shared<FunctionCallExpression>(postfixExpression);
+    return std::make_shared<FunctionCallExpression>(cctx->parent->symbolTable, postfixExpression);
 }

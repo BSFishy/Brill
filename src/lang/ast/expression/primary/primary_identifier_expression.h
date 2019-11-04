@@ -11,7 +11,7 @@ namespace Brill::AST {
     public:
         std::string identifier;
 
-        explicit PrimaryIdentifierExpression(std::string i) : identifier(std::move(i)) {}
+        explicit PrimaryIdentifierExpression(const std::shared_ptr<SymbolTable> &st, std::string i) : PrimaryExpression(st), identifier(std::move(i)) {}
 
         llvm::Value *codegen(std::shared_ptr<CodegenContext>) override;
     };

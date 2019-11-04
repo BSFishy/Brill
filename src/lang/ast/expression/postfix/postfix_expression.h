@@ -9,8 +9,10 @@
 #include "lang/ast/node.h"
 
 namespace Brill::AST {
-    class PostfixExpression : public virtual Node {
+    class PostfixExpression : public Node {
     public:
+        explicit PostfixExpression(const std::shared_ptr<SymbolTable> &st) : Node(st) {}
+
         llvm::Value *codegen(std::shared_ptr<CodegenContext>) override = 0;
     };
 

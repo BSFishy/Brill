@@ -12,7 +12,7 @@ namespace Brill::AST {
     public:
         std::shared_ptr<PrimaryExpression> primaryExpression;
 
-        explicit PostfixPrimaryExpression(const std::shared_ptr<PrimaryExpression> &pe) {
+        explicit PostfixPrimaryExpression(const std::shared_ptr<SymbolTable> &st, const std::shared_ptr<PrimaryExpression> &pe) : PostfixExpression(st) {
             primaryExpression = pe;
         }
 

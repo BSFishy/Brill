@@ -9,8 +9,10 @@
 #include "lang/ast/node.h"
 
 namespace Brill::AST {
-    class PrimaryExpression : public virtual Node {
+    class PrimaryExpression : public Node {
     public:
+        explicit PrimaryExpression(const std::shared_ptr<SymbolTable> &st) : Node(st) {}
+
         llvm::Value *codegen(std::shared_ptr<CodegenContext>) override = 0;
     };
 

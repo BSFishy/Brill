@@ -13,7 +13,7 @@ namespace Brill::AST {
     public:
         std::string value;
 
-        explicit StringLiteral(std::string v) : value(std::move(v)) {}
+        explicit StringLiteral(const std::shared_ptr<SymbolTable> &st, std::string v) : Literal(st), value(std::move(v)) {}
 
         llvm::Value *codegen(std::shared_ptr<CodegenContext>) override;
     };

@@ -7,6 +7,6 @@
 namespace Brill::AST {
     class Container : public virtual Node {
     // public:
-    //     SymbolTable *symbolTable;
+    //     Container() : Node() {}
     };
 }

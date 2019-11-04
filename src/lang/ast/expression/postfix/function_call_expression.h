@@ -10,7 +10,7 @@ namespace Brill::AST {
     public:
         std::shared_ptr<PostfixExpression> postfixExpression;
 
-        explicit FunctionCallExpression(const std::shared_ptr<PostfixExpression> &pe) {
+        explicit FunctionCallExpression(const std::shared_ptr<SymbolTable> &st, const std::shared_ptr<PostfixExpression> &pe) : PostfixExpression(st) {
             postfixExpression = pe;
         }
 

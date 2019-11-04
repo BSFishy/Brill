@@ -15,7 +15,7 @@ namespace Brill::AST {
         std::shared_ptr<Literal> literal;
 
         LiteralLiteralExpression() = delete;
-        explicit LiteralLiteralExpression(const std::shared_ptr<Literal> &l) {
+        explicit LiteralLiteralExpression(const std::shared_ptr<SymbolTable> &st, const std::shared_ptr<Literal> &l) : LiteralExpression(st) {
             literal = l;
         }
 
