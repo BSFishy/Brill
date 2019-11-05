@@ -5,6 +5,10 @@
 
 using namespace Brill::AST;
 
-llvm::Value *LiteralLiteralExpression::codegen(std::shared_ptr<CodegenContext> ctx) {
+LiteralLiteralExpression::LiteralLiteralExpression(const std::shared_ptr<SymbolTable> &st, const std::shared_ptr<Literal> &l) : LiteralExpression(st) {
+    literal = l;
+}
+
+llvm::Value *LiteralLiteralExpression::codegen(std::shared_ptr<CodegenContext> ctx) const {
     return this->literal->codegen(ctx);
 }

@@ -17,6 +17,7 @@
 
 #include "lang/ast/module.h"
 #include "lang/ast/abstract/convert_context.h"
+#include "lang/ast/abstract/codegen_context.h"
 
 using namespace std;
 

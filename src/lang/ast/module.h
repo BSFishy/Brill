@@ -8,29 +8,29 @@
 #include "BrillParser.h"
 
 #include "named_node.h"
-#include "symbol_table.h"
-
-#include "abstract/convert_context.h"
 #include "container/function_container.h"
 
 namespace Brill::AST {
     class Module : public NamedNode, public FunctionContainer {
-    public:
         std::shared_ptr<Module> parent;
-
+    public:
         Module() = delete;
-        explicit Module(const std::string &n) : NamedNode(n) {}
-        Module(const std::string &n, const std::shared_ptr<Module> &p) : NamedNode(n), Node(p->symbolTable->child()) {
-            parent = p;
-        }
+        explicit Module(const std::string&);
+        Module(const std::string&, const std::shared_ptr<Module>&);
+        // explicit Module(const std::string &n) : NamedNode(n) {}
+        // Module(const std::string &n, const std::shared_ptr<Module> &p) : NamedNode(n), Node(p->getSymbolTable()->child()) {
+        //     parent = p;
+        // }
 
-        llvm::Value *codegen(std::shared_ptr<CodegenContext>) override;
-        std::shared_ptr<Brill::AST::CodegenContext> codegen();
+        std::shared_ptr<Module> getParent() const;
+
+        llvm::Value *codegen(std::shared_ptr<CodegenContext>) const override;
+        std::shared_ptr<Brill::AST::CodegenContext> codegen() const;
     };
 
     std::shared_ptr<Module> convert(const std::shared_ptr<ConvertContext>&, BrillParser::TopLevelContext*);
 
-    static std::vector<std::shared_ptr<Module>> modules;
+    // static std::vector<std::shared_ptr<Module>> modules;
 
     void addModule(const std::shared_ptr<Module>&);
     std::shared_ptr<Module> getModule(const std::string&);

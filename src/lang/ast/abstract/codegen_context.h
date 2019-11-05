@@ -2,6 +2,7 @@
 #pragma once
 
 #include <memory>
+#include <string>
 
 #include "llvm/IR/LLVMContext.h"
 #include "llvm/IR/Module.h"
@@ -13,10 +14,12 @@ namespace Brill::AST {
         std::shared_ptr<llvm::Module> module;
         std::shared_ptr<llvm::IRBuilder<>> builder;
 
-        CodegenContext(const std::shared_ptr<llvm::LLVMContext> &c, const std::shared_ptr<llvm::Module> &m, const std::shared_ptr<llvm::IRBuilder<>> &b) {
-            context = c;
-            module = m;
-            builder = b;
-        }
+        explicit CodegenContext(std::string);
+        CodegenContext(const std::shared_ptr<llvm::LLVMContext>&, const std::shared_ptr<llvm::Module>&, const std::shared_ptr<llvm::IRBuilder<>>&);
+        // CodegenContext(const std::shared_ptr<llvm::LLVMContext> &c, const std::shared_ptr<llvm::Module> &m, const std::shared_ptr<llvm::IRBuilder<>> &b) {
+        //     context = c;
+        //     module = m;
+        //     builder = b;
+        // }
     };
 }

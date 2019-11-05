@@ -5,20 +5,20 @@
 
 #include "BrillParser.h"
 
-#include "lang/ast/abstract/convert_context.h"
 #include "lang/ast/node.h"
-#include "postfix/postfix_expression.h"
 
 namespace Brill::AST {
+    class PostfixExpression;
+
     class PrefixExpression : public Node {
-    public:
         std::shared_ptr<PostfixExpression> postfixExpression;
+    public:
+        PrefixExpression(const std::shared_ptr<SymbolTable>&, const std::shared_ptr<PostfixExpression>&);
+        // explicit PrefixExpression(const std::shared_ptr<SymbolTable> &st, const std::shared_ptr<PostfixExpression> &pe) : Node(st) {
+        //     postfixExpression = pe;
+        // }
 
-        explicit PrefixExpression(const std::shared_ptr<SymbolTable> &st, const std::shared_ptr<PostfixExpression> &pe) : Node(st) {
-            postfixExpression = pe;
-        }
-
-        llvm::Value *codegen(std::shared_ptr<CodegenContext>) override;
+        llvm::Value *codegen(std::shared_ptr<CodegenContext>) const override;
     };
 
     std::shared_ptr<PrefixExpression> convert(const std::shared_ptr<ConvertContext>&, BrillParser::PrefixExpressionContext*);

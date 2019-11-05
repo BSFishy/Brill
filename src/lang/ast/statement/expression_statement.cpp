@@ -3,6 +3,10 @@
 
 using namespace Brill::AST;
 
-llvm::Value *ExpressionStatement::codegen(std::shared_ptr<CodegenContext> ctx) {
+ExpressionStatement::ExpressionStatement(const std::shared_ptr<SymbolTable> &st, const std::shared_ptr<Expression> &e) : Statement(st) {
+    expression = e;
+}
+
+llvm::Value *ExpressionStatement::codegen(std::shared_ptr<CodegenContext> ctx) const {
     return this->expression->codegen(ctx);
 }

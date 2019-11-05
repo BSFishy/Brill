@@ -8,14 +8,21 @@
 #include "node.h"
 
 namespace Brill::AST {
+    /**
+     * A node in the AST that has a name. This is any value that can be recognized by a string representing
+     * its name. Examples of this include a class or function.
+     */
     class NamedNode : public virtual Node {
-    public:
         std::string name;
-
+    public:
         NamedNode() = delete;
-        explicit NamedNode(std::string n) : Node(), name(std::move(n)) {}
-        // NamedNode(std::string n, const std::shared_ptr<SymbolTable> &s) : Node(s), name(std::move(n)) {}
+        explicit NamedNode(std::string);
 
-        llvm::Value *codegen(std::shared_ptr<CodegenContext>) override = 0;
+        /**
+         * Get the name of this node.
+         */
+        std::string getName() const;
+
+        llvm::Value *codegen(std::shared_ptr<CodegenContext>) const override = 0;
     };
 }

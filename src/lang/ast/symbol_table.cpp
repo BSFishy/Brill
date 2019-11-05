@@ -2,21 +2,46 @@
 #include "symbol_table.h"
 
 #include "named_node.h"
+#include <memory>
 
 using namespace Brill::AST;
 
-std::shared_ptr<NamedNode> SymbolTable::find(const std::string &name) {
+SymbolTable::SymbolTable() : symbols() {
+    this->parent = nullptr;
+}
+
+SymbolTable::SymbolTable(const std::shared_ptr<const SymbolTable> &p) : symbols() {
+    this->parent = p;
+}
+
+std::shared_ptr<NamedNode> SymbolTable::findFirst(const std::string &name) const {
     for (const auto &symbol : this->symbols) {
-        if (symbol->name == name) {
+        if (symbol->getName() == name) {
             return symbol;
         }
     }
 
     if (this->parent) {
-        return this->parent->find(name);
+        return this->parent->findFirst(name);
     }
 
     return nullptr;
+}
+
+std::vector<std::shared_ptr<NamedNode>> SymbolTable::findAll(const std::string &name) const {
+    std::vector<std::shared_ptr<NamedNode>> result;
+    for (const auto &symbol : this->symbols) {
+        if (symbol->getName() == name) {
+            result.push_back(symbol);
+        }
+    }
+
+    if (this->parent) {
+        std::vector<std::shared_ptr<NamedNode>> parentResult = this->parent->findAll(name);
+        result.insert(result.end(), parentResult.begin(), parentResult.end());
+    }
+
+    return result;
 }
 
 void SymbolTable::add(const std::shared_ptr<NamedNode> &node) {
@@ -34,16 +59,18 @@ bool SymbolTable::remove(const std::shared_ptr<NamedNode> &node) {
     return false;
 }
 
-std::shared_ptr<SymbolTable> SymbolTable::child() {
-    std::shared_ptr<SymbolTable> c = std::make_shared<SymbolTable>();
-    c->parent = shared_from_this();
-    return c;
+std::shared_ptr<SymbolTable> SymbolTable::child() const {
+    return std::make_shared<SymbolTable>(shared_from_this());
 }
 
-int SymbolTable::size() {
-    return this->symbols.size();
+std::shared_ptr<const SymbolTable> SymbolTable::getParent() const {
+    return this->parent;
 }
 
-std::shared_ptr<NamedNode> SymbolTable::get(int index) {
-    return this->symbols[index];
-}
+// int SymbolTable::size() {
+//     return this->symbols.size();
+// }
+
+// std::shared_ptr<NamedNode> SymbolTable::get(int index) {
+//     return this->symbols[index];
+// }

@@ -20,7 +20,11 @@ bool StatementContainer::removeStatement(const std::shared_ptr<Statement>& state
     return false;
 }
 
-void StatementContainer::codegenStatements(const std::shared_ptr<CodegenContext>& ctx) {
+std::vector<std::shared_ptr<Statement>> StatementContainer::getStatements() const {
+    return this->statements;
+}
+
+void StatementContainer::codegenStatements(const std::shared_ptr<CodegenContext>& ctx) const {
     for (std::shared_ptr<Statement> const& statement : this->statements) {
         statement->codegen(ctx);
     }

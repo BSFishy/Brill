@@ -11,14 +11,14 @@ namespace Brill::AST {
     class Literal;
 
     class LiteralLiteralExpression : public LiteralExpression {
-    public:
         std::shared_ptr<Literal> literal;
-
+    public:
         LiteralLiteralExpression() = delete;
-        explicit LiteralLiteralExpression(const std::shared_ptr<SymbolTable> &st, const std::shared_ptr<Literal> &l) : LiteralExpression(st) {
-            literal = l;
-        }
+        LiteralLiteralExpression(const std::shared_ptr<SymbolTable>&, const std::shared_ptr<Literal>&);
+        // explicit LiteralLiteralExpression(const std::shared_ptr<SymbolTable> &st, const std::shared_ptr<Literal> &l) : LiteralExpression(st) {
+        //     literal = l;
+        // }
 
-        llvm::Value *codegen(std::shared_ptr<CodegenContext>) override;
+        llvm::Value *codegen(std::shared_ptr<CodegenContext>) const override;
     };
 }

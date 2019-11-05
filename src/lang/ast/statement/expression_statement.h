@@ -7,13 +7,13 @@
 
 namespace Brill::AST {
     class ExpressionStatement : public Statement {
-    public:
         std::shared_ptr<Expression> expression;
+    public:
+        ExpressionStatement(const std::shared_ptr<SymbolTable>&, const std::shared_ptr<Expression>&);
+        // explicit ExpressionStatement(const std::shared_ptr<SymbolTable> &st, const std::shared_ptr<Expression> &e) : Statement(st) {
+        //     expression = e;
+        // }
 
-        explicit ExpressionStatement(const std::shared_ptr<SymbolTable> &st, const std::shared_ptr<Expression> &e) : Statement(st) {
-            expression = e;
-        }
-
-        llvm::Value *codegen(std::shared_ptr<CodegenContext>) override;
+        llvm::Value *codegen(std::shared_ptr<CodegenContext>) const override;
     };
 }
