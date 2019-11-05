@@ -66,11 +66,3 @@ std::shared_ptr<SymbolTable> SymbolTable::child() const {
 std::shared_ptr<const SymbolTable> SymbolTable::getParent() const {
     return this->parent;
 }
-
-// int SymbolTable::size() {
-//     return this->symbols.size();
-// }
-
-// std::shared_ptr<NamedNode> SymbolTable::get(int index) {
-//     return this->symbols[index];
-// }

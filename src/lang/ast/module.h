@@ -17,10 +17,6 @@ namespace Brill::AST {
         Module() = delete;
         explicit Module(const std::string&);
         Module(const std::string&, const std::shared_ptr<Module>&);
-        // explicit Module(const std::string &n) : NamedNode(n) {}
-        // Module(const std::string &n, const std::shared_ptr<Module> &p) : NamedNode(n), Node(p->getSymbolTable()->child()) {
-        //     parent = p;
-        // }
 
         std::shared_ptr<Module> getParent() const;
 
@@ -29,8 +25,6 @@ namespace Brill::AST {
     };
 
     std::shared_ptr<Module> convert(const std::shared_ptr<ConvertContext>&, BrillParser::TopLevelContext*);
-
-    // static std::vector<std::shared_ptr<Module>> modules;
 
     void addModule(const std::shared_ptr<Module>&);
     std::shared_ptr<Module> getModule(const std::string&);

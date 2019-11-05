@@ -14,9 +14,6 @@ namespace Brill::AST {
         std::shared_ptr<PostfixExpression> postfixExpression;
     public:
         PrefixExpression(const std::shared_ptr<SymbolTable>&, const std::shared_ptr<PostfixExpression>&);
-        // explicit PrefixExpression(const std::shared_ptr<SymbolTable> &st, const std::shared_ptr<PostfixExpression> &pe) : Node(st) {
-        //     postfixExpression = pe;
-        // }
 
         llvm::Value *codegen(std::shared_ptr<CodegenContext>) const override;
     };

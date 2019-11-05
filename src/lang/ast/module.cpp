@@ -24,12 +24,8 @@ llvm::Value *Module::codegen(std::shared_ptr<CodegenContext> ctx) const {
 
 std::shared_ptr<Brill::AST::CodegenContext> Module::codegen() const {
     const char *filename = "placeholder";
-    // std::shared_ptr<llvm::LLVMContext> llvmContext = std::make_shared<llvm::LLVMContext>();
-    // std::shared_ptr<llvm::Module>      module      = std::make_shared<llvm::Module>(filename, *llvmContext);
-    // std::shared_ptr<llvm::IRBuilder<>> builder     = std::make_shared<llvm::IRBuilder<>>(*llvmContext);
     std::shared_ptr<CodegenContext> ctx = std::make_shared<CodegenContext>(filename);
     ctx->module->setSourceFileName(filename);
-    // std::shared_ptr<CodegenContext> ctx(new CodegenContext(llvmContext, module, builder));
 
     this->codegen(ctx);
 

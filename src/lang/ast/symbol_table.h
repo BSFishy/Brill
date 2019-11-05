@@ -55,16 +55,5 @@ namespace Brill::AST {
          * class, which is null if no parent is defined.
          */
         std::shared_ptr<const SymbolTable> getParent() const;
-
-        /**
-         * Get the number of symbols in this tree. This simply returns the size method of the vector
-         * and doesn't take into account a parent symbol tree. It can be used to iterate through the
-         * table, but doesn't include parent values.
-         */
-        //int size() const;
-        /**
-         * Get a node at the
-         */
-        //std::shared_ptr<NamedNode> get(int) const;
     };
 }

@@ -16,10 +16,5 @@ namespace Brill::AST {
 
         explicit CodegenContext(std::string);
         CodegenContext(const std::shared_ptr<llvm::LLVMContext>&, const std::shared_ptr<llvm::Module>&, const std::shared_ptr<llvm::IRBuilder<>>&);
-        // CodegenContext(const std::shared_ptr<llvm::LLVMContext> &c, const std::shared_ptr<llvm::Module> &m, const std::shared_ptr<llvm::IRBuilder<>> &b) {
-        //     context = c;
-        //     module = m;
-        //     builder = b;
-        // }
     };
 }

@@ -14,9 +14,6 @@ namespace Brill::AST {
         std::shared_ptr<PrefixExpression> prefixExpression;
     public:
         Expression(const std::shared_ptr<SymbolTable>&, const std::shared_ptr<PrefixExpression>&);
-        // explicit Expression(const std::shared_ptr<SymbolTable> &st, const std::shared_ptr<PrefixExpression> &pe) : Node(st) {
-        //     prefixExpression = pe;
-        // }
 
         llvm::Value *codegen(std::shared_ptr<CodegenContext>) const override;
     };
