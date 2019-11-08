@@ -5,6 +5,8 @@
 #include "lang/ast/abstract/codegen_context.h"
 #include "lang/ast/abstract/convert_context.h"
 
+#include "function_call_argument.h"
+
 #include "util.h"
 
 using namespace Brill::AST;
@@ -19,16 +21,19 @@ llvm::Value *FunctionCallExpression::codegen(std::shared_ptr<CodegenContext> ctx
         throw IllegalStateException("Could not get function for call.");
     }
 
-    return ctx->builder->CreateCall(function);
+    std::vector<llvm::Value*> args;
+    for (const auto &argument : this->arguments) {
+        args.push_back(argument->codegen(ctx));
+    }
+
+    return ctx->builder->CreateCall(function->getFunctionType(), function, args);
+}
+
+void FunctionCallExpression::addArgument(const std::shared_ptr<FunctionCallArgument> &argument) {
+    this->arguments.push_back(argument);
 }
 
 std::shared_ptr<FunctionCallExpression> Brill::AST::convert(const std::shared_ptr<ConvertContext> &cctx, BrillParser::FunctionCallExpressionContext *ctx) {
-    if (BrillParser::FunctionCallArgumentClauseContext *argumentContext = ctx->functionCallArgumentClause()) {
-        if (BrillParser::FunctionCallArgumentListContext *argumentListContext = argumentContext->functionCallArgumentList()) {
-            cctx->error(argumentContext->getStart(), "Function arguments are not implemented yet");
-            return nullptr;
-        }
-    }
     if (BrillParser::TrailingClosureContext *closureContext = ctx->trailingClosure()) {
         cctx->error(closureContext->getStart(), "Trailing closures are not implemented yet");
         return nullptr;
@@ -39,5 +44,21 @@ std::shared_ptr<FunctionCallExpression> Brill::AST::convert(const std::shared_pt
         return nullptr;
     }
 
-    return std::make_shared<FunctionCallExpression>(cctx->parent->getSymbolTable(), postfixExpression);
+    std::shared_ptr<FunctionCallExpression> callExpression = std::make_shared<FunctionCallExpression>(cctx->parent->getSymbolTable(), postfixExpression);
+
+
+    if (BrillParser::FunctionCallArgumentClauseContext *argumentContext = ctx->functionCallArgumentClause()) {
+        if (BrillParser::FunctionCallArgumentListContext *argumentListContext = argumentContext->functionCallArgumentList()) {
+            for (const auto &argumentContext : argumentListContext->functionCallArgument()) {
+                std::shared_ptr<FunctionCallArgument> argument = convert(cctx, argumentContext);
+                if (!argument) {
+                    return nullptr;
+                }
+
+                callExpression->addArgument(argument);
+            }
+        }
+    }
+
+    return callExpression;
 }
