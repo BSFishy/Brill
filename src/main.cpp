@@ -18,6 +18,7 @@
 #include "lang/ast/module.h"
 #include "lang/ast/abstract/convert_context.h"
 #include "lang/ast/abstract/codegen_context.h"
+#include "lang/ast/diagnostic/compiler_diagnostics.h"
 
 using namespace std;
 
@@ -33,10 +34,18 @@ int main(int argc, const char *argv[]) {
 
     std::shared_ptr<Brill::AST::ConvertContext> convertContext = std::make_shared<Brill::AST::ConvertContext>(argv[1]);
     std::shared_ptr<Brill::AST::Module> module = Brill::AST::convert(convertContext, file->topLevel);
-    std::shared_ptr<Brill::AST::CodegenContext> ctx = module->codegen();
 
-    fprintf(stderr, "Output:\n\n");
-    ctx->module->print(llvm::errs(), nullptr);
+    if (convertContext->diagnostics->hasIssues()) {
+        convertContext->diagnostics->printIssues();
+
+        if (convertContext->diagnostics->hasFatalIssues()) {
+            return -1;
+        }
+    }
+
+    std::shared_ptr<Brill::AST::CodegenContext> ctx = module->codegen();
+    fprintf(stdout, "Output:\n\n");
+    ctx->module->print(llvm::outs(), nullptr);
 
     // EMIT FILE STUFF
 
@@ -86,7 +95,7 @@ int main(int argc, const char *argv[]) {
     pass.run(*(ctx->module));
     dest.flush();
 
-    fprintf(stderr, "\n\nWrote file %s\n", filename);
+    fprintf(stdout, "\n\nWrote file %s\n", filename);
 
     return 0;
 }

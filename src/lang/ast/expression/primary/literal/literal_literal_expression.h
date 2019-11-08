@@ -15,9 +15,6 @@ namespace Brill::AST {
     public:
         LiteralLiteralExpression() = delete;
         LiteralLiteralExpression(const std::shared_ptr<SymbolTable>&, const std::shared_ptr<Literal>&);
-        // explicit LiteralLiteralExpression(const std::shared_ptr<SymbolTable> &st, const std::shared_ptr<Literal> &l) : LiteralExpression(st) {
-        //     literal = l;
-        // }
 
         llvm::Value *codegen(std::shared_ptr<CodegenContext>) const override;
     };

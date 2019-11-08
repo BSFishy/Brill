@@ -17,5 +17,10 @@ llvm::Value *PostfixPrimaryExpression::codegen(std::shared_ptr<CodegenContext> c
 }
 
 std::shared_ptr<PostfixPrimaryExpression> Brill::AST::convert(const std::shared_ptr<ConvertContext> &cctx, BrillParser::PostfixPrimaryExpressionContext *ctx) {
-    return std::make_shared<PostfixPrimaryExpression>(cctx->parent->getSymbolTable(), convert(cctx, ctx->primaryExpression()));
+    std::shared_ptr<PrimaryExpression> primaryExpression = convert(cctx, ctx->primaryExpression());
+    if (!primaryExpression) {
+        return nullptr;
+    }
+
+    return std::make_shared<PostfixPrimaryExpression>(cctx->parent->getSymbolTable(), primaryExpression);
 }

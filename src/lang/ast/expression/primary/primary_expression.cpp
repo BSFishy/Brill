@@ -18,6 +18,7 @@ std::shared_ptr<PrimaryExpression> Brill::AST::convert(const std::shared_ptr<Con
     } else if (antlr4::tree::TerminalNode *identifier = ctx->Identifier()) {
         return std::make_shared<PrimaryIdentifierExpression>(cctx->parent->getSymbolTable(), identifier->getText());
     } else {
-        throw NotImplementedException();
+        cctx->error(ctx->getStart(), "Not implemented");
+        return nullptr;
     }
 }

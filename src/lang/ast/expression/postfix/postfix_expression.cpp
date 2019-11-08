@@ -17,6 +17,7 @@ std::shared_ptr<PostfixExpression> Brill::AST::convert(const std::shared_ptr<Con
     } else if (BrillParser::PostfixPrimaryExpressionContext *primaryContext = dynamic_cast<BrillParser::PostfixPrimaryExpressionContext*>(ctx)) {
         return convert(cctx, primaryContext);
     } else {
-        throw NotImplementedException();
+        cctx->error(ctx->getStart(), "Not implemented");
+        return nullptr;
     }
 }

@@ -11,7 +11,6 @@ namespace Brill::AST {
     class PrimaryExpression : public Node {
     public:
         explicit PrimaryExpression(const std::shared_ptr<SymbolTable>&);
-        // explicit PrimaryExpression(const std::shared_ptr<SymbolTable> &st) : Node(st) {}
 
         llvm::Value *codegen(std::shared_ptr<CodegenContext>) const override = 0;
     };

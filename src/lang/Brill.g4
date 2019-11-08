@@ -166,25 +166,37 @@ argumentName : Identifier ':' ;
 /////////////////////////////////////////////////////////
 // Types
 
-type : functionType
-     | arrayType
-     | dictionaryType
-     | typeIdentifier
-     | tupleType
-     | type ( '?' | '!' )
-     | protocolCompositionType
-     | opaqueType
-     | type '.' ( 'Type' | 'Protocol' )
-     | selfType
-     | 'Any'
-     | '(' type ')'
+// type : functionType
+//      | arrayType
+//      | dictionaryType
+//      | typeIdentifier
+//      | tupleType
+//      | type ( '?' | '!' )
+//      | protocolCompositionType
+//      | opaqueType
+//      | type '.' ( 'Type' | 'Protocol' )
+//      | selfType
+//      | 'Any'
+//      | '(' type ')'
+//      ;
+type : type '?' #optionalType
+     | type '!' #implicitlyUnwrappedOptionalType
+     | type '.' ( 'Type' | 'Protocol' ) #metatypeType
+     | attributes? functionTypeArgumentClause 'throws'? '->' type #functionType
+     | '[' type ']' #arrayType
+     | '[' type ':' type ']' #dictionaryType
+     | typeIdentifier #typeIdentifierType
+     | tupleType #tupleTypeType
+     | protocolCompositionType #protocolCompositionTypeType
+     | 'some' type #opaqueType
+     | 'Self' #selfType
+     | 'Any' #anyType
+     | '(' type ')' #enclosedType
      ;
 
 typeAnnotation : ':' attributes? 'inout'? type ;
 
-typeIdentifier : typeName genericArgumentClause? ('.' typeIdentifier)?
-               | Identifier
-               ;
+typeIdentifier : typeName genericArgumentClause? ('.' typeIdentifier)? ;
 typeName : Identifier ;
 
 tupleType : '(' ( tupleTypeElement ',' tupleTypeElementList )? ')' ;
@@ -192,15 +204,15 @@ tupleTypeElementList : tupleTypeElement ( ',' tupleTypeElementList )* ;
 tupleTypeElement : elementName typeAnnotation | type ;
 elementName : Identifier ;
 
-functionType : attributes? functionTypeArgumentClause 'throws'? '->' type ;
+// functionType : attributes? functionTypeArgumentClause 'throws'? '->' type ;
 functionTypeArgumentClause : '(' ( functionTypeArgumentList '...'? )? ')' ;
 functionTypeArgumentList : functionTypeArgument ( ',' functionTypeArgument )* ;
 functionTypeArgument : attributes? 'inout'? type | argumentLabel typeAnnotation ;
 argumentLabel : Identifier ;
 
-arrayType : '[' type ']' ;
+// arrayType : '[' type ']' ;
 
-dictionaryType : '[' type ':' type ']' ;
+// dictionaryType : '[' type ':' type ']' ;
 
 //optionalType : type '?' ;
 
@@ -208,11 +220,11 @@ dictionaryType : '[' type ':' type ']' ;
 
 protocolCompositionType : typeIdentifier ( '&' typeIdentifier )+ ;
 
-opaqueType : 'some' type ;
+// opaqueType : 'some' type ;
 
 //metatypeType : type '.' 'Type' | type '.' 'Protocol' ;
 
-selfType : 'Self' ;
+// selfType : 'Self' ;
 
 typeInheritanceClause : ':' typeInheritanceList ;
 typeInheritanceList : typeIdentifier ( ',' typeIdentifier )* ;

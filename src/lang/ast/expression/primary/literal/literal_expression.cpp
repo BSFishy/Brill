@@ -13,8 +13,14 @@ LiteralExpression::LiteralExpression(const std::shared_ptr<SymbolTable> &st) : P
 
 std::shared_ptr<LiteralExpression> Brill::AST::convert(const std::shared_ptr<ConvertContext> &cctx, BrillParser::LiteralExpressionContext *ctx) {
     if (BrillParser::LiteralContext *literalContext = ctx->literal()) {
-        return std::make_shared<LiteralLiteralExpression>(cctx->parent->getSymbolTable(), convert(cctx, literalContext));
+        std::shared_ptr<Literal> literal = convert(cctx, literalContext);
+        if (!literal) {
+            return nullptr;
+        }
+
+        return std::make_shared<LiteralLiteralExpression>(cctx->parent->getSymbolTable(), literal);
     } else {
-        throw NotImplementedException();
+        cctx->error(ctx->getStart(), "Not implemented");
+        return nullptr;
     }
 }

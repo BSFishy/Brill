@@ -14,6 +14,7 @@ std::shared_ptr<Literal> Brill::AST::convert(const std::shared_ptr<ConvertContex
     if (antlr4::tree::TerminalNode *stringValue = ctx->StringLiteral()) {
         return std::make_shared<StringLiteral>(cctx->parent->getSymbolTable(), stringValue->getText());
     } else {
-        throw NotImplementedException();
+        cctx->error(ctx->getStart(), "Not implemented");
+        return nullptr;
     }
 }

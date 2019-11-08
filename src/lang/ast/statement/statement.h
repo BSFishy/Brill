@@ -11,7 +11,6 @@ namespace Brill::AST {
     class Statement : public Node {
     public:
         explicit Statement(const std::shared_ptr<SymbolTable> &st);
-        // explicit Statement(const std::shared_ptr<SymbolTable> &st) : Node(st) {}
 
         llvm::Value *codegen(std::shared_ptr<CodegenContext>) const override = 0;
     };

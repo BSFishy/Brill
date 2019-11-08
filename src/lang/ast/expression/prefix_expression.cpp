@@ -15,7 +15,19 @@ llvm::Value *PrefixExpression::codegen(std::shared_ptr<CodegenContext> ctx) cons
 }
 
 std::shared_ptr<PrefixExpression> Brill::AST::convert(const std::shared_ptr<ConvertContext> &cctx, BrillParser::PrefixExpressionContext *ctx) {
+    if (BrillParser::InoutExpressionContext *inoutContext = ctx->inoutExpression()) {
+        cctx->error(inoutContext->getStart(), "In-out expressions are not implemented");
+        return nullptr;
+    }
+    if (BrillParser::PrefixOperatorContext *operatorContext = ctx->prefixOperator()) {
+        cctx->error(operatorContext->getStart(), "Prefix operators are not implemented");
+        return nullptr;
+    }
+
     std::shared_ptr<PostfixExpression> postfixExpression = convert(cctx, ctx->postfixExpression());
+    if (!postfixExpression) {
+        return nullptr;
+    }
 
     return std::make_shared<PrefixExpression>(cctx->parent->getSymbolTable(), postfixExpression);
 }
