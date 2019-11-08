@@ -18,8 +18,6 @@ namespace Brill::AST {
 
         std::vector<std::shared_ptr<Parameter>> parameters;
         bool varargs;
-
-        bool generated = false;
     public:
         Function() = delete;
         Function(std::string, const std::shared_ptr<Node>&, bool = false);
