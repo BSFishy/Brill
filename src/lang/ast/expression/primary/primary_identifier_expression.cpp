@@ -1,6 +1,8 @@
 
 #include "primary_identifier_expression.h"
 
+#include "illegal_state_exception.h"
+#include "lang/ast/abstract/codegen_context.h"
 #include "lang/ast/symbol_table.h"
 #include "lang/ast/function/function.h"
 #include "lang/ast/named_node.h"
@@ -12,14 +14,18 @@ using namespace Brill::AST;
 PrimaryIdentifierExpression::PrimaryIdentifierExpression(const std::shared_ptr<SymbolTable> &st, std::string i) : PrimaryExpression(st), identifier(std::move(i)) {}
 
 llvm::Value *PrimaryIdentifierExpression::codegen(std::shared_ptr<CodegenContext> ctx) const {
-    std::shared_ptr<NamedNode> node = this->lookup(this->identifier);
-    if (!node) {
-        throw IllegalStateException(this->identifier + " could not be found");
+    if (llvm::Function *function = ctx->module->getFunction(this->identifier)) {
+        return function;
     }
 
-    return node->codegen(ctx);
-}
+    std::shared_ptr<NamedNode> node = this->getSymbolTable()->findFirst(this->identifier);
+    if (!node) {
+        throw IllegalStateException("Could not find " + this->identifier + " in the symbol table");
+    }
 
-std::shared_ptr<NamedNode> PrimaryIdentifierExpression::lookup(std::string identifier) const {
-    return this->getSymbolTable()->findFirst(identifier);
+    llvm::IRBuilderBase::InsertPoint ip = ctx->builder->saveAndClearIP();
+    llvm::Value *value = node->codegen(ctx);
+    ctx->builder->restoreIP(ip);
+
+    return value;
 }

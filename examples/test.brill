@@ -1,5 +1,11 @@
-func printf()
+
+func printf(message: i8...)
 
 func main() {
-    printf()
+    test()
+    test()
+}
+
+func test() {
+    printf("Hello world!\n")
 }

@@ -1,1 +1,1 @@
-./cmake-build-debug/src/brill examples/HelloWorld.brill
+./cmake-build-debug/src/brill examples/test.brill

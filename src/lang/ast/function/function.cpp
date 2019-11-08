@@ -35,6 +35,10 @@ llvm::Value *Function::codegen(std::shared_ptr<CodegenContext> ctx) const {
     if (!function) {
         throw IllegalStateException("Could not generate function: " + this->getName());
     }
+    
+    if (function->getInstructionCount() != 0) {
+        return function;
+    }
 
     unsigned index = 0;
     for (auto &arg : function->args()) {
