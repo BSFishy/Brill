@@ -11,6 +11,8 @@
 namespace Brill::AST {
     class StringLiteral : public Literal {
         std::string value;
+
+        std::string convert(const std::string) const;
     public:
         StringLiteral(const std::shared_ptr<SymbolTable>&, std::string);
 
