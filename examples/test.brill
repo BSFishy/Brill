@@ -2,10 +2,10 @@
 func printf(message: i8...)
 
 func main() {
-    test()
-    test()
+    test("Hello\n")
+    test("World\n")
 }
 
-func test() {
-    printf("Hello world!\n")
+func test(test: i8) {
+    printf(test)
 }

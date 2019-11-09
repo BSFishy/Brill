@@ -4,10 +4,12 @@
 #include <vector>
 
 #include "llvm/IR/Verifier.h"
+#include "llvm/IR/Type.h"
 
 #include "abstract/convert_context.h"
 #include "abstract/codegen_context.h"
 #include "lang/ast/symbol_table.h"
+#include "lang/ast/value_wrapper.h"
 #include "lang/ast/statement/statement.h"
 #include "parameter.h"
 
@@ -35,14 +37,18 @@ llvm::Value *Function::codegen(std::shared_ptr<CodegenContext> ctx) const {
     if (!function) {
         throw IllegalStateException("Could not generate function: " + this->getName());
     }
-    
+
     if (function->getInstructionCount() != 0) {
         return function;
     }
 
     unsigned index = 0;
     for (auto &arg : function->args()) {
-        arg.setName(this->parameters[index]->getLocalname());
+        arg.setName(this->parameters[index++]->getLocalname());
+        this->getSymbolTable()->add(std::make_shared<ValueWrapper>(this->getSymbolTable(), &arg));
+        llvm::outs() << "Argument: %s - " << arg.getName().str();
+        arg.getType()->print(llvm::outs());
+        llvm::outs() << '\n';
     }
 
     if (!this->getStatements().empty()) {

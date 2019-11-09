@@ -17,6 +17,7 @@ llvm::Value *PrimaryIdentifierExpression::codegen(std::shared_ptr<CodegenContext
     if (llvm::Function *function = ctx->module->getFunction(this->identifier)) {
         return function;
     }
+    
 
     std::shared_ptr<NamedNode> node = this->getSymbolTable()->findFirst(this->identifier);
     if (!node) {

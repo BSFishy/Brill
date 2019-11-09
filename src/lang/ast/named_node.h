@@ -21,7 +21,7 @@ namespace Brill::AST {
         /**
          * Get the name of this node.
          */
-        std::string getName() const;
+        virtual std::string getName() const;
 
         llvm::Value *codegen(std::shared_ptr<CodegenContext>) const override = 0;
     };
