@@ -2,6 +2,8 @@
 #include "value_wrapper.h"
 
 #include "llvm/ADT/StringRef.h"
+#include "llvm/Support/raw_ostream.h"
+#include "llvm/IR/Type.h"
 
 using namespace Brill::AST;
 

@@ -23,7 +23,8 @@ llvm::Value *FunctionCallExpression::codegen(std::shared_ptr<CodegenContext> ctx
 
     std::vector<llvm::Value*> args;
     for (const auto &argument : this->arguments) {
-        args.push_back(argument->codegen(ctx));
+        auto value = argument->codegen(ctx);
+        args.push_back(value);
     }
 
     return ctx->builder->CreateCall(function->getFunctionType(), function, args);
@@ -45,7 +46,6 @@ std::shared_ptr<FunctionCallExpression> Brill::AST::convert(const std::shared_pt
     }
 
     std::shared_ptr<FunctionCallExpression> callExpression = std::make_shared<FunctionCallExpression>(cctx->parent->getSymbolTable(), postfixExpression);
-
 
     if (BrillParser::FunctionCallArgumentClauseContext *argumentContext = ctx->functionCallArgumentClause()) {
         if (BrillParser::FunctionCallArgumentListContext *argumentListContext = argumentContext->functionCallArgumentList()) {

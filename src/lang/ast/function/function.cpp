@@ -42,13 +42,11 @@ llvm::Value *Function::codegen(std::shared_ptr<CodegenContext> ctx) const {
         return function;
     }
 
+    llvm::IRBuilderBase::InsertPoint ip = ctx->builder->saveAndClearIP();
     unsigned index = 0;
     for (auto &arg : function->args()) {
         arg.setName(this->parameters[index++]->getLocalname());
         this->getSymbolTable()->add(std::make_shared<ValueWrapper>(this->getSymbolTable(), &arg));
-        llvm::outs() << "Argument: %s - " << arg.getName().str();
-        arg.getType()->print(llvm::outs());
-        llvm::outs() << '\n';
     }
 
     if (!this->getStatements().empty()) {
@@ -61,6 +59,7 @@ llvm::Value *Function::codegen(std::shared_ptr<CodegenContext> ctx) const {
     }
 
     llvm::verifyFunction(*function);
+    ctx->builder->restoreIP(ip);
     return function;
 }
 

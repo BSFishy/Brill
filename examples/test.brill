@@ -2,7 +2,7 @@
 func printf(message: i8...)
 
 func main() {
-    test("Hello\n")
+    test("Hello ")
     test("World\n")
 }
 
