@@ -2,7 +2,7 @@ FROM gitpod/workspace-full
 
 USER root
 
-RUN echo "This is here to prevent build cache from being used.\n"
+#RUN echo "This is here to prevent build cache from being used.\n"
 
 # Add llvm stuff
 RUN curl -fsSL https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add - \

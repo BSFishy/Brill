@@ -1,8 +1,10 @@
 
 #include "function.h"
 
+#include <memory>
 #include <vector>
 
+#include "llvm/Support/raw_ostream.h"
 #include "llvm/IR/Verifier.h"
 #include "llvm/IR/Type.h"
 
@@ -11,6 +13,7 @@
 #include "lang/ast/symbol_table.h"
 #include "lang/ast/value_wrapper.h"
 #include "lang/ast/statement/statement.h"
+#include "named_node.h"
 #include "parameter.h"
 
 #include "util.h"
@@ -21,8 +24,26 @@ Function::Function(std::string n, const std::shared_ptr<Node> &p, bool v) : Name
     parent = p;
 }
 
+std::string Function::getMangledName() const {
+    // Hardcode printf and main for now
+    if (this->getName() == "printf" || this->getName() == "main") return this->getName();
+
+    std::string name;
+    llvm::raw_string_ostream mangledName(name);
+    mangledName << "f" << this->getName().length() << this->getName();
+
+    std::string prefix;
+    if (std::shared_ptr<NamedNode> namedParent = std::dynamic_pointer_cast<NamedNode>(this->parent)) {
+        prefix = namedParent->getMangledName();
+    } else {
+        prefix = MANGLER_PREFIX;
+    }
+
+    return prefix + mangledName.str();
+}
+
 llvm::Value *Function::codegen(std::shared_ptr<CodegenContext> ctx) const {
-    llvm::Function *function = ctx->module->getFunction(this->getName());
+    llvm::Function *function = ctx->module->getFunction(this->getMangledName());
 
     if (!function) {
         std::vector<llvm::Type*> args;
@@ -31,7 +52,7 @@ llvm::Value *Function::codegen(std::shared_ptr<CodegenContext> ctx) const {
         }
 
         llvm::FunctionType *functionType = llvm::FunctionType::get(llvm::Type::getVoidTy(*(ctx->context)), args, this->varargs);
-        function = llvm::Function::Create(functionType, llvm::Function::ExternalLinkage, this->getName(), *(ctx->module));
+        function = llvm::Function::Create(functionType, llvm::Function::ExternalLinkage, this->getMangledName(), *(ctx->module));
     }
 
     if (!function) {

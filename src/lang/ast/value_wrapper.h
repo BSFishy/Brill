@@ -11,6 +11,7 @@ namespace Brill::AST {
         ~ValueWrapper();
 
         std::string getName() const override;
+        std::string getMangledName() const override;
         llvm::Value *codegen(std::shared_ptr<CodegenContext>) const override;
     };
 }

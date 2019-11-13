@@ -20,8 +20,10 @@ namespace Brill::AST {
 
         std::shared_ptr<Module> getParent() const;
 
+        std::string getMangledName() const override;
+
         llvm::Value *codegen(std::shared_ptr<CodegenContext>) const override;
-        std::shared_ptr<Brill::AST::CodegenContext> codegen() const;
+        std::shared_ptr<Brill::AST::CodegenContext> codegen(std::string) const;
     };
 
     std::shared_ptr<Module> convert(const std::shared_ptr<ConvertContext>&, BrillParser::TopLevelContext*);

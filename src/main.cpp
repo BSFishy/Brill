@@ -32,7 +32,7 @@ int main(int argc, const char *argv[]) {
 
     std::shared_ptr<Brill::ParseContext> file = Brill::parseFile(argv[1]);
 
-    std::shared_ptr<Brill::AST::ConvertContext> convertContext = std::make_shared<Brill::AST::ConvertContext>(argv[1]);
+    std::shared_ptr<Brill::AST::ConvertContext> convertContext = std::make_shared<Brill::AST::ConvertContext>("");
     std::shared_ptr<Brill::AST::Module> module = Brill::AST::convert(convertContext, file->topLevel);
 
     if (convertContext->diagnostics->hasIssues()) {
@@ -43,7 +43,8 @@ int main(int argc, const char *argv[]) {
         }
     }
 
-    std::shared_ptr<Brill::AST::CodegenContext> ctx = module->codegen();
+    std::shared_ptr<Brill::AST::CodegenContext> ctx = module->codegen("");
+    ctx->module->setSourceFileName(argv[1]);
     fprintf(stdout, "Output:\n\n");
     ctx->module->print(llvm::outs(), nullptr);
 

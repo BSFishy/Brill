@@ -19,6 +19,10 @@ std::string ValueWrapper::getName() const {
     return this->value->getName();
 }
 
+std::string ValueWrapper::getMangledName() const {
+    return this->getName();
+}
+
 llvm::Value *ValueWrapper::codegen(std::shared_ptr<CodegenContext>) const {
     return this->value;
 }

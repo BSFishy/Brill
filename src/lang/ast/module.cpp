@@ -1,8 +1,11 @@
 
 #include "module.h"
 
+#include "llvm/Support/raw_ostream.h"
+
 #include "function/function.h"
 
+#include "named_node.h"
 #include "symbol_table.h"
 #include "abstract/convert_context.h"
 #include "abstract/codegen_context.h"
@@ -16,16 +19,32 @@ Module::Module(const std::string &n, const std::shared_ptr<Module> &p) : NamedNo
     this->parent = p;
 }
 
+std::string Module::getMangledName() const {
+    // If the module name is anonymous and there is no parent, just return the prefix
+    if (this->getName().length() == 0 && !(this->parent)) return MANGLER_PREFIX;
+
+    std::string name;
+    llvm::raw_string_ostream mangledName(name);
+    if (this->getName().length() != 0) mangledName << "m" << this->getName().length() << this->getName();
+
+    std::string prefix;
+    if (this->parent) {
+        prefix = this->parent->getMangledName();
+    } else {
+        prefix = MANGLER_PREFIX;
+    }
+
+    return prefix + mangledName.str();
+}
+
 llvm::Value *Module::codegen(std::shared_ptr<CodegenContext> ctx) const {
     this->codegenFunctions(ctx);
 
     return nullptr;
 }
 
-std::shared_ptr<Brill::AST::CodegenContext> Module::codegen() const {
-    const char *filename = "placeholder";
-    std::shared_ptr<CodegenContext> ctx = std::make_shared<CodegenContext>(filename);
-    ctx->module->setSourceFileName(filename);
+std::shared_ptr<Brill::AST::CodegenContext> Module::codegen(std::string moduleId) const {
+    std::shared_ptr<CodegenContext> ctx = std::make_shared<CodegenContext>(moduleId);
 
     this->codegen(ctx);
 

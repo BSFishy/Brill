@@ -22,6 +22,8 @@ namespace Brill::AST {
         Function() = delete;
         Function(std::string, const std::shared_ptr<Node>&, bool = false);
 
+        std::string getMangledName() const override;
+
         llvm::Value *codegen(std::shared_ptr<CodegenContext>) const override;
 
         void setVarargs(bool);
