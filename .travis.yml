@@ -1,0 +1,65 @@
+language: cpp
+sudo: required
+
+dist: bionic
+os:
+- linux
+
+install:
+- pushd /usr/local/lib && sudo curl -O https://www.antlr.org/download/antlr-4.7.2-complete.jar && popd
+- git clone https://github.com/BSFishy/antlr4.git && mkdir antlr4/runtime/Cpp/build && pushd antlr4/runtime/Cpp/build && cmake .. -DWITH_DEMO=False -DCMAKE_BUILD_TYPE=Release -DANTLR4_INSTALL=True -DWITH_LIBCXX=False -G "CodeBlocks - Unix Makefiles" && make -j 16 && sudo make install && popd
+
+script:
+- ./scripts/create.sh
+- ./scripts/build.sh
+
+jobs:
+  include:
+    - stage: test
+      script:
+      - ./scripts/run.sh
+      - ./scripts/link.sh
+      - ./output
+
+addons:
+  apt:
+    update: true
+    sources:
+    - ubuntu-toolchain-r-test
+    - sourceline: 'deb http://apt.llvm.org/disco/ llvm-toolchain-disco main'
+      key_url: 'https://apt.llvm.org/llvm-snapshot.gpg.key'
+    - sourceline: 'deb https://apt.kitware.com/ubuntu/ bionic main'
+      key_url: 'https://apt.kitware.com/keys/kitware-archive-latest.asc'
+    packages:
+    - build-essential
+    - software-properties-common
+    - binutils
+    - gcc-9
+    - g++-9
+
+    - libllvm10
+    - llvm-10
+    - llvm-10-dev
+    #- llvm-10-doc
+    #- llvm-10-examples
+    - llvm-10-runtime
+
+    - clang-10
+    - clang-tools-10
+    #- clang-10-doc
+    - libclang-common-10-dev
+    - libclang-10-dev
+    - libclang1-10
+    #- clang-format-10
+    #- clangd-10
+
+    - libc++-10-dev
+    - libc++abi-10-dev
+
+    #- libfuzzer-10-dev
+
+    - lld-10
+
+    - antlr4
+
+    - cmake
