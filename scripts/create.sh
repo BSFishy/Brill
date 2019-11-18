@@ -1,3 +1,5 @@
+cmake --version
+
 if [ ! -d "cmake-build-debug" ]; then
   mkdir cmake-build-debug
 fi
