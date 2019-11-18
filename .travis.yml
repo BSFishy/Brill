@@ -24,9 +24,20 @@ install:
 jobs:
   include:
     - stage: build
-      script: ./scripts/create.sh && ./scripts/build.sh
+      name: "Build all"
+      script:
+      - ./scripts/create.sh
+      - ./scripts/build.sh
     - stage: test
-      script: ./scripts/run.sh && ./scripts/link.sh && ./output
+      name: "Simple test"
+      script:
+      - ./scripts/run.sh
+      - ./scripts/link.sh
+      - ./output
+
+stages:
+- build
+- test
 
 addons:
   apt:
