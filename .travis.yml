@@ -10,8 +10,8 @@ before_install:
 - sudo apt-get install -yq clang-10 clang-tools-10 libclang-common-10-dev libclang-10-dev libclang1-10
 - sudo apt-get install -yq libc++-10-dev libc++abi-10-dev
 - sudo apt-get install -yq lld-10
-- sudo apt-get install -yq antlr4
-- sudo apt-get install -yq cmake
+# - sudo apt-get install -yq antlr4
+# - sudo apt-get install -yq cmake
 
 install:
 - pushd /usr/local/lib && sudo curl -O https://www.antlr.org/download/antlr-4.7.2-complete.jar && popd
@@ -54,3 +54,6 @@ addons:
     - binutils
     - gcc-9
     - g++-9
+
+    - antlr4
+    - cmake
