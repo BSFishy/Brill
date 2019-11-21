@@ -103,7 +103,8 @@ RUN git clone https://github.com/BSFishy/antlr4.git && cd antlr4 \
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/*
 
 # Meson
-RUN sudo apt-get install -yq \
+RUN sudo apt-get update \
+    && sudo apt-get install -yq \
     python3 \
     python3-pip \
     python3-setuptools \
