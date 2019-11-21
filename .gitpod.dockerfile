@@ -7,9 +7,7 @@ USER root
 # Add llvm stuff
 RUN curl -fsSL https://apt.llvm.org/llvm-snapshot.gpg.key | apt-key add - \
     && apt-add-repository -yu "deb http://apt.llvm.org/disco/ llvm-toolchain-disco main" \
-    # && apt-add-repository -yu "deb http://apt.llvm.org/disco/ llvm-toolchain-disco-9 main" \
     && sudo sh -c "echo deb-src http://apt.llvm.org/disco/ llvm-toolchain-disco main \ >> /etc/apt/sources.list" \
-    # && sudo sh -c "echo deb-src http://apt.llvm.org/disco/ llvm-toolchain-disco-9 main \ >> /etc/apt/sources.list" \
     && sudo apt-get update
 
 # GCC
@@ -103,3 +101,13 @@ RUN git clone https://github.com/BSFishy/antlr4.git && cd antlr4 \
     && make -j 16 \
     && sudo make install \
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/*
+
+# Meson
+RUN sudo apt-get install -yq \
+    python3 \
+    python3-pip \
+    python3-setuptools \
+    python3-wheel \
+    ninja-build \
+    && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/*
+RUN sudo pip3 install meson
