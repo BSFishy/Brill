@@ -1,8 +1,9 @@
 {
     "cpp.buildConfigurations": [
-        {
-            "name": "Debug",
-            "directory": "/workspace/Brill/cmake-build-debug"
-        }
-    ]
+      {
+         "name": "Debug",
+         "directory": "/workspace/Brill/build"
+      }
+   ],
+   "mesonbuild.configureOnOpen": true
 }

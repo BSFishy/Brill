@@ -93,14 +93,14 @@ RUN sudo apt-get update \
     git \
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/*
 
-# Install antlr stuff
-RUN git clone https://github.com/BSFishy/antlr4.git && cd antlr4 \
-    && cd runtime/Cpp \
-    && mkdir build && mkdir run && cd build \
-    && cmake .. -DWITH_DEMO=False -DCMAKE_BUILD_TYPE=Release -DANTLR4_INSTALL=True -DWITH_LIBCXX=False -G "CodeBlocks - Unix Makefiles" \
-    && make -j 16 \
-    && sudo make install \
-    && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/*
+# # Install antlr stuff
+# RUN git clone https://github.com/BSFishy/antlr4.git && cd antlr4 \
+#     && cd runtime/Cpp \
+#     && mkdir build && mkdir run && cd build \
+#     && cmake .. -DWITH_DEMO=False -DCMAKE_BUILD_TYPE=Release -DANTLR4_INSTALL=True -DWITH_LIBCXX=False -G "CodeBlocks - Unix Makefiles" \
+#     && make -j 16 \
+#     && sudo make install \
+#     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/*
 
 # Meson
 RUN sudo apt-get update \
@@ -112,3 +112,14 @@ RUN sudo apt-get update \
     ninja-build \
     && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/*
 RUN sudo pip3 install meson
+
+# CCache
+RUN sudo apt-get update \
+    && sudo apt install -yq \
+    ccache \
+    && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/*
+RUN sudo /usr/sbin/update-ccache-symlinks
+
+USER gitpod
+
+ENV PATH="/usr/lib/ccache:${PATH}"

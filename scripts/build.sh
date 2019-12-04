@@ -1,1 +1,9 @@
-cmake --build "cmake-build-debug" --target brill -- -j 8
+if [ ! -f 'build/build.ninja' ]; then
+    meson build
+fi
+
+if [ -f 'build/build.ninja' ]; then
+    pushd build
+    ninja
+    popd
+fi

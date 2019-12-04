@@ -86,7 +86,7 @@ int main(int argc, const char *argv[]) {
     }
 
     llvm::legacy::PassManager pass;
-    auto fileType = llvm::TargetMachine::CGFT_ObjectFile;
+    auto fileType = llvm::CGFT_ObjectFile;
 
     if (targetMachine->addPassesToEmitFile(pass, dest, nullptr, fileType)) {
         fprintf(stderr, "Emitting to a file is not supported\n");

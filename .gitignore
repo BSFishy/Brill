@@ -3,6 +3,9 @@ compile_commands.json
 .antlr/
 docs/_build/
 
+build/
+subprojects/antlr/
+
 cmake*/
 CMakeFiles/
 .idea/
