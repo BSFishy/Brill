@@ -1,1 +1,1 @@
-./build/src/brill examples/test.brill
+./build/meson-out/brill examples/test.brill

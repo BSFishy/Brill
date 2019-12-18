@@ -1,0 +1,5 @@
+// This files is taken and configured by Meson to
+// replace the version with the correct value.
+
+#define BONES_VERSION "@version@"
+#define LLVM_VERSION "@llvm_version@"

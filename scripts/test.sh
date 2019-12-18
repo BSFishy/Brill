@@ -2,11 +2,11 @@
 
 BASEDIR=$(dirname "$0")
 
-if [ ! -f 'build/src/brill' ]; then
+if [ ! -f 'build/meson-out/brill' ]; then
     .$(BASEDIR)/build.sh
 fi
 
-if [ -f 'build/src/brill' ]; then
+if [ -f 'build/meson-out/brill' ]; then
     pushd build
     meson test
     popd

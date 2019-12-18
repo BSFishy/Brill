@@ -15,7 +15,7 @@ antlr_dep = antlr.get_variable('antlr4_shared_dep')
 # Antlr grammar stuff
 java = find_program('java')
 
-parser_input = files('src/lang/Brill.g4')
+parser_input = files('Brill.g4')
 parser_cxx_outputs = ['BrillLexer.h', 'BrillLexer.cpp',
         'BrillParser.h', 'BrillParser.cpp',
         'BrillBaseVisitor.h', 'BrillBaseVisitor.cpp',
@@ -39,7 +39,12 @@ parser_dep = declare_dependency(sources: [parser[2], parser[4], parser[6], parse
 
 # LLVM
 llvm_dep = dependency('LLVM')
+llvm_version = llvm_dep.get_variable(cmake: 'LLVM_PACKAGE_VERSION', configtool: 'version')
 
-subdir('src')
+# Sources
+subdir('include')
+subdir('lib')
+subdir('tools')
 
-test('basic compile', brill_exe, args: [files('examples/test.brill')])
+# subdir('src')
+# test('basic compile', brill_exe, args: [files('examples/test.brill')])
